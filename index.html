@@ -13,7 +13,7 @@
         :root { 
             --primary: #0f1c2e; 
             --accent: #c5a059; 
-            --bg: #f4f6f8; /* Softer background */
+            --bg: #f4f6f8; 
             --card-bg: #ffffff;
             --success: #28a745; 
             --danger: #dc3545; 
@@ -52,7 +52,7 @@
         header h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0; }
         header p { font-size: 0.85rem; opacity: 0.9; margin-top: 5px; }
 
-        /* --- STICKY NAV (SCROLLSPY) --- */
+        /* --- NAV --- */
         .nav-container { 
             overflow-x: auto; 
             white-space: nowrap; 
@@ -64,126 +64,117 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .nav-pill { 
-            display: inline-block;
-            padding: 8px 18px;
-            margin-right: 8px;
-            background: #f0f2f5;
-            color: #555;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
+            display: inline-block; padding: 8px 18px; margin-right: 8px;
+            background: #f0f2f5; color: #555; border-radius: 20px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 600;
             transition: all 0.3s ease;
         }
         .nav-pill.active { background: var(--primary); color: var(--accent); transform: scale(1.05); }
         .nav-container::-webkit-scrollbar { display: none; }
 
-        /* --- MENU LAYOUT --- */
+        /* --- MENU --- */
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
         .category-section { margin-bottom: 30px; scroll-margin-top: 70px; }
-        
         .category-title { 
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem; 
-            color: var(--primary); 
-            margin-bottom: 15px; 
-            padding-left: 10px;
+            font-family: 'Playfair Display', serif; font-size: 1.4rem; 
+            color: var(--primary); margin-bottom: 15px; padding-left: 10px;
             border-left: 4px solid var(--accent);
         }
-
         .menu-list { display: flex; flex-direction: column; gap: 12px; }
-
-        /* --- COMPACT ITEM CARD (Row Layout) --- */
         .menu-row { 
-            background: var(--card-bg); 
-            padding: 16px; 
-            border-radius: 12px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
-            border: 1px solid rgba(0,0,0,0.02);
-            transition: transform 0.1s;
+            background: var(--card-bg); padding: 16px; border-radius: 12px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);
         }
         .menu-row:active { transform: scale(0.98); background: #fafafa; }
-
         .item-details { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-right: 15px; }
         .item-name { font-size: 1.1rem; font-weight: 600; color: #2c3e50; }
         .item-price { font-size: 1.1rem; font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 10px; }
-        
         .add-btn { 
-            background: #edf2f7; color: var(--primary); 
-            width: 36px; height: 36px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            font-weight: bold; font-size: 1.4rem; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: #edf2f7; color: var(--primary); width: 36px; height: 36px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.4rem; 
         }
 
-        /* --- FLOATING BOTTOM BAR --- */
+        /* --- BOTTOM BAR --- */
         .bottom-bar {
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 400px;
-            background: var(--primary);
-            border-radius: 50px;
-            padding: 10px 20px;
+            width: 90%; max-width: 400px; background: var(--primary);
+            border-radius: 50px; padding: 10px 20px;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 10px 25px rgba(15, 28, 46, 0.4);
-            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(15, 28, 46, 0.4); z-index: 1000;
         }
         .bar-btn {
-            background: transparent; border: none; color: white;
-            font-size: 0.9rem; font-weight: 600;
-            display: flex; flex-direction: column; align-items: center;
-            opacity: 0.8; transition: 0.2s;
+            background: transparent; border: none; color: white; font-size: 0.9rem; font-weight: 600;
+            display: flex; flex-direction: column; align-items: center; opacity: 0.8; transition: 0.2s;
         }
         .bar-btn.active { opacity: 1; color: var(--accent); }
         .cart-circle {
-            background: var(--accent); color: var(--primary);
-            width: 55px; height: 55px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.5rem; margin-top: -30px;
-            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.5);
-            border: 4px solid var(--bg);
-            position: relative;
+            background: var(--accent); color: var(--primary); width: 55px; height: 55px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 1.5rem; margin-top: -30px;
+            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.5); border: 4px solid var(--bg); position: relative;
         }
         .cart-badge {
-            position: absolute; top: 0; right: 0;
-            background: var(--danger); color: white;
-            font-size: 0.7rem; width: 20px; height: 20px;
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            position: absolute; top: 0; right: 0; background: var(--danger); color: white;
+            font-size: 0.7rem; width: 20px; height: 20px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
         }
 
-        /* --- MODALS --- */
+        /* --- MODALS FIXED FOR MOBILE KEYBOARD --- */
         .modal-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
-            justify-content: center; align-items: flex-end; 
+            /* Flex center for alignment, but allow scroll if height is small */
+            display: none;
+            flex-direction: column;
+            justify-content: flex-end; /* Bottom sheet style */
         }
         .modal-overlay.active { display: flex; }
+        
         .modal-card { 
-            background: #fff; width: 100%; max-width: 500px; 
+            background: #fff; width: 100%; max-width: 500px; margin: 0 auto;
             border-radius: 20px 20px 0 0; padding: 25px; 
-            max-height: 85vh; overflow-y: auto; 
-            animation: slideUp 0.3s; 
+            position: relative;
+            max-height: 85vh; /* Max height to allow scrolling */
+            overflow-y: auto; /* Internal scrolling */
+            animation: slideUp 0.3s;
+            /* Fix for keyboard pushing content */
+            padding-bottom: 30px; 
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; border: none; background: none; color: #999; }
 
-        /* --- TABS (Admin & Status) --- */
+        /* Close Button Pinned to Corner */
+        .close-modal { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            font-size: 1.5rem; 
+            border: none; 
+            background: #f0f0f0; 
+            width: 32px; height: 32px; 
+            border-radius: 50%; 
+            color: #555;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10;
+        }
+
+        /* --- TABS --- */
         .tab-header { display: flex; background: #f1f3f5; border-radius: 10px; padding: 4px; margin-bottom: 15px; }
         .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 8px; font-weight: 600; color: #666; font-size: 0.9rem; }
         .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-        /* --- ADMIN CARDS --- */
+        /* --- CARDS & FORMS --- */
         .order-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .border-Pending { border-left-color: var(--warning); }
         .border-Accepted { border-left-color: var(--info); }
         .border-Completed { border-left-color: var(--success); }
         .border-Rejected { border-left-color: var(--danger); }
+        .border-Cancelled { border-left-color: #999; }
 
-        /* Form */
         .form-group { margin-bottom: 15px; }
         .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background: #fafafa; }
+        
+        .qty-controls { display: flex; align-items: center; gap: 10px; }
+        .qty-btn { width: 28px; height: 28px; border-radius: 5px; border: 1px solid #ddd; background: white; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -204,8 +195,7 @@
 
 <div class="nav-container hidden" id="admin-nav" style="justify-content: center; display: flex;">
     <a href="#" class="nav-pill active" onclick="setAdminTab('active')">Active</a>
-    <a href="#" class="nav-pill" onclick="setAdminTab('completed')">Completed</a>
-    <a href="#" class="nav-pill" onclick="setAdminTab('rejected')">Rejected</a>
+    <a href="#" class="nav-pill" onclick="setAdminTab('completed')">History</a>
 </div>
 
 <div class="container" id="menu-container">
@@ -216,12 +206,11 @@
             <button class="btn-outline" style="padding:5px 15px; border-radius:20px;" onclick="logout()">Logout</button>
         </div>
         <div id="admin-orders-list">
-            <p style="text-align: center; color: #888; margin-top: 30px;">Loading orders...</p>
+            <p style="text-align: center; color: #888; margin-top: 30px;">Loading...</p>
         </div>
     </div>
 
     <div id="customer-view">
-        
         <section id="tea" class="category-section">
             <h2 class="category-title">Tea & Coffee</h2>
             <div class="menu-list">
@@ -267,14 +256,12 @@
 <div class="bottom-bar" id="bottom-bar">
     <button class="bar-btn" onclick="openLoginModal()">
         <span style="font-size:1.2rem;">👤</span>
-        <span style="font-size:0.7rem;">Login</span>
+        <span style="font-size:0.7rem;">Profile</span>
     </button>
-    
     <div class="cart-circle" onclick="openCartModal()">
         🛒
         <span class="cart-badge" id="cart-count">0</span>
     </div>
-
     <button class="bar-btn" onclick="openOrderStatusModal()">
         <span style="font-size:1.2rem;">📋</span>
         <span style="font-size:0.7rem;">Status</span>
@@ -301,9 +288,7 @@
     <div class="modal-card">
         <button class="close-modal" onclick="closeModal('cart-modal')">&times;</button>
         <h3>Your Cart</h3>
-        <div id="cart-items-container" style="margin-top: 20px; min-height: 100px;">
-            <p style="color:#999; text-align:center;">Cart is empty.</p>
-        </div>
+        <div id="cart-items-container" style="margin-top: 20px; min-height: 100px;"></div>
         <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;">
             <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;">
                 <span>Total</span>
@@ -318,12 +303,10 @@
     <div class="modal-card">
         <button class="close-modal" onclick="closeModal('status-modal')">&times;</button>
         <h3>Order Status</h3>
-        
         <div class="tab-header">
             <button class="tab-btn active" onclick="setCustTab('live', this)">Live Orders</button>
             <button class="tab-btn" onclick="setCustTab('history', this)">History</button>
         </div>
-
         <div id="my-orders-list"></div>
     </div>
 </div>
@@ -331,24 +314,48 @@
 <div class="modal-overlay" id="login-modal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeModal('login-modal')">&times;</button>
-        <h3>Login</h3>
-        <div class="tab-header" style="margin-top: 20px;">
-            <button class="tab-btn active" id="tab-cust-btn" onclick="switchLoginTab('customer')">Customer</button>
-            <button class="tab-btn" id="tab-admin-btn" onclick="switchLoginTab('admin')">Admin</button>
+        
+        <div id="view-auth">
+            <h3>Login</h3>
+            <div class="tab-header" style="margin-top: 20px;">
+                <button class="tab-btn active" id="tab-cust-btn" onclick="switchLoginTab('customer')">Customer</button>
+                <button class="tab-btn" id="tab-admin-btn" onclick="switchLoginTab('admin')">Admin</button>
+            </div>
+            
+            <div id="form-customer">
+                <div class="form-group"><label>Phone Number</label><input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile"></div>
+                <div class="form-group"><label>Name</label><input type="text" id="cust-name" class="form-control" placeholder="Your Name"></div>
+                <div class="form-group"><label>Table No</label><input type="text" id="cust-table" class="form-control" placeholder="Table Number"></div>
+                <button class="btn btn-primary" onclick="handleCustomerLogin()">Start Ordering</button>
+            </div>
+
+            <div id="form-admin" class="hidden">
+                <div class="form-group"><label>Admin ID</label><input type="text" id="admin-id" class="form-control"></div>
+                <div class="form-group"><label>Password</label><input type="password" id="admin-pass" class="form-control"></div>
+                <button class="btn btn-primary" onclick="handleAdminLogin()">Login as Admin</button>
+            </div>
         </div>
 
-        <div id="form-customer">
-            <div class="form-group"><label>Phone Number</label><input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile"></div>
-            <div class="form-group"><label>Name</label><input type="text" id="cust-name" class="form-control" placeholder="Your Name"></div>
-            <div class="form-group"><label>Table No</label><input type="text" id="cust-table" class="form-control" placeholder="Table Number"></div>
-            <button class="btn btn-primary" onclick="handleCustomerLogin()">Start Ordering</button>
+        <div id="view-profile" class="hidden">
+            <h3>My Profile</h3>
+            <div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="prof-name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="prof-phone" class="form-control" readonly style="background: #e9ecef;">
+                </div>
+                <div class="form-group">
+                    <label>Table No</label>
+                    <input type="text" id="prof-table" class="form-control">
+                </div>
+                <button class="btn btn-primary" onclick="saveProfile()">Save Details</button>
+            </div>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
         </div>
 
-        <div id="form-admin" class="hidden">
-            <div class="form-group"><label>Admin ID</label><input type="text" id="admin-id" class="form-control"></div>
-            <div class="form-group"><label>Password</label><input type="password" id="admin-pass" class="form-control"></div>
-            <button class="btn btn-primary" onclick="handleAdminLogin()">Login as Admin</button>
-        </div>
     </div>
 </div>
 
@@ -371,40 +378,30 @@
     const db = firebase.database();
 
     // ==============================================================
-    // STATE VARIABLES
+    // STATE
     // ==============================================================
     let cart = [];
     let currentUser = null; 
     let currentItemToAdd = null;
-    let currentAdminTab = 'active'; // active, completed, rejected
-    let currentCustTab = 'live'; // live, history
-    let allOrdersCache = []; // Store orders to filter locally
+    let currentAdminTab = 'active';
+    let currentCustTab = 'live';
+    let allOrdersCache = []; 
 
-    // ==============================================================
-    // INITIALIZATION & SCROLLSPY
-    // ==============================================================
     document.addEventListener('DOMContentLoaded', () => { 
         checkSession(); 
         testConnection();
-        
-        // ScrollSpy Logic
+        // ScrollSpy
         window.addEventListener('scroll', () => {
             let current = '';
             const sections = document.querySelectorAll('.category-section');
             const navLinks = document.querySelectorAll('.nav-container a');
-            
             sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 120) { // Offset for header height
-                    current = section.getAttribute('id');
-                }
+                if (scrollY >= section.offsetTop - 120) current = section.getAttribute('id');
             });
-
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href').includes(current)) {
                     link.classList.add('active');
-                    // Auto-scroll the nav bar
                     link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                 }
             });
@@ -427,38 +424,48 @@
         const storedUser = localStorage.getItem('yashoday_user');
         if (storedUser) {
             currentUser = JSON.parse(storedUser);
-            if (currentUser.type === 'admin') { 
-                showAdminDashboard(); 
-            } else { 
-                listenToMyOrders(); 
-            }
+            if (currentUser.type === 'admin') { showAdminDashboard(); } else { listenToMyOrders(); }
         }
     }
 
     // ==============================================================
     // UI HELPERS
     // ==============================================================
-    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function openModal(id) { 
+        document.getElementById(id).classList.add('active'); 
+        // Special logic for Login/Profile Modal to toggle view
+        if(id === 'login-modal') {
+            if(currentUser && currentUser.type === 'customer') {
+                document.getElementById('view-auth').classList.add('hidden');
+                document.getElementById('view-profile').classList.remove('hidden');
+                // Fill details
+                document.getElementById('prof-name').value = currentUser.name;
+                document.getElementById('prof-phone').value = currentUser.phone;
+                document.getElementById('prof-table').value = currentUser.table;
+            } else {
+                document.getElementById('view-profile').classList.add('hidden');
+                document.getElementById('view-auth').classList.remove('hidden');
+            }
+        }
+    }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    // --- TAB LOGIC ---
+    // Tabs
     function setAdminTab(tab) {
         currentAdminTab = tab;
-        // Update UI pills
         document.querySelectorAll('#admin-nav a').forEach(el => el.classList.remove('active'));
         event.target.classList.add('active');
-        renderAdminOrders(allOrdersCache); // Re-render with filter
+        renderAdminOrders(allOrdersCache);
     }
-
     function setCustTab(tab, btn) {
         currentCustTab = tab;
         document.querySelectorAll('#status-modal .tab-btn').forEach(el => el.classList.remove('active'));
         btn.classList.add('active');
-        renderMyOrders(); // Re-render
+        renderMyOrders();
     }
 
     // ==============================================================
-    // CART LOGIC
+    // CART (WITH +/-)
     // ==============================================================
     function openItemModal(name, price) {
         currentItemToAdd = { name, price };
@@ -483,8 +490,11 @@
         if (existing) { existing.qty += qty; } else { cart.push({ name, price, qty }); }
         updateCartUI();
     }
-    function removeFromCart(index) {
-        cart.splice(index, 1);
+    function updateCartItemQty(index, change) {
+        cart[index].qty += change;
+        if (cart[index].qty <= 0) {
+            cart.splice(index, 1);
+        }
         updateCartUI();
     }
     function updateCartUI() {
@@ -497,9 +507,14 @@
             cart.forEach((item, index) => {
                 const itemTotal = item.price * item.qty;
                 total += itemTotal;
-                html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px dashed #eee; padding-bottom:5px;">
-                            <div><div style="font-weight:600;">${item.name}</div><div style="font-size:0.85rem; color:#666;">₹${item.price} x ${item.qty}</div></div>
-                            <div style="display:flex; align-items:center; gap:10px;"><span style="font-weight:bold;">₹${itemTotal}</span><button style="background:none; border:none; color:red; font-weight:bold;" onclick="removeFromCart(${index})">✕</button></div>
+                html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; padding-bottom:10px; border-bottom:1px dashed #eee;">
+                            <div><div style="font-weight:600;">${item.name}</div><div style="font-size:0.85rem; color:#666;">₹${item.price} each</div></div>
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="updateCartItemQty(${index}, -1)">-</button>
+                                <span style="font-weight:bold; width:20px; text-align:center;">${item.qty}</span>
+                                <button class="qty-btn" onclick="updateCartItemQty(${index}, 1)">+</button>
+                            </div>
+                            <div style="font-weight:bold;">₹${itemTotal}</div>
                          </div>`;
             });
         }
@@ -509,16 +524,22 @@
     function openCartModal() { updateCartUI(); openModal('cart-modal'); }
 
     // ==============================================================
-    // AUTH LOGIC
+    // AUTH & PROFILE
     // ==============================================================
-    function openLoginModal() { if (currentUser) { if(confirm("Logout?")) logout(); } else { openModal('login-modal'); } }
+    function openLoginModal() { 
+        if (currentUser) {
+            // Already handled in openModal logic to show Profile
+            openModal('login-modal');
+        } else {
+            openModal('login-modal'); 
+        }
+    }
     
     function switchLoginTab(type) {
         document.getElementById('form-customer').classList.add('hidden');
         document.getElementById('form-admin').classList.add('hidden');
         document.getElementById('tab-cust-btn').classList.remove('active');
         document.getElementById('tab-admin-btn').classList.remove('active');
-
         if (type === 'customer') {
             document.getElementById('form-customer').classList.remove('hidden');
             document.getElementById('tab-cust-btn').classList.add('active');
@@ -538,6 +559,17 @@
         closeModal('login-modal');
         listenToMyOrders();
         if (cart.length > 0) initiateCheckout();
+    }
+
+    function saveProfile() {
+        const name = document.getElementById('prof-name').value;
+        const table = document.getElementById('prof-table').value;
+        // Update local user
+        currentUser.name = name;
+        currentUser.table = table;
+        localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
+        alert("Profile Saved. New orders will use these details.");
+        closeModal('login-modal');
     }
 
     function handleAdminLogin() {
@@ -586,7 +618,7 @@
                 try { const o = child.val(); if(o.status) orders.push(o); } catch(e){}
             });
             orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-            window.myLiveOrders = orders; // Store for filtering
+            window.myLiveOrders = orders;
             if (document.getElementById('status-modal').classList.contains('active')) renderMyOrders();
         });
     }
@@ -597,12 +629,11 @@
         const container = document.getElementById('my-orders-list');
         const all = window.myLiveOrders || [];
         
-        // Filter based on Tab
         let filtered = [];
         if (currentCustTab === 'live') {
             filtered = all.filter(o => o.status === 'Pending' || o.status === 'Accepted');
         } else {
-            filtered = all.filter(o => o.status === 'Completed' || o.status === 'Rejected');
+            filtered = all.filter(o => o.status === 'Completed' || o.status === 'Rejected' || o.status === 'Cancelled');
         }
 
         if (filtered.length === 0) { container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">No orders found.</p>'; return; }
@@ -613,25 +644,40 @@
             if (!Array.isArray(itemsArr)) itemsArr = Object.values(itemsArr);
             const summary = itemsArr.map(i => `${i.name} (${i.qty})`).join(', ');
             
+            // Cancel Button Logic
+            let cancelBtn = '';
+            if (order.status === 'Pending') {
+                cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel Order</button>`;
+            }
+
             html += `<div class="order-card border-${order.status}">
                         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                             <b>#${order.id.slice(-4)}</b> <span class="status-badge" style="background:var(--${order.status==='Pending'?'warning':(order.status==='Accepted'?'info':(order.status==='Completed'?'success':'danger'))})">${order.status}</span>
                         </div>
                         <div style="color:#555; font-size:0.9rem; margin-bottom:5px;">${summary}</div>
-                        <div style="text-align:right; font-weight:bold;">₹${order.total}</div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                            <span style="font-weight:bold;">₹${order.total}</span>
+                            ${cancelBtn}
+                        </div>
                      </div>`;
         });
         container.innerHTML = html;
     }
 
+    function cancelOrder(id) {
+        if(confirm("Cancel this order?")) {
+            db.ref('orders/' + id).update({ status: 'Cancelled' });
+        }
+    }
+
     // --- ADMIN PANEL ---
     function showAdminDashboard() {
         document.getElementById('customer-view').classList.add('hidden');
-        document.getElementById('customer-nav').classList.add('hidden'); // Hide Customer Nav
-        document.getElementById('bottom-bar').classList.add('hidden'); // Hide Customer Bottom Bar
+        document.getElementById('customer-nav').classList.add('hidden'); 
+        document.getElementById('bottom-bar').classList.add('hidden');
         
         document.getElementById('admin-panel').classList.remove('hidden');
-        document.getElementById('admin-nav').classList.remove('hidden'); // Show Admin Nav
+        document.getElementById('admin-nav').classList.remove('hidden'); 
         document.getElementById('admin-nav').style.display = "flex";
 
         db.ref('orders').on('value', (snapshot) => {
@@ -642,7 +688,7 @@
                 });
                 orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             }
-            allOrdersCache = orders; // Save to global variable
+            allOrdersCache = orders;
             renderAdminOrders(orders);
         });
     }
@@ -650,15 +696,12 @@
     function renderAdminOrders(orders) {
         const container = document.getElementById('admin-orders-list');
         
-        // FILTER BASED ON ADMIN TAB
         let filtered = [];
         if (currentAdminTab === 'active') {
             filtered = orders.filter(o => o.status === 'Pending' || o.status === 'Accepted');
         } else if (currentAdminTab === 'completed') {
-            filtered = orders.filter(o => o.status === 'Completed');
-        } else {
-            filtered = orders.filter(o => o.status === 'Rejected');
-        }
+            filtered = orders.filter(o => o.status === 'Completed' || o.status === 'Rejected' || o.status === 'Cancelled');
+        } 
 
         if (filtered.length === 0) { container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">No orders here.</p>'; return; }
 
@@ -668,7 +711,6 @@
             if (!Array.isArray(itemsArr)) itemsArr = Object.values(itemsArr);
             const summary = itemsArr.map(i => `${i.name} (x${i.qty})`).join(', ');
 
-            // Action Buttons (Only for Active Tab)
             let actions = '';
             if (currentAdminTab === 'active') {
                 if (order.status === 'Pending') {
@@ -689,7 +731,7 @@
                         <div style="font-weight:bold; font-size:1.1rem; color:var(--primary); margin:5px 0;">
                             ${order.customer.table} - ${order.customer.name}
                         </div>
-                        <div style="font-size:0.9rem; color:#555;">📞 ${order.customer.phone}</div>
+                        <div style="font-size:0.9rem; color:#555;">📞 <a href="tel:${order.customer.phone}">${order.customer.phone}</a></div>
                         <div style="background:#f8f9fa; padding:10px; border-radius:8px; margin:10px 0; font-size:0.95rem;">${summary}</div>
                         <div style="text-align:right; font-weight:bold; font-size:1.2rem;">₹${order.total}</div>
                         ${actions}
