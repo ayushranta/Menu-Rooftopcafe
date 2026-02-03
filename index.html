@@ -10,21 +10,10 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <style>
-        :root {
-            --primary: #0f1c2e; /* Dark Blue */
-            --accent: #c5a059;  /* Gold */
-            --bg: #fdfaf5;
-            --white: #ffffff;
-            --success: #28a745;
-            --danger: #dc3545;
-            --warning: #ffc107;
-            --info: #17a2b8;
-        }
-
+        :root { --primary: #0f1c2e; --accent: #c5a059; --bg: #fdfaf5; --white: #ffffff; --success: #28a745; --danger: #dc3545; --warning: #ffc107; --info: #17a2b8; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: #333; padding-bottom: 80px; }
-
         .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: var(--accent); }
         .btn-accent { background: var(--accent); color: var(--primary); }
@@ -33,39 +22,28 @@
         .btn-outline { border: 1px solid #ddd; background: transparent; color: #333; }
         .full-width { width: 100%; }
         .hidden { display: none !important; }
-
         header { background: var(--primary); color: var(--accent); text-align: center; padding: 2rem 1rem; border-bottom: 4px solid var(--accent); position: relative; }
         .header-controls { position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; }
         .header-btn { background: transparent; color: var(--accent); border: 1px solid var(--accent); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
-
         .nav-container { overflow-x: auto; white-space: nowrap; background: var(--accent); padding: 12px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .nav-container a { color: var(--primary); text-decoration: none; padding: 5px 15px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; display: inline-block; border-right: 1px solid rgba(15, 28, 46, 0.1); }
-        .nav-container::-webkit-scrollbar { height: 0px; }
-
         .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
         .category-section { margin-bottom: 40px; scroll-margin-top: 80px; }
         .category-title { font-family: 'Playfair Display', serif; background: var(--primary); color: var(--accent); padding: 10px 20px; border-radius: 5px; margin-bottom: 10px; font-size: 1.2rem; text-align: center; }
-        .sub-category-title { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--accent); margin: 30px 0 10px 0; font-family: 'Playfair Display', serif; font-size: 1.1rem;}
-
         .menu-list { display: flex; flex-direction: column; gap: 2px; }
         .menu-row { background: var(--white); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; border-left: 4px solid transparent; cursor: pointer; transition: 0.2s; }
-        .menu-row:hover, .menu-row:active { border-left: 4px solid var(--accent); background: #fffdf9; }
+        .menu-row:hover { border-left: 4px solid var(--accent); background: #fffdf9; }
         .item-name { font-weight: 500; font-size: 0.95rem; color: #2c3e50; }
         .item-price { font-weight: 700; color: var(--accent); font-size: 1rem; }
         .add-icon { font-size: 1.2rem; color: var(--primary); margin-left: 10px; opacity: 0.3; }
-        .menu-row:hover .add-icon { opacity: 1; }
-
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
         .modal-card { background: white; width: 100%; max-width: 400px; border-radius: 10px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 80vh; overflow-y: auto; }
-        .modal-header { font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 10px; display: flex; justify-content: space-between; }
-        .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
-
+        .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; float: right; }
         .cart-fab { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: var(--accent); width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); cursor: pointer; z-index: 1500; font-size: 1.5rem; border: 2px solid var(--accent); }
         .cart-count { position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 0.7rem; width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; }
-
         .order-card { background: white; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #ddd; position: relative; }
-        .status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; color: white; text-transform: uppercase; }
+        .status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; color: white; text-transform: uppercase; float: right; }
         .bg-pending { background-color: var(--warning); color: #333; }
         .bg-accepted { background-color: var(--info); }
         .bg-completed { background-color: var(--success); }
@@ -73,13 +51,8 @@
         .order-card.status-Pending { border-left-color: var(--warning); }
         .order-card.status-Accepted { border-left-color: var(--info); }
         .order-card.status-Completed { border-left-color: var(--success); }
-        .order-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; color: #666; }
-        .order-items-list { margin: 10px 0; font-size: 0.95rem; }
-
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; font-weight: 600; }
         .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-
         footer { text-align: center; padding: 30px; font-size: 0.8rem; color: #666; background: #eee; margin-top: 40px; }
     </style>
 </head>
@@ -96,12 +69,8 @@
 </header>
 
 <div class="nav-container">
-    <a href="#tea">Tea/Breakfast</a>
-    <a href="#fastfood">Fast Food</a>
-    <a href="#chinese">Chinese</a>
-    <a href="#indian">Indian Main</a>
-    <a href="#breads">Breads/Rice</a>
-    <a href="#dessert">Dessert/Kulfi</a>
+    <a href="#tea">Tea</a>
+    <a href="#maggi">Maggi</a>
 </div>
 
 <div class="container" id="menu-container">
@@ -110,226 +79,34 @@
             <h2 class="category-title" style="margin:0;">Admin Dashboard</h2>
             <button class="btn btn-outline" onclick="logout()">Logout</button>
         </div>
-        <div class="sub-category-title">Live Orders (Auto-Sync)</div>
+        <div class="sub-category-title" style="border-bottom: 2px solid var(--accent); padding-bottom: 5px; margin-bottom: 15px; font-weight: bold; color: var(--primary);">Live Orders (Auto-Sync)</div>
         <div id="admin-orders-list">
             <p style="text-align: center; color: #888;">Connecting to database...</p>
         </div>
     </div>
 
     <div id="customer-view">
-        
         <section id="tea" class="category-section">
             <h2 class="category-title">Tea & Coffee</h2>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Classic Tea', 30)"><span class="item-name">Classic Tea</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
                 <div class="menu-row" onclick="openItemModal('Black Tea', 30)"><span class="item-name">Black Tea</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Lemon Tea', 30)"><span class="item-name">Lemon Tea</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
                 <div class="menu-row" onclick="openItemModal('Hot Coffee', 40)"><span class="item-name">Hot Coffee</span><div><span class="item-price">40</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Cappuccino', 60)"><span class="item-name">Cappuccino</span><div><span class="item-price">60</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Masala Tea', 50)"><span class="item-name">Masala Tea</span><div><span class="item-price">50</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Milk', 40)"><span class="item-name">Milk</span><div><span class="item-price">40</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Bournvita Milk', 55)"><span class="item-name">Bournvita Milk</span><div><span class="item-price">55</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Cold Drink', 40)"><span class="item-name">Cold Drink</span><div><span class="item-price">40</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Mineral Water', 20)"><span class="item-name">Mineral Water</span><div><span class="item-price">20</span><span class="add-icon">+</span></div></div>
-            </div>
-
-            <h2 class="category-title" style="margin-top: 30px;">Breakfast</h2>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Jam Toast', 40)"><span class="item-name">Jam Toast</span><div><span class="item-price">40</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Bread Butter Toast', 40)"><span class="item-name">Bread Butter Toast</span><div><span class="item-price">40</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Pakoda', 90)"><span class="item-name">Veg Pakoda</span><div><span class="item-price">90</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Onion Pakoda', 90)"><span class="item-name">Onion Pakoda</span><div><span class="item-price">90</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Bread Pakoda', 65)"><span class="item-name">Bread Pakoda</span><div><span class="item-price">65</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer Pakoda', 105)"><span class="item-name">Paneer Pakoda</span><div><span class="item-price">105</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Aloo Paratha', 65)"><span class="item-name">Aloo Paratha</span><div><span class="item-price">65</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Onion Paratha', 65)"><span class="item-name">Onion Paratha</span><div><span class="item-price">65</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer Paratha', 90)"><span class="item-name">Paneer Paratha</span><div><span class="item-price">90</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Mix Veg Paratha', 95)"><span class="item-name">Mix Veg Paratha</span><div><span class="item-price">95</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Poha', 50)"><span class="item-name">Poha</span><div><span class="item-price">50</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Cholle Bhature', 90)"><span class="item-name">Cholle Bhature</span><div><span class="item-price">90</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Puri Bhaji', 80)"><span class="item-name">Puri Bhaji</span><div><span class="item-price">80</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Kachori Chaat', 80)"><span class="item-name">Kachori Chaat</span><div><span class="item-price">80</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Samosa Chaat', 80)"><span class="item-name">Samosa Chaat</span><div><span class="item-price">80</span><span class="add-icon">+</span></div></div>
             </div>
         </section>
 
-        <section id="fastfood" class="category-section">
-            <h2 class="category-title">Fast Food</h2>
-            
-            <h3 class="sub-category-title">Maggi & Pasta</h3>
+        <section id="maggi" class="category-section">
+            <h2 class="category-title">Maggi & Pasta</h2>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Classic Maggi', 30)"><span class="item-name">Classic Maggi</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Maggi', 50)"><span class="item-name">Veg Maggi</span><div><span class="item-price">50</span><span class="add-icon">+</span></div></div>
                 <div class="menu-row" onclick="openItemModal('Cheese Maggi', 60)"><span class="item-name">Cheese Maggi</span><div><span class="item-price">60</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Cheese Maggi', 80)"><span class="item-name">Veg Cheese Maggi</span><div><span class="item-price">80</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('White Sauce Pasta', 150)"><span class="item-name">White Sauce Pasta</span><div><span class="item-price">150</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Red Sauce Pasta', 160)"><span class="item-name">Red Sauce Pasta</span><div><span class="item-price">160</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Steamed Momos', 90)"><span class="item-name">Steamed Momos</span><div><span class="item-price">90</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Fried Momos', 110)"><span class="item-name">Fried Momos</span><div><span class="item-price">110</span><span class="add-icon">+</span></div></div>
-            </div>
-
-            <h3 class="sub-category-title">Pizza & Burger</h3>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Garlic Bread Toast', 100)"><span class="item-name">Garlic Bread Toast</span><div><span class="item-price">100</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Garlic BOT', 240)"><span class="item-name">Garlic BOT</span><div><span class="item-price">240</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Classic OTC Pizza', 150)"><span class="item-name">Classic OTC Pizza</span><div><span class="item-price">150</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Onion Capsicum Pizza', 150)"><span class="item-name">Onion Capsicum Pizza</span><div><span class="item-price">150</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer Tandoori Pizza', 190)"><span class="item-name">Paneer Tandoori Pizza</span><div><span class="item-price">190</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Mushroom Pizza', 190)"><span class="item-name">Mushroom Pizza</span><div><span class="item-price">190</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Cheese Corn Pizza', 120)"><span class="item-name">Cheese Corn Pizza</span><div><span class="item-price">120</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Loaded Pizza', 280)"><span class="item-name">Loaded Pizza</span><div><span class="item-price">280</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Burger', 60)"><span class="item-name">Veg Burger</span><div><span class="item-price">60</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Aloo Tikki Burger', 50)"><span class="item-name">Aloo Tikki Burger</span><div><span class="item-price">50</span><span class="add-icon">+</span></div></div>
-            </div>
-
-            <h3 class="sub-category-title">Sandwiches</h3>
-            <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Veg Sandwich', 60)"><span class="item-name">Veg Sandwich</span><div><span class="item-price">60</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Cheese Sandwich', 80)"><span class="item-name">Veg Cheese Sandwich</span><div><span class="item-price">80</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Grilled Veg Sandwich', 90)"><span class="item-name">Grilled Veg Sandwich</span><div><span class="item-price">90</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Grilled Cheese Sandwich', 100)"><span class="item-name">Grilled Cheese Sandwich</span><div><span class="item-price">100</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer Sandwich', 120)"><span class="item-name">Paneer Sandwich</span><div><span class="item-price">120</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Aloo Masala Sandwich', 100)"><span class="item-name">Aloo Masala Sandwich</span><div><span class="item-price">100</span><span class="add-icon">+</span></div></div>
             </div>
         </section>
-
-        <section id="chinese" class="category-section">
-            <h2 class="category-title">Chinese</h2>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Veg Fried Rice', 110)"><span class="item-name">Veg Fried Rice</span><div><span class="item-price">110</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer Fried Rice', 130)"><span class="item-name">Paneer Fried Rice</span><div><span class="item-price">130</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Chowmein', 130)"><span class="item-name">Veg Chowmein</span><div><span class="item-price">130</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Garlic Noodles', 130)"><span class="item-name">Garlic Noodles</span><div><span class="item-price">130</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Schezwan Noodles', 150)"><span class="item-name">Schezwan Noodles</span><div><span class="item-price">150</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Hakka Noodles', 140)"><span class="item-name">Hakka Noodles</span><div><span class="item-price">140</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('American Chopsuey', 160)"><span class="item-name">American Chopsuey</span><div><span class="item-price">160</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Honey Chilli Potato', 170)"><span class="item-name">Honey Chilli Potato</span><div><span class="item-price">170</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer Chowmein', 150)"><span class="item-name">Paneer Chowmein</span><div><span class="item-price">150</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Chilli Paneer Dry', 150)"><span class="item-name">Chilli Paneer Dry</span><div><span class="item-price">150</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Chilli Paneer Gravy', 170)"><span class="item-name">Chilli Paneer Gravy</span><div><span class="item-price">170</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Manchurian Dry', 170)"><span class="item-name">Veg Manchurian Dry</span><div><span class="item-price">170</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Manchurian Gravy', 180)"><span class="item-name">Veg Manchurian Gravy</span><div><span class="item-price">180</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Singapuri Noodles', 150)"><span class="item-name">Singapuri Noodles</span><div><span class="item-price">150</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer 65', 180)"><span class="item-name">Paneer 65</span><div><span class="item-price">180</span><span class="add-icon">+</span></div></div>
-            </div>
-        </section>
-
-        <section id="indian" class="category-section">
-            <h2 class="category-title">Indian Main Course</h2>
-            
-            <h3 class="sub-category-title">Vegetables</h3>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Aloo Mutter', 140)"><span class="item-name">Aloo Mutter</span><div><span class="item-price">140</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Malai Pyaaz', 140)"><span class="item-name">Malai Pyaaz</span><div><span class="item-price">140</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Aloo Pudina', 140)"><span class="item-name">Aloo Pudina</span><div><span class="item-price">140</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Mix Veg', 140)"><span class="item-name">Mix Veg</span><div><span class="item-price">140</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Gatta Masala', 140)"><span class="item-name">Gatta Masala</span><div><span class="item-price">140</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Channa Masala', 140)"><span class="item-name">Channa Masala</span><div><span class="item-price">140</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Sev Tamatar', 140)"><span class="item-name">Sev Tamatar</span><div><span class="item-price">140</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Jaalfrezi', 150)"><span class="item-name">Veg Jaalfrezi</span><div><span class="item-price">150</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Kaju Curry', 180)"><span class="item-name">Kaju Curry</span><div><span class="item-price">180</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Mushroom Masala', 180)"><span class="item-name">Mushroom Masala</span><div><span class="item-price">180</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Navaratan Korma', 180)"><span class="item-name">Navaratan Korma</span><div><span class="item-price">180</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Dum Aloo', 180)"><span class="item-name">Dum Aloo</span><div><span class="item-price">180</span><span class="add-icon">+</span></div></div>
-            </div>
-
-            <h3 class="sub-category-title">Paneer & Kofta</h3>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Paneer Burji', 190)"><span class="item-name">Paneer Burji</span><div><span class="item-price">190</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer Butter Masala', 190)"><span class="item-name">Paneer Butter Masala</span><div><span class="item-price">190</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Palak Paneer', 190)"><span class="item-name">Palak Paneer</span><div><span class="item-price">190</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer Lababdar', 200)"><span class="item-name">Paneer Lababdar</span><div><span class="item-price">200</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paneer Tikka Masala', 200)"><span class="item-name">Paneer Tikka Masala</span><div><span class="item-price">200</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Mutter Paneer', 180)"><span class="item-name">Mutter Paneer</span><div><span class="item-price">180</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Kadai Paneer', 200)"><span class="item-name">Kadai Paneer</span><div><span class="item-price">200</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Handi Paneer', 190)"><span class="item-name">Handi Paneer</span><div><span class="item-price">190</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Malai Kofta', 180)"><span class="item-name">Malai Kofta</span><div><span class="item-price">180</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Shahi Kofta', 200)"><span class="item-name">Shahi Kofta</span><div><span class="item-price">200</span><span class="add-icon">+</span></div></div>
-            </div>
-        </section>
-
-        <section id="breads" class="category-section">
-            <h2 class="category-title">Breads & Rice</h2>
-            
-            <h3 class="sub-category-title">Dal & Rice</h3>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Dal Fry', 100)"><span class="item-name">Dal Fry</span><div><span class="item-price">100</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Dal Tadka', 110)"><span class="item-name">Dal Tadka</span><div><span class="item-price">110</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Dal Makhani', 120)"><span class="item-name">Dal Makhani</span><div><span class="item-price">120</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Plain Rice', 60)"><span class="item-name">Plain Rice</span><div><span class="item-price">60</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Jeera Rice', 80)"><span class="item-name">Jeera Rice</span><div><span class="item-price">80</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Pulao', 100)"><span class="item-name">Veg Pulao</span><div><span class="item-price">100</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Biryani', 120)"><span class="item-name">Veg Biryani</span><div><span class="item-price">120</span><span class="add-icon">+</span></div></div>
-            </div>
-
-            <h3 class="sub-category-title">Tandoori Breads</h3>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Tawa Roti Plain', 20)"><span class="item-name">Tawa Roti Plain</span><div><span class="item-price">20</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Tawa Roti Butter', 25)"><span class="item-name">Tawa Roti Butter</span><div><span class="item-price">25</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Tandoori Roti Plain', 25)"><span class="item-name">Tandoori Roti Plain</span><div><span class="item-price">25</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Tandoori Roti Butter', 30)"><span class="item-name">Tandoori Roti Butter</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Plain Naan', 30)"><span class="item-name">Plain Naan</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Butter Naan', 35)"><span class="item-name">Butter Naan</span><div><span class="item-price">35</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Garlic Naan', 50)"><span class="item-name">Garlic Naan</span><div><span class="item-price">50</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Cheese Naan', 60)"><span class="item-name">Cheese Naan</span><div><span class="item-price">60</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Laccha Paratha', 45)"><span class="item-name">Laccha Paratha</span><div><span class="item-price">45</span><span class="add-icon">+</span></div></div>
-            </div>
-            
-             <h3 class="sub-category-title">Salad & Raita</h3>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Green Salad', 40)"><span class="item-name">Green Salad</span><div><span class="item-price">40</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Onion Salad', 30)"><span class="item-name">Onion Salad</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Raita', 65)"><span class="item-name">Veg Raita</span><div><span class="item-price">65</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Boondi Raita', 50)"><span class="item-name">Boondi Raita</span><div><span class="item-price">50</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Papad Roasted', 25)"><span class="item-name">Papad Roasted</span><div><span class="item-price">25</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Masala Papad', 30)"><span class="item-name">Masala Papad</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Lassi', 55)"><span class="item-name">Lassi</span><div><span class="item-price">55</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Butter Milk', 30)"><span class="item-name">Butter Milk</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-            </div>
-        </section>
-
-        <section id="dessert" class="category-section">
-            <h2 class="category-title">Desserts & Shakes</h2>
-            
-            <h3 class="sub-category-title">Nasirabad Special Kulfi</h3>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Kesar Pista Kulfi (S)', 30)"><span class="item-name">Kesar Pista Kulfi (S)</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Kesar Pista Kulfi (M)', 50)"><span class="item-name">Kesar Pista Kulfi (M)</span><div><span class="item-price">50</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Mango Kulfi (S)', 30)"><span class="item-name">Mango Kulfi (S)</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Chocolate Kulfi (S)', 30)"><span class="item-name">Chocolate Kulfi (S)</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Paan Masala Kulfi (S)', 30)"><span class="item-name">Paan Masala Kulfi (S)</span><div><span class="item-price">30</span><span class="add-icon">+</span></div></div>
-            </div>
-
-            <h3 class="sub-category-title">Shakes & Mojito</h3>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Virgin Mojito', 110)"><span class="item-name">Virgin Mojito</span><div><span class="item-price">110</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Cold Coffee', 110)"><span class="item-name">Cold Coffee</span><div><span class="item-price">110</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('KitKat Shake', 130)"><span class="item-name">KitKat Shake</span><div><span class="item-price">130</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Oreo Shake', 130)"><span class="item-name">Oreo Shake</span><div><span class="item-price">130</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Chocolate Shake', 120)"><span class="item-name">Chocolate Shake</span><div><span class="item-price">120</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Vanilla Shake', 100)"><span class="item-name">Vanilla Shake</span><div><span class="item-price">100</span><span class="add-icon">+</span></div></div>
-            </div>
-
-            <h3 class="sub-category-title">Sweets & Ice Cream</h3>
-            <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Gulab Jamun (4pcs)', 70)"><span class="item-name">Gulab Jamun (4pcs)</span><div><span class="item-price">70</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Rasgulla (4pcs)', 70)"><span class="item-name">Rasgulla (4pcs)</span><div><span class="item-price">70</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Vanilla Ice Cream', 40)"><span class="item-name">Vanilla Ice Cream</span><div><span class="item-price">40</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Chocolate Ice Cream', 50)"><span class="item-name">Chocolate Ice Cream</span><div><span class="item-price">50</span><span class="add-icon">+</span></div></div>
-                <div class="menu-row" onclick="openItemModal('Butterscotch', 50)"><span class="item-name">Butterscotch</span><div><span class="item-price">50</span><span class="add-icon">+</span></div></div>
-            </div>
-        </section>
-
-        <div style="text-align:center; padding: 20px; color:#888; margin-bottom: 20px;">
-            End of Menu
-        </div>
         
-        <div style="background: var(--primary); color:white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px;">
-             <h3>HOTEL YASHODAY</h3>
-             <p>Yashoda Tower, Ajmer Road, Kekri</p>
-             <p>📞 92512-69294</p>
+        <div style="text-align:center; padding: 20px; color:#888;">
+            (Testing Mode: Small Menu)
         </div>
-
     </div>
 </div>
 
@@ -339,8 +116,8 @@
 
 <div class="modal-overlay" id="item-modal">
     <div class="modal-card">
-        <div class="modal-header"><span>Add to Order</span><button class="close-modal" onclick="closeModal('item-modal')">&times;</button></div>
-        <h3 id="modal-item-name" style="margin-bottom: 10px;">Item</h3>
+        <button class="close-modal" onclick="closeModal('item-modal')">&times;</button>
+        <h3 id="modal-item-name" style="margin-bottom: 10px; margin-top: 0;">Item</h3>
         <p style="color: var(--accent); font-weight: bold; font-size: 1.2rem; margin-bottom: 20px;">₹<span id="modal-item-price">0</span></p>
         <div class="form-group">
             <label>Quantity</label>
@@ -356,8 +133,9 @@
 
 <div class="modal-overlay" id="cart-modal">
     <div class="modal-card">
-        <div class="modal-header"><span>Your Cart</span><button class="close-modal" onclick="closeModal('cart-modal')">&times;</button></div>
-        <div id="cart-items-container"><p>Your cart is empty.</p></div>
+        <button class="close-modal" onclick="closeModal('cart-modal')">&times;</button>
+        <h3 style="margin-top:0;">Your Cart</h3>
+        <div id="cart-items-container" style="margin-top: 15px;"><p>Your cart is empty.</p></div>
         <div style="margin-top: 20px; border-top: 2px solid #eee; padding-top: 15px;">
             <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem;"><span>Total</span><span>₹<span id="cart-total">0</span></span></div>
             <br><button class="btn btn-success full-width" onclick="initiateCheckout()">Place Order</button>
@@ -367,15 +145,16 @@
 
 <div class="modal-overlay" id="login-modal">
     <div class="modal-card">
-        <div class="modal-header"><span>Login</span><button class="close-modal" onclick="closeModal('login-modal')">&times;</button></div>
-        <div style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #ddd;">
+        <button class="close-modal" onclick="closeModal('login-modal')">&times;</button>
+        <h3 style="margin-top:0;">Login</h3>
+        <div style="display: flex; margin-bottom: 20px; border-bottom: 1px solid #ddd; margin-top: 15px;">
             <button class="btn full-width" id="tab-customer" onclick="switchLoginTab('customer')" style="background:var(--accent); color: white;">Customer</button>
             <button class="btn full-width" id="tab-admin" onclick="switchLoginTab('admin')" style="background: #eee;">Admin</button>
         </div>
         <div id="form-customer">
-            <div class="form-group"><label>Phone Number (Unique ID)</label><input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile number"></div>
-            <div class="form-group"><label>Your Name</label><input type="text" id="cust-name" class="form-control" placeholder="Enter Name"></div>
-            <div class="form-group"><label>Table No</label><input type="text" id="cust-table" class="form-control" placeholder="e.g. Table 5"></div>
+            <div class="form-group"><label>Phone Number</label><input type="tel" id="cust-phone" class="form-control" placeholder="Mobile Number"></div>
+            <div class="form-group"><label>Name</label><input type="text" id="cust-name" class="form-control" placeholder="Enter Name"></div>
+            <div class="form-group"><label>Table No</label><input type="text" id="cust-table" class="form-control" placeholder="e.g. 5"></div>
             <button class="btn btn-primary full-width" onclick="handleCustomerLogin()">Start Ordering</button>
         </div>
         <div id="form-admin" class="hidden">
@@ -388,20 +167,21 @@
 
 <div class="modal-overlay" id="my-orders-modal">
     <div class="modal-card">
-        <div class="modal-header"><span>My Active Orders</span><button class="close-modal" onclick="closeModal('my-orders-modal')">&times;</button></div>
-        <div id="my-orders-list"></div>
+        <button class="close-modal" onclick="closeModal('my-orders-modal')">&times;</button>
+        <h3 style="margin-top:0;">My Orders</h3>
+        <div id="my-orders-list" style="margin-top: 15px;"></div>
         <p style="text-align:center; font-size: 0.8rem; margin-top:10px; color:#666;">Status updates automatically.</p>
     </div>
 </div>
 
 <script>
     // ==============================================================
-    // CONFIGURATION
+    // FIREBASE CONFIG (FROM YOUR DATA)
     // ==============================================================
     const firebaseConfig = {
         apiKey: "AIzaSyB34STsFkbB4l-tnFqpi1Cx-1GMZwd3Lyc",
         authDomain: "hotel-yashoday.firebaseapp.com",
-        databaseURL: "https://hotel-yashoday-default-rtdb.firebaseio.com", 
+        databaseURL: "https://hotel-yashoday-default-rtdb.firebaseio.com",
         projectId: "hotel-yashoday",
         storageBucket: "hotel-yashoday.firebasestorage.app",
         messagingSenderId: "432219813043",
@@ -409,31 +189,22 @@
         measurementId: "G-BNQBD76YH5"
     };
 
-    // Initialize Firebase
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
-    const db = firebase.database(); 
+    if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+    const db = firebase.database();
     // ==============================================================
 
     let cart = [];
     let currentUser = null; 
     let currentItemToAdd = null;
 
-    document.addEventListener('DOMContentLoaded', () => {
-        checkSession();
-    });
+    document.addEventListener('DOMContentLoaded', () => { checkSession(); });
 
     function checkSession() {
         const storedUser = localStorage.getItem('yashoday_user');
         if (storedUser) {
             currentUser = JSON.parse(storedUser);
-            if (currentUser.type === 'admin') {
-                showAdminDashboard();
-            } else {
-                updateHeaderUser();
-                listenToMyOrders(); // Start listening for live updates
-            }
+            if (currentUser.type === 'admin') { showAdminDashboard(); }
+            else { updateHeaderUser(); listenToMyOrders(); }
         }
     }
 
@@ -463,7 +234,6 @@
         const existing = cart.find(item => item.name === name);
         if (existing) { existing.qty += qty; } else { cart.push({ name, price, qty }); }
         updateCartUI();
-        // REMOVED ALERT as requested
     }
     function removeFromCart(index) {
         cart.splice(index, 1);
@@ -474,23 +244,15 @@
         const container = document.getElementById('cart-items-container');
         let html = '';
         let total = 0;
-        if (cart.length === 0) {
-            html = '<p style="text-align:center; color:#999;">Cart is empty.</p>';
-        } else {
+        if (cart.length === 0) { html = '<p style="text-align:center; color:#999;">Cart is empty.</p>'; }
+        else {
             cart.forEach((item, index) => {
                 const itemTotal = item.price * item.qty;
                 total += itemTotal;
-                html += `
-                    <div class="cart-item">
-                        <div>
-                            <div style="font-weight:bold;">${item.name}</div>
-                            <div style="font-size:0.85rem; color:#666;">₹${item.price} x ${item.qty}</div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <span style="font-weight:bold;">₹${itemTotal}</span>
-                            <button class="btn btn-danger" style="padding:2px 8px;" onclick="removeFromCart(${index})">X</button>
-                        </div>
-                    </div>`;
+                html += `<div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px dashed #ddd; padding-bottom:5px;">
+                            <div><b>${item.name}</b><br><small>₹${item.price} x ${item.qty}</small></div>
+                            <div style="text-align:right;"><b>₹${itemTotal}</b> <span onclick="removeFromCart(${index})" style="color:red; cursor:pointer; margin-left:10px;">X</span></div>
+                         </div>`;
             });
         }
         container.innerHTML = html;
@@ -499,9 +261,7 @@
     function openCartModal() { updateCartUI(); openModal('cart-modal'); }
 
     // --- AUTH ---
-    function openLoginModal() {
-        if (currentUser) { if(confirm("Are you sure you want to logout?")) logout(); } else { openModal('login-modal'); }
-    }
+    function openLoginModal() { if (currentUser) { if(confirm("Are you sure you want to logout?")) logout(); } else { openModal('login-modal'); } }
     function switchLoginTab(type) {
         const custBtn = document.getElementById('tab-customer');
         const adminBtn = document.getElementById('tab-admin');
@@ -521,13 +281,12 @@
         const name = document.getElementById('cust-name').value;
         const table = document.getElementById('cust-table').value;
         const phone = document.getElementById('cust-phone').value;
-        if (!name || !table || !phone) { alert("Please fill all details. Phone number is required to track orders."); return; }
-
+        if (!name || !table || !phone) { alert("Please fill all details."); return; }
         currentUser = { type: 'customer', name, table, phone };
         localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
         closeModal('login-modal');
         updateHeaderUser();
-        listenToMyOrders(); // Start Sync
+        listenToMyOrders();
         if (cart.length > 0) initiateCheckout();
     }
     function handleAdminLogin() {
@@ -544,18 +303,16 @@
     function updateHeaderUser() {
         const btn = document.getElementById('btn-login');
         btn.innerText = `Hi, ${currentUser.name}`;
-        document.getElementById('btn-my-orders').classList.remove('hidden'); 
+        document.getElementById('btn-my-orders').classList.remove('hidden');
     }
 
-    // --- FIREBASE ORDER HANDLING ---
-
+    // --- CHECKOUT ---
     function initiateCheckout() {
         if (cart.length === 0) { alert("Cart is empty!"); return; }
-        if (!currentUser) { alert("Please Login to Place Order"); openLoginModal(); return; }
-        if (currentUser.type === 'admin') { alert("Admins cannot place orders."); return; }
+        if (!currentUser) { alert("Please Login."); openLoginModal(); return; }
+        if (currentUser.type === 'admin') { alert("Admins cannot order."); return; }
 
         const orderId = 'ORD-' + Date.now();
-        
         const newOrder = {
             id: orderId,
             customer: currentUser,
@@ -563,84 +320,49 @@
             total: parseInt(document.getElementById('cart-total').innerText),
             status: 'Pending',
             timestamp: new Date().toLocaleTimeString(),
-            createdAt: firebase.database.ServerValue.TIMESTAMP 
+            createdAt: firebase.database.ServerValue.TIMESTAMP
         };
 
-        db.ref('orders/' + orderId).set(newOrder)
-            .then(() => {
-                cart = [];
-                updateCartUI();
-                closeModal('cart-modal');
-                // REMOVED ALERT: "Order Placed Successfully" - just opens My Orders
-                openMyOrdersModal();
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("Error placing order: " + error.message);
-            });
+        db.ref('orders/' + orderId).set(newOrder).then(() => {
+            cart = []; updateCartUI(); closeModal('cart-modal'); openMyOrdersModal();
+        });
     }
 
-    // --- CUSTOMER LIVE UPDATES ---
+    // --- LIVE UPDATES ---
     function listenToMyOrders() {
         if (!currentUser || currentUser.type === 'admin') return;
-
-        db.ref('orders').orderByChild('customer/phone').equalTo(currentUser.phone)
-            .on('value', (snapshot) => {
-                const orders = [];
-                snapshot.forEach((childSnapshot) => {
-                    orders.push(childSnapshot.val());
-                });
-                orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                
-                window.myLiveOrders = orders;
-                
-                const modal = document.getElementById('my-orders-modal');
-                if (modal.classList.contains('active')) {
-                    renderMyOrders();
-                }
-            });
+        db.ref('orders').orderByChild('customer/phone').equalTo(currentUser.phone).on('value', (snapshot) => {
+            const orders = [];
+            snapshot.forEach((child) => orders.push(child.val()));
+            orders.sort((a, b) => b.createdAt - a.createdAt);
+            window.myLiveOrders = orders;
+            if (document.getElementById('my-orders-modal').classList.contains('active')) renderMyOrders();
+        });
     }
-
-    function openMyOrdersModal() {
-        if (!currentUser || currentUser.type === 'admin') return;
-        renderMyOrders();
-        openModal('my-orders-modal');
-    }
-
+    function openMyOrdersModal() { if (!currentUser) return; renderMyOrders(); openModal('my-orders-modal'); }
     function renderMyOrders() {
         const container = document.getElementById('my-orders-list');
-        const allOrders = window.myLiveOrders || [];
-        
-        const activeOrders = allOrders.filter(o => o.status === 'Pending' || o.status === 'Accepted');
-
-        if (activeOrders.length === 0) {
-            container.innerHTML = '<div style="text-align:center; padding:20px; color:#999;">No active orders.<br><small>Completed orders are removed.</small></div>';
-            return;
-        }
-
+        const activeOrders = (window.myLiveOrders || []).filter(o => o.status === 'Pending' || o.status === 'Accepted');
+        if (activeOrders.length === 0) { container.innerHTML = '<p style="text-align:center;">No active orders.</p>'; return; }
         let html = '';
         activeOrders.forEach(order => {
-            let badgeClass = order.status === 'Pending' ? 'bg-pending' : 'bg-accepted';
-            let statusText = order.status === 'Pending' ? 'Waiting...' : 'Accepted (Preparing)';
-            const itemsSummary = order.items.map(i => `${i.name} (${i.qty})`).join(', ');
-
-            html += `
-                <div class="order-card status-${order.status}" style="padding: 10px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                        <span style="font-weight:bold; font-size:0.9rem;">#${order.id.slice(-6)}</span>
-                        <span class="status-badge ${badgeClass}">${statusText}</span>
-                    </div>
-                    <div style="font-size:0.85rem; color:#555; margin-bottom:5px;">${itemsSummary}</div>
-                    <div style="text-align:right; font-weight:bold; font-size:0.9rem;">Total: ₹${order.total}</div>
-                </div>
-            `;
+            // FIX: Ensure items is treated as array
+            let itemsArr = order.items;
+            if (!Array.isArray(itemsArr) && itemsArr) itemsArr = Object.values(itemsArr);
+            const summary = (itemsArr || []).map(i => `${i.name} (${i.qty})`).join(', ');
+            
+            html += `<div style="background:#f9f9f9; padding:10px; margin-bottom:10px; border-radius:5px; border-left:4px solid ${order.status==='Pending'?'orange':'#17a2b8'};">
+                        <div style="display:flex; justify-content:space-between;"><b>#${order.id.slice(-6)}</b> <span>${order.status}</span></div>
+                        <div style="font-size:0.9rem; color:#555;">${summary}</div>
+                        <div style="text-align:right;"><b>₹${order.total}</b></div>
+                     </div>`;
         });
         container.innerHTML = html;
     }
 
-    // --- ADMIN DASHBOARD (LIVE) ---
+    // --- ADMIN DASHBOARD ---
     function showAdminDashboard() {
-        document.getElementById('customer-view').classList.add('hidden'); 
+        document.getElementById('customer-view').classList.add('hidden');
         document.getElementById('admin-panel').classList.remove('hidden');
         document.querySelector('.cart-fab').classList.add('hidden');
         document.getElementById('btn-login').innerText = "Admin Panel";
@@ -650,8 +372,7 @@
             const orders = [];
             if (snapshot.exists()) {
                 snapshot.forEach((child) => orders.push(child.val()));
-                // Improved safety sort for admin
-                orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                orders.sort((a, b) => b.createdAt - a.createdAt);
             }
             renderAdminOrders(orders);
         });
@@ -660,44 +381,45 @@
     function renderAdminOrders(allOrders) {
         const container = document.getElementById('admin-orders-list');
         if (allOrders.length === 0) { container.innerHTML = '<p style="text-align:center;">No orders found.</p>'; return; }
-
         let html = '';
         allOrders.forEach(order => {
-            const itemsSummary = order.items.map(i => `${i.name} (x${i.qty})`).join(', ');
-            let statusClass = 'status-' + order.status;
-            let actions = '';
+            // FIX: THE CRITICAL FIX FOR ADMIN PAGE
+            let itemsArr = order.items;
+            // If firebase converted array to object (sparse array), convert it back
+            if (!Array.isArray(itemsArr) && itemsArr) {
+                itemsArr = Object.values(itemsArr);
+            }
+            const summary = (itemsArr || []).map(i => `${i.name} (x${i.qty})`).join(', ');
 
+            let actions = '';
             if (order.status === 'Pending') {
-                actions = `<button class="btn btn-primary" onclick="updateOrderStatus('${order.id}', 'Accepted')">Accept</button>
-                           <button class="btn btn-danger" onclick="updateOrderStatus('${order.id}', 'Rejected')">Reject</button>`;
+                actions = `<button class="btn btn-primary" onclick="updateStatus('${order.id}', 'Accepted')">Accept</button>
+                           <button class="btn btn-danger" onclick="updateStatus('${order.id}', 'Rejected')">Reject</button>`;
             } else if (order.status === 'Accepted') {
-                actions = `<button class="btn btn-success" onclick="updateOrderStatus('${order.id}', 'Completed')">Mark Complete</button>`;
+                actions = `<button class="btn btn-success" onclick="updateStatus('${order.id}', 'Completed')">Complete</button>`;
             } else {
-                actions = `<span style="font-weight:bold; color:#666;">${order.status}</span>`;
+                actions = `<b>${order.status}</b>`;
             }
 
-            html += `
-                <div class="order-card ${statusClass}">
-                    <div class="order-header">
-                        <span>#${order.id.slice(-6)} | ${order.timestamp}</span>
-                        <span style="font-weight:bold;">${order.status}</span>
-                    </div>
-                    <div style="font-weight:bold; font-size:1.1rem; color:var(--primary);">
-                        ${order.customer.table} - ${order.customer.name}
-                    </div>
-                    <div style="font-size:0.8rem; color:#555; margin-bottom:5px;">Phone: ${order.customer.phone}</div>
-                    <div class="order-items-list">${itemsSummary}</div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                        <span style="font-weight:bold;">Total: ₹${order.total}</span>
-                        <div style="display:flex; gap:5px;">${actions}</div>
-                    </div>
-                </div>`;
+            html += `<div style="background:white; border:1px solid #ddd; padding:15px; border-radius:5px; margin-bottom:15px; border-left: 5px solid ${order.status==='Pending'?'orange':(order.status==='Accepted'?'#17a2b8':'green')}">
+                        <div style="display:flex; justify-content:space-between; color:#666; font-size:0.9rem;">
+                            <span>#${order.id.slice(-6)} | ${order.timestamp}</span> <span>${order.status}</span>
+                        </div>
+                        <div style="font-weight:bold; font-size:1.1rem; color:var(--primary); margin:5px 0;">
+                            ${order.customer.table} - ${order.customer.name} <small>(${order.customer.phone})</small>
+                        </div>
+                        <div style="margin-bottom:10px;">${summary}</div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-weight:bold; font-size:1.1rem;">₹${order.total}</span>
+                            <div style="display:flex; gap:5px;">${actions}</div>
+                        </div>
+                     </div>`;
         });
         container.innerHTML = html;
     }
 
-    function updateOrderStatus(orderId, newStatus) {
-        db.ref('orders/' + orderId).update({ status: newStatus });
+    function updateStatus(id, status) {
+        db.ref('orders/' + id).update({ status: status });
     }
 </script>
 </body>
