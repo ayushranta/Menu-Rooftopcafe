@@ -19,7 +19,7 @@
             --danger: #dc3545; 
             --warning: #ffc107; 
             --info: #17a2b8; 
-            --border-color: #e0e0e0; /* New Border Shade */
+            --border-color: #e0e0e0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -33,7 +33,7 @@
 
         /* --- UTILS --- */
         .hidden { display: none !important; }
-        .btn { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; width: 100%; transition: 0.2s; }
+        .btn { padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; width: 100%; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: var(--accent); }
         .btn-success { background: var(--success); color: white; }
         .btn-danger { background: var(--danger); color: white; }
@@ -46,28 +46,28 @@
             background: var(--primary);
             color: var(--accent);
             text-align: center;
-            padding: 1.5rem 1rem;
+            padding: 1.2rem 1rem;
             position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
-        header h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0; }
-        header p { font-size: 0.85rem; opacity: 0.9; margin-top: 5px; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 0; }
+        header p { font-size: 0.8rem; opacity: 0.9; margin-top: 3px; }
 
         /* --- NAV --- */
         .nav-container { 
             overflow-x: auto; 
             white-space: nowrap; 
             background: var(--card-bg); 
-            padding: 12px 10px; 
+            padding: 10px; 
             position: sticky; 
             top: 0; 
             z-index: 900; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .nav-pill { 
-            display: inline-block; padding: 8px 18px; margin-right: 8px;
+            display: inline-block; padding: 6px 16px; margin-right: 8px;
             background: #f0f2f5; color: #555; border-radius: 20px;
-            text-decoration: none; font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; font-size: 0.85rem; font-weight: 600;
             transition: all 0.3s ease;
         }
         .nav-pill.active { background: var(--primary); color: var(--accent); transform: scale(1.05); }
@@ -75,24 +75,22 @@
 
         /* --- MENU --- */
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
-        .category-section { margin-bottom: 25px; scroll-margin-top: 70px; }
+        .category-section { margin-bottom: 25px; scroll-margin-top: 60px; }
         .category-title { 
             font-family: 'Playfair Display', serif; font-size: 1.3rem; 
             color: var(--primary); margin-bottom: 12px; padding-left: 10px;
             border-left: 4px solid var(--accent);
         }
         
-        /* UPDATED: Compact List */
-        .menu-list { display: flex; flex-direction: column; gap: 8px; /* Reduced Gap */ }
+        .menu-list { display: flex; flex-direction: column; gap: 8px; }
         
-        /* UPDATED: Compact Row with Border */
         .menu-row { 
             background: var(--card-bg); 
-            padding: 12px 15px; /* Reduced Padding */
+            padding: 12px 15px; 
             border-radius: 10px; 
             display: flex; justify-content: space-between; align-items: center; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
-            border: 1px solid var(--border-color); /* Light Shade Boundary */
+            border: 1px solid var(--border-color);
         }
         .menu-row:active { transform: scale(0.99); background: #fafafa; }
         .item-details { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-right: 15px; }
@@ -134,56 +132,55 @@
             border: 2px solid white;
         }
 
-        /* --- MODALS FIXED FOR MOBILE KEYBOARD (Top Pinned) --- */
+        /* --- MODALS FIXED FOR MOBILE KEYBOARD (Top Pinned & Compact) --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
             
-            /* KEY FIX: Block display + Top Padding prevents keyboard shift issues */
-            display: none; /* Toggled by JS */
-            align-items: flex-start; /* Align to top */
+            /* Align to Top to avoid keyboard issues */
+            align-items: flex-start; 
             justify-content: center;
-            overflow-y: auto; /* Scroll enabled */
-            padding-top: 80px; /* Fixed distance from top */
+            overflow-y: auto; 
+            padding-top: 40px; /* MOVED HIGHER (Was 80px) */
             padding-bottom: 20px;
         }
         .modal-overlay.active { display: flex; }
         
         .modal-card { 
-            background: #fff; width: 90%; max-width: 500px; 
-            border-radius: 15px; padding: 25px; 
+            background: #fff; width: 90%; max-width: 450px; 
+            border-radius: 15px; padding: 20px; /* Reduced Padding */
             position: relative;
-            /* Remove max-height constraint for better scrolling */
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             animation: fadeIn 0.2s ease-out;
-            margin-bottom: 50px; /* Space at bottom */
+            margin-bottom: 50px; 
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .close-modal { 
-            position: absolute; top: 15px; right: 15px; 
-            font-size: 1.2rem; border: none; background: #f0f0f0; 
-            width: 32px; height: 32px; border-radius: 50%; color: #333;
+            position: absolute; top: 12px; right: 12px; 
+            font-size: 1.1rem; border: none; background: #f0f0f0; 
+            width: 28px; height: 28px; border-radius: 50%; color: #333;
             display: flex; align-items: center; justify-content: center;
             z-index: 10; cursor: pointer;
         }
 
         /* --- TABS --- */
-        .tab-header { display: flex; background: #f1f3f5; border-radius: 10px; padding: 4px; margin-bottom: 15px; }
+        .tab-header { display: flex; background: #f1f3f5; border-radius: 10px; padding: 4px; margin-bottom: 12px; }
         .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 8px; font-weight: 600; color: #666; font-size: 0.9rem; }
         .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
         /* --- CARDS & FORMS --- */
-        .order-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .order-card { background: white; padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #ccc; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #eee; }
         .border-Pending { border-left-color: var(--warning); }
         .border-Accepted { border-left-color: var(--info); }
         .border-Completed { border-left-color: var(--success); }
         .border-Rejected { border-left-color: var(--danger); }
         .border-Cancelled { border-left-color: #999; }
 
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 5px;}
-        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background: #fafafa; }
+        /* COMPACT FORM STYLES */
+        .form-group { margin-bottom: 8px; /* Reduced Gap */ }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 2px;}
+        .form-control { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; background: #fafafa; }
         
         .qty-controls { display: flex; align-items: center; gap: 10px; }
         .qty-btn { width: 28px; height: 28px; border-radius: 5px; border: 1px solid #ddd; background: white; font-weight: bold; }
@@ -214,8 +211,8 @@
 
     <div id="admin-panel" class="hidden" style="padding-bottom: 80px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 style="margin:0; font-size:1.5rem; color:var(--primary);">Admin Dashboard</h2>
-            <button class="btn-outline" style="padding:5px 15px; border-radius:20px;" onclick="logout()">Logout</button>
+            <h2 style="margin:0; font-size:1.3rem; color:var(--primary);">Admin Dashboard</h2>
+            <button class="btn-outline" style="padding:5px 15px; border-radius:20px; font-size:0.8rem;" onclick="logout()">Logout</button>
         </div>
         <div id="admin-orders-list">
             <p style="text-align: center; color: #888; margin-top: 30px;">Loading...</p>
@@ -259,7 +256,7 @@
             </div>
         </section>
 
-        <div style="text-align:center; padding: 40px 20px; color:#aaa; font-size:0.9rem;">
+        <div style="text-align:center; padding: 40px 20px; color:#aaa; font-size:0.8rem;">
             Full Menu Coming Soon...
         </div>
     </div>
@@ -284,15 +281,15 @@
     <div class="modal-card">
         <button class="close-modal" onclick="closeModal('item-modal')">&times;</button>
         <h3 id="modal-item-name" style="margin-bottom: 5px; margin-top:0;">Item</h3>
-        <p style="color: var(--accent); font-weight: bold; font-size: 1.5rem; margin-bottom: 20px;">₹<span id="modal-item-price">0</span></p>
+        <p style="color: var(--accent); font-weight: bold; font-size: 1.4rem; margin-bottom: 20px;">₹<span id="modal-item-price">0</span></p>
         <div class="form-group">
             <div style="display: flex; gap: 15px; align-items: center; justify-content: center;">
-                <button class="btn-outline" style="width: 50px; font-size: 1.5rem; border-radius: 50%;" onclick="adjustModalQty(-1)">-</button>
-                <input type="number" id="modal-qty" value="1" style="width: 60px; text-align: center; font-size: 1.5rem; border:none; font-weight:bold;" readonly>
-                <button class="btn-outline" style="width: 50px; font-size: 1.5rem; border-radius: 50%;" onclick="adjustModalQty(1)">+</button>
+                <button class="btn-outline" style="width: 45px; font-size: 1.4rem; border-radius: 50%;" onclick="adjustModalQty(-1)">-</button>
+                <input type="number" id="modal-qty" value="1" style="width: 50px; text-align: center; font-size: 1.4rem; border:none; font-weight:bold;" readonly>
+                <button class="btn-outline" style="width: 45px; font-size: 1.4rem; border-radius: 50%;" onclick="adjustModalQty(1)">+</button>
             </div>
         </div>
-        <button class="btn btn-primary" onclick="confirmAddToCart()">Add to Order</button>
+        <button class="btn btn-primary" style="margin-top:10px;" onclick="confirmAddToCart()">Add to Order</button>
     </div>
 </div>
 
@@ -300,9 +297,9 @@
     <div class="modal-card">
         <button class="close-modal" onclick="closeModal('cart-modal')">&times;</button>
         <h3 style="margin-top:0;">Your Cart</h3>
-        <div id="cart-items-container" style="margin-top: 20px; min-height: 100px;"></div>
+        <div id="cart-items-container" style="margin-top: 15px; min-height: 80px;"></div>
         <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;">
-            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: bold; margin-bottom: 15px;">
                 <span>Total</span>
                 <span>₹<span id="cart-total">0</span></span>
             </div>
@@ -329,7 +326,7 @@
         
         <div id="view-auth">
             <h3 style="margin-top:0;">Login</h3>
-            <div class="tab-header" style="margin-top: 20px;">
+            <div class="tab-header" style="margin-top: 15px;">
                 <button class="tab-btn active" id="tab-cust-btn" onclick="switchLoginTab('customer')">Customer</button>
                 <button class="tab-btn" id="tab-admin-btn" onclick="switchLoginTab('admin')">Admin</button>
             </div>
@@ -338,7 +335,7 @@
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile"></div>
                 <div class="form-group"><label>Name</label><input type="text" id="cust-name" class="form-control" placeholder="Your Name"></div>
                 <div class="form-group"><label>Table No / Room No</label><input type="text" id="cust-table" class="form-control" placeholder="Table No / Room No"></div>
-                <button class="btn btn-primary" onclick="handleCustomerLogin()">Start Ordering</button>
+                <button class="btn btn-primary" style="margin-top:5px;" onclick="handleCustomerLogin()">Start Ordering</button>
             </div>
 
             <div id="form-admin" class="hidden">
@@ -350,7 +347,7 @@
 
         <div id="view-profile" class="hidden">
             <h3 style="margin-top:0;">My Profile</h3>
-            <div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+            <div style="margin: 15px 0; padding: 12px; background: #f8f9fa; border-radius: 10px;">
                 <div class="form-group">
                     <label>Your Name</label>
                     <input type="text" id="prof-name" class="form-control">
@@ -363,7 +360,7 @@
                     <label>Table No / Room No</label>
                     <input type="text" id="prof-table" class="form-control">
                 </div>
-                <button class="btn btn-primary" onclick="saveProfile()">Save Details</button>
+                <button class="btn btn-primary" style="margin-top:5px;" onclick="saveProfile()">Save Details</button>
             </div>
             <button class="btn btn-danger" onclick="logout()">Logout</button>
         </div>
