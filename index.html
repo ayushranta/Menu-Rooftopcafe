@@ -19,6 +19,7 @@
             --danger: #dc3545; 
             --warning: #ffc107; 
             --info: #17a2b8; 
+            --border-color: #e0e0e0; /* New Border Shade */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -74,25 +75,32 @@
 
         /* --- MENU --- */
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
-        .category-section { margin-bottom: 30px; scroll-margin-top: 70px; }
+        .category-section { margin-bottom: 25px; scroll-margin-top: 70px; }
         .category-title { 
-            font-family: 'Playfair Display', serif; font-size: 1.4rem; 
-            color: var(--primary); margin-bottom: 15px; padding-left: 10px;
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; 
+            color: var(--primary); margin-bottom: 12px; padding-left: 10px;
             border-left: 4px solid var(--accent);
         }
-        .menu-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        /* UPDATED: Compact List */
+        .menu-list { display: flex; flex-direction: column; gap: 8px; /* Reduced Gap */ }
+        
+        /* UPDATED: Compact Row with Border */
         .menu-row { 
-            background: var(--card-bg); padding: 16px; border-radius: 12px; 
+            background: var(--card-bg); 
+            padding: 12px 15px; /* Reduced Padding */
+            border-radius: 10px; 
             display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+            border: 1px solid var(--border-color); /* Light Shade Boundary */
         }
-        .menu-row:active { transform: scale(0.98); background: #fafafa; }
+        .menu-row:active { transform: scale(0.99); background: #fafafa; }
         .item-details { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-right: 15px; }
-        .item-name { font-size: 1.1rem; font-weight: 600; color: #2c3e50; }
-        .item-price { font-size: 1.1rem; font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 10px; }
+        .item-name { font-size: 1rem; font-weight: 600; color: #2c3e50; }
+        .item-price { font-size: 1rem; font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 10px; }
         .add-btn { 
-            background: #edf2f7; color: var(--primary); width: 36px; height: 36px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.4rem; 
+            background: #edf2f7; color: var(--primary); width: 32px; height: 32px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3rem; 
         }
 
         /* --- BOTTOM BAR --- */
@@ -105,20 +113,19 @@
         }
         .bar-btn {
             background: transparent; border: none; color: white; font-size: 0.9rem; font-weight: 600;
-            display: flex; flex-direction: column; align-items: center; opacity: 0.8; transition: 0.2s;
+            display: flex; flex-direction: column; align-items: center; opacity: 0.8; transition: 0.2s; cursor: pointer;
         }
         .bar-btn.active { opacity: 1; color: var(--accent); }
         
-        /* RESTORED OLD CART DESIGN (Floating Above) */
         .cart-circle {
-            background: var(--primary); /* Dark Blue */
-            color: var(--accent); /* Gold Text */
+            background: var(--primary); color: var(--accent);
             width: 60px; height: 60px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center; font-size: 1.6rem; 
-            margin-top: -35px; /* Floats up */
+            margin-top: -35px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
-            border: 3px solid var(--accent); /* Gold Border */
+            border: 3px solid var(--accent);
             position: relative;
+            cursor: pointer;
         }
         .cart-badge {
             position: absolute; top: -2px; right: -2px; background: var(--danger); color: white;
@@ -127,44 +134,38 @@
             border: 2px solid white;
         }
 
-        /* --- MODALS FIXED FOR MOBILE KEYBOARD --- */
+        /* --- MODALS FIXED FOR MOBILE KEYBOARD (Top Pinned) --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
-            /* Fix: Use Flex center but allow overflow for scrolling */
-            align-items: center; 
+            
+            /* KEY FIX: Block display + Top Padding prevents keyboard shift issues */
+            display: none; /* Toggled by JS */
+            align-items: flex-start; /* Align to top */
             justify-content: center;
-            overflow-y: auto; /* IMPORTANT for keyboard */
-            padding: 20px 10px;
+            overflow-y: auto; /* Scroll enabled */
+            padding-top: 80px; /* Fixed distance from top */
+            padding-bottom: 20px;
         }
         .modal-overlay.active { display: flex; }
         
         .modal-card { 
-            background: #fff; width: 100%; max-width: 500px; 
+            background: #fff; width: 90%; max-width: 500px; 
             border-radius: 15px; padding: 25px; 
             position: relative;
-            max-height: 90vh; 
-            overflow-y: auto; /* Internal scrolling */
+            /* Remove max-height constraint for better scrolling */
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             animation: fadeIn 0.2s ease-out;
-            margin: auto; /* Centers it nicely */
+            margin-bottom: 50px; /* Space at bottom */
         }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Close Button Pinned */
         .close-modal { 
-            position: absolute; 
-            top: 15px; 
-            right: 15px; 
-            font-size: 1.2rem; 
-            border: none; 
-            background: #f0f0f0; 
-            width: 32px; height: 32px; 
-            border-radius: 50%; 
-            color: #333;
+            position: absolute; top: 15px; right: 15px; 
+            font-size: 1.2rem; border: none; background: #f0f0f0; 
+            width: 32px; height: 32px; border-radius: 50%; color: #333;
             display: flex; align-items: center; justify-content: center;
-            z-index: 10;
-            cursor: pointer;
+            z-index: 10; cursor: pointer;
         }
 
         /* --- TABS --- */
@@ -265,7 +266,7 @@
 </div>
 
 <div class="bottom-bar" id="bottom-bar">
-    <button class="bar-btn" onclick="openLoginModal()">
+    <button class="bar-btn" onclick="openLoginModal()" id="nav-profile-btn">
         <span style="font-size:1.2rem;">👤</span>
         <span style="font-size:0.7rem;">Profile</span>
     </button>
@@ -443,13 +444,14 @@
     // UI HELPERS
     // ==============================================================
     function openModal(id) { 
-        document.getElementById(id).classList.add('active'); 
-        // Special logic for Login/Profile Modal
+        const modal = document.getElementById(id);
+        modal.classList.add('active'); 
+        
+        // FIX: Ensure Login/Profile logic triggers correctly
         if(id === 'login-modal') {
             if(currentUser && currentUser.type === 'customer') {
                 document.getElementById('view-auth').classList.add('hidden');
                 document.getElementById('view-profile').classList.remove('hidden');
-                // Fill details
                 document.getElementById('prof-name').value = currentUser.name;
                 document.getElementById('prof-phone').value = currentUser.phone;
                 document.getElementById('prof-table').value = currentUser.table;
@@ -537,6 +539,10 @@
     // ==============================================================
     // AUTH & PROFILE
     // ==============================================================
+    function openLoginModal() { 
+        openModal('login-modal'); 
+    }
+    
     function switchLoginTab(type) {
         document.getElementById('form-customer').classList.add('hidden');
         document.getElementById('form-admin').classList.add('hidden');
@@ -566,18 +572,16 @@
     function saveProfile() {
         const name = document.getElementById('prof-name').value;
         const table = document.getElementById('prof-table').value;
-        // Update local user
         currentUser.name = name;
         currentUser.table = table;
         localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
-        alert("Profile Saved. New orders will use these details.");
+        alert("Profile Saved.");
         closeModal('login-modal');
     }
 
     function handleAdminLogin() {
         const id = document.getElementById('admin-id').value;
         const pass = document.getElementById('admin-pass').value;
-        // PASSWORD UPDATED TO 'yadmin'
         if (id === 'admin' && pass === 'yadmin') {
             currentUser = { type: 'admin', name: 'Manager' };
             localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
@@ -593,7 +597,7 @@
     // ==============================================================
     function initiateCheckout() {
         if (cart.length === 0) { alert("Cart is empty!"); return; }
-        if (!currentUser) { alert("Please Login."); openModal('login-modal'); return; }
+        if (!currentUser) { alert("Please Login."); openLoginModal(); return; }
         if (currentUser.type === 'admin') { alert("Admins cannot order."); return; }
 
         const orderId = 'ORD-' + Date.now();
@@ -647,7 +651,6 @@
             if (!Array.isArray(itemsArr)) itemsArr = Object.values(itemsArr);
             const summary = itemsArr.map(i => `${i.name} (${i.qty})`).join(', ');
             
-            // Cancel Button Logic
             let cancelBtn = '';
             if (order.status === 'Pending') {
                 cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel Order</button>`;
