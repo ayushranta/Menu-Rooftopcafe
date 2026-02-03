@@ -108,53 +108,63 @@
             display: flex; flex-direction: column; align-items: center; opacity: 0.8; transition: 0.2s;
         }
         .bar-btn.active { opacity: 1; color: var(--accent); }
+        
+        /* RESTORED OLD CART DESIGN (Floating Above) */
         .cart-circle {
-            background: var(--accent); color: var(--primary); width: 55px; height: 55px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; font-size: 1.5rem; margin-top: -30px;
-            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.5); border: 4px solid var(--bg); position: relative;
+            background: var(--primary); /* Dark Blue */
+            color: var(--accent); /* Gold Text */
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 1.6rem; 
+            margin-top: -35px; /* Floats up */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+            border: 3px solid var(--accent); /* Gold Border */
+            position: relative;
         }
         .cart-badge {
-            position: absolute; top: 0; right: 0; background: var(--danger); color: white;
-            font-size: 0.7rem; width: 20px; height: 20px; border-radius: 50%;
+            position: absolute; top: -2px; right: -2px; background: var(--danger); color: white;
+            font-size: 0.7rem; width: 22px; height: 22px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
+            border: 2px solid white;
         }
 
         /* --- MODALS FIXED FOR MOBILE KEYBOARD --- */
         .modal-overlay { 
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
-            /* Flex center for alignment, but allow scroll if height is small */
-            display: none;
-            flex-direction: column;
-            justify-content: flex-end; /* Bottom sheet style */
+            /* Fix: Use Flex center but allow overflow for scrolling */
+            align-items: center; 
+            justify-content: center;
+            overflow-y: auto; /* IMPORTANT for keyboard */
+            padding: 20px 10px;
         }
         .modal-overlay.active { display: flex; }
         
         .modal-card { 
-            background: #fff; width: 100%; max-width: 500px; margin: 0 auto;
-            border-radius: 20px 20px 0 0; padding: 25px; 
+            background: #fff; width: 100%; max-width: 500px; 
+            border-radius: 15px; padding: 25px; 
             position: relative;
-            max-height: 85vh; /* Max height to allow scrolling */
+            max-height: 90vh; 
             overflow-y: auto; /* Internal scrolling */
-            animation: slideUp 0.3s;
-            /* Fix for keyboard pushing content */
-            padding-bottom: 30px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: fadeIn 0.2s ease-out;
+            margin: auto; /* Centers it nicely */
         }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-        /* Close Button Pinned to Corner */
+        /* Close Button Pinned */
         .close-modal { 
             position: absolute; 
             top: 15px; 
             right: 15px; 
-            font-size: 1.5rem; 
+            font-size: 1.2rem; 
             border: none; 
             background: #f0f0f0; 
             width: 32px; height: 32px; 
             border-radius: 50%; 
-            color: #555;
+            color: #333;
             display: flex; align-items: center; justify-content: center;
             z-index: 10;
+            cursor: pointer;
         }
 
         /* --- TABS --- */
@@ -171,6 +181,7 @@
         .border-Cancelled { border-left-color: #999; }
 
         .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 5px;}
         .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background: #fafafa; }
         
         .qty-controls { display: flex; align-items: center; gap: 10px; }
@@ -271,7 +282,7 @@
 <div class="modal-overlay" id="item-modal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeModal('item-modal')">&times;</button>
-        <h3 id="modal-item-name" style="margin-bottom: 5px;">Item</h3>
+        <h3 id="modal-item-name" style="margin-bottom: 5px; margin-top:0;">Item</h3>
         <p style="color: var(--accent); font-weight: bold; font-size: 1.5rem; margin-bottom: 20px;">₹<span id="modal-item-price">0</span></p>
         <div class="form-group">
             <div style="display: flex; gap: 15px; align-items: center; justify-content: center;">
@@ -287,7 +298,7 @@
 <div class="modal-overlay" id="cart-modal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeModal('cart-modal')">&times;</button>
-        <h3>Your Cart</h3>
+        <h3 style="margin-top:0;">Your Cart</h3>
         <div id="cart-items-container" style="margin-top: 20px; min-height: 100px;"></div>
         <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;">
             <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;">
@@ -302,7 +313,7 @@
 <div class="modal-overlay" id="status-modal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeModal('status-modal')">&times;</button>
-        <h3>Order Status</h3>
+        <h3 style="margin-top:0;">Order Status</h3>
         <div class="tab-header">
             <button class="tab-btn active" onclick="setCustTab('live', this)">Live Orders</button>
             <button class="tab-btn" onclick="setCustTab('history', this)">History</button>
@@ -316,7 +327,7 @@
         <button class="close-modal" onclick="closeModal('login-modal')">&times;</button>
         
         <div id="view-auth">
-            <h3>Login</h3>
+            <h3 style="margin-top:0;">Login</h3>
             <div class="tab-header" style="margin-top: 20px;">
                 <button class="tab-btn active" id="tab-cust-btn" onclick="switchLoginTab('customer')">Customer</button>
                 <button class="tab-btn" id="tab-admin-btn" onclick="switchLoginTab('admin')">Admin</button>
@@ -325,7 +336,7 @@
             <div id="form-customer">
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile"></div>
                 <div class="form-group"><label>Name</label><input type="text" id="cust-name" class="form-control" placeholder="Your Name"></div>
-                <div class="form-group"><label>Table No</label><input type="text" id="cust-table" class="form-control" placeholder="Table Number"></div>
+                <div class="form-group"><label>Table No / Room No</label><input type="text" id="cust-table" class="form-control" placeholder="Table No / Room No"></div>
                 <button class="btn btn-primary" onclick="handleCustomerLogin()">Start Ordering</button>
             </div>
 
@@ -337,7 +348,7 @@
         </div>
 
         <div id="view-profile" class="hidden">
-            <h3>My Profile</h3>
+            <h3 style="margin-top:0;">My Profile</h3>
             <div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 10px;">
                 <div class="form-group">
                     <label>Your Name</label>
@@ -348,7 +359,7 @@
                     <input type="tel" id="prof-phone" class="form-control" readonly style="background: #e9ecef;">
                 </div>
                 <div class="form-group">
-                    <label>Table No</label>
+                    <label>Table No / Room No</label>
                     <input type="text" id="prof-table" class="form-control">
                 </div>
                 <button class="btn btn-primary" onclick="saveProfile()">Save Details</button>
@@ -433,7 +444,7 @@
     // ==============================================================
     function openModal(id) { 
         document.getElementById(id).classList.add('active'); 
-        // Special logic for Login/Profile Modal to toggle view
+        // Special logic for Login/Profile Modal
         if(id === 'login-modal') {
             if(currentUser && currentUser.type === 'customer') {
                 document.getElementById('view-auth').classList.add('hidden');
@@ -526,15 +537,6 @@
     // ==============================================================
     // AUTH & PROFILE
     // ==============================================================
-    function openLoginModal() { 
-        if (currentUser) {
-            // Already handled in openModal logic to show Profile
-            openModal('login-modal');
-        } else {
-            openModal('login-modal'); 
-        }
-    }
-    
     function switchLoginTab(type) {
         document.getElementById('form-customer').classList.add('hidden');
         document.getElementById('form-admin').classList.add('hidden');
@@ -575,7 +577,8 @@
     function handleAdminLogin() {
         const id = document.getElementById('admin-id').value;
         const pass = document.getElementById('admin-pass').value;
-        if (id === 'admin' && pass === 'admin123') {
+        // PASSWORD UPDATED TO 'yadmin'
+        if (id === 'admin' && pass === 'yadmin') {
             currentUser = { type: 'admin', name: 'Manager' };
             localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
             closeModal('login-modal');
@@ -590,7 +593,7 @@
     // ==============================================================
     function initiateCheckout() {
         if (cart.length === 0) { alert("Cart is empty!"); return; }
-        if (!currentUser) { alert("Please Login."); openLoginModal(); return; }
+        if (!currentUser) { alert("Please Login."); openModal('login-modal'); return; }
         if (currentUser.type === 'admin') { alert("Admins cannot order."); return; }
 
         const orderId = 'ORD-' + Date.now();
