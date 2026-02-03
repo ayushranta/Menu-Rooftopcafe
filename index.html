@@ -176,7 +176,7 @@
 
 <script>
     // ==============================================================
-    // FIREBASE CONFIG (FROM YOUR DATA)
+    // FIREBASE CONFIG
     // ==============================================================
     const firebaseConfig = {
         apiKey: "AIzaSyB34STsFkbB4l-tnFqpi1Cx-1GMZwd3Lyc",
@@ -340,15 +340,18 @@
         });
     }
     function openMyOrdersModal() { if (!currentUser) return; renderMyOrders(); openModal('my-orders-modal'); }
+    
     function renderMyOrders() {
         const container = document.getElementById('my-orders-list');
         const activeOrders = (window.myLiveOrders || []).filter(o => o.status === 'Pending' || o.status === 'Accepted');
         if (activeOrders.length === 0) { container.innerHTML = '<p style="text-align:center;">No active orders.</p>'; return; }
         let html = '';
         activeOrders.forEach(order => {
-            // FIX: Ensure items is treated as array
+            // FIX: THE CRITICAL FIX FOR CUSTOMER PAGE
             let itemsArr = order.items;
-            if (!Array.isArray(itemsArr) && itemsArr) itemsArr = Object.values(itemsArr);
+            if (!Array.isArray(itemsArr) && itemsArr) {
+                itemsArr = Object.values(itemsArr);
+            }
             const summary = (itemsArr || []).map(i => `${i.name} (${i.qty})`).join(', ');
             
             html += `<div style="background:#f9f9f9; padding:10px; margin-bottom:10px; border-radius:5px; border-left:4px solid ${order.status==='Pending'?'orange':'#17a2b8'};">
@@ -385,7 +388,6 @@
         allOrders.forEach(order => {
             // FIX: THE CRITICAL FIX FOR ADMIN PAGE
             let itemsArr = order.items;
-            // If firebase converted array to object (sparse array), convert it back
             if (!Array.isArray(itemsArr) && itemsArr) {
                 itemsArr = Object.values(itemsArr);
             }
