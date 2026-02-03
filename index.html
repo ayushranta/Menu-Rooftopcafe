@@ -65,9 +65,9 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .nav-pill { 
-            display: inline-block; padding: 6px 16px; margin-right: 8px;
+            display: inline-block; padding: 6px 14px; margin-right: 5px;
             background: #f0f2f5; color: #555; border-radius: 20px;
-            text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            text-decoration: none; font-size: 0.8rem; font-weight: 600;
             transition: all 0.3s ease;
         }
         .nav-pill.active { background: var(--primary); color: var(--accent); transform: scale(1.05); }
@@ -80,6 +80,10 @@
             font-family: 'Playfair Display', serif; font-size: 1.3rem; 
             color: var(--primary); margin-bottom: 12px; padding-left: 10px;
             border-left: 4px solid var(--accent);
+        }
+        .sub-category-title {
+            color: #666; font-weight: 700; font-size: 0.95rem;
+            margin: 15px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 2px;
         }
         
         .menu-list { display: flex; flex-direction: column; gap: 8px; }
@@ -94,8 +98,8 @@
         }
         .menu-row:active { transform: scale(0.99); background: #fafafa; }
         .item-details { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-right: 15px; }
-        .item-name { font-size: 1rem; font-weight: 600; color: #2c3e50; }
-        .item-price { font-size: 1rem; font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 10px; }
+        .item-name { font-size: 0.95rem; font-weight: 600; color: #2c3e50; }
+        .item-price { font-size: 0.95rem; font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 10px; }
         .add-btn { 
             background: #edf2f7; color: var(--primary); width: 32px; height: 32px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3rem; 
@@ -136,19 +140,17 @@
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
-            
-            /* Align to Top to avoid keyboard issues */
             align-items: flex-start; 
             justify-content: center;
             overflow-y: auto; 
-            padding-top: 40px; /* MOVED HIGHER (Was 80px) */
+            padding-top: 40px; 
             padding-bottom: 20px;
         }
         .modal-overlay.active { display: flex; }
         
         .modal-card { 
             background: #fff; width: 90%; max-width: 450px; 
-            border-radius: 15px; padding: 20px; /* Reduced Padding */
+            border-radius: 15px; padding: 20px; 
             position: relative;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             animation: fadeIn 0.2s ease-out;
@@ -177,8 +179,7 @@
         .border-Rejected { border-left-color: var(--danger); }
         .border-Cancelled { border-left-color: #999; }
 
-        /* COMPACT FORM STYLES */
-        .form-group { margin-bottom: 8px; /* Reduced Gap */ }
+        .form-group { margin-bottom: 8px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 2px;}
         .form-control { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; background: #fafafa; }
         
@@ -198,8 +199,14 @@
 <div id="connection-status" style="text-align:center; padding:5px; font-size:0.8rem; background:#e0f7fa; display:none;"></div>
 
 <div class="nav-container" id="customer-nav">
-    <a href="#tea" class="nav-pill active">Tea</a>
-    <a href="#maggi" class="nav-pill">Maggi</a>
+    <a href="#tea" class="nav-pill active">Tea/Coffee</a>
+    <a href="#breakfast" class="nav-pill">Breakfast</a>
+    <a href="#fastfood" class="nav-pill">Fast Food</a>
+    <a href="#starters" class="nav-pill">Starters</a>
+    <a href="#chinese" class="nav-pill">Chinese</a>
+    <a href="#indian" class="nav-pill">Main Course</a>
+    <a href="#ricebread" class="nav-pill">Breads/Rice</a>
+    <a href="#desserts" class="nav-pill">Desserts</a>
 </div>
 
 <div class="nav-container hidden" id="admin-nav" style="justify-content: center; display: flex;">
@@ -220,45 +227,309 @@
     </div>
 
     <div id="customer-view">
+        
         <section id="tea" class="category-section">
             <h2 class="category-title">Tea & Coffee</h2>
             <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Classic Tea', 30)">
-                    <div class="item-details"><span class="item-name">Classic Tea</span><span class="item-price">₹30</span></div>
-                    <div class="add-btn">+</div>
-                </div>
-                <div class="menu-row" onclick="openItemModal('Black Tea', 30)">
-                    <div class="item-details"><span class="item-name">Black Tea</span><span class="item-price">₹30</span></div>
-                    <div class="add-btn">+</div>
-                </div>
-                <div class="menu-row" onclick="openItemModal('Hot Coffee', 40)">
-                    <div class="item-details"><span class="item-name">Hot Coffee</span><span class="item-price">₹40</span></div>
-                    <div class="add-btn">+</div>
-                </div>
+                <div class="menu-row" onclick="openItemModal('Classic Tea', 30)"><div class="item-details"><span class="item-name">Classic Tea</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Black Tea', 30)"><div class="item-details"><span class="item-name">Black Tea</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Lemon Tea', 30)"><div class="item-details"><span class="item-name">Lemon Tea</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Hot Coffee', 40)"><div class="item-details"><span class="item-name">Hot Coffee</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cappuccino', 60)"><div class="item-details"><span class="item-name">Cappuccino</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Signature Masala Tea', 50)"><div class="item-details"><span class="item-name">Signature Masala Tea</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Milk', 40)"><div class="item-details"><span class="item-name">Milk</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Bournvita Milk', 55)"><div class="item-details"><span class="item-name">Bournvita Milk (Hot/Cold)</span><span class="item-price">₹55</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mineral Water', 20)"><div class="item-details"><span class="item-name">Mineral Water</span><span class="item-price">₹20</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cold Drink', 40)"><div class="item-details"><span class="item-name">Cold Drink</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
             </div>
         </section>
 
-        <section id="maggi" class="category-section">
-            <h2 class="category-title">Maggi & Pasta</h2>
+        <section id="breakfast" class="category-section">
+            <h2 class="category-title">Breakfast</h2>
             <div class="menu-list">
-                <div class="menu-row" onclick="openItemModal('Classic Maggi', 30)">
-                    <div class="item-details"><span class="item-name">Classic Maggi</span><span class="item-price">₹30</span></div>
-                    <div class="add-btn">+</div>
-                </div>
-                <div class="menu-row" onclick="openItemModal('Cheese Maggi', 60)">
-                    <div class="item-details"><span class="item-name">Cheese Maggi</span><span class="item-price">₹60</span></div>
-                    <div class="add-btn">+</div>
-                </div>
-                <div class="menu-row" onclick="openItemModal('Red Sauce Pasta', 160)">
-                    <div class="item-details"><span class="item-name">Red Sauce Pasta</span><span class="item-price">₹160</span></div>
-                    <div class="add-btn">+</div>
-                </div>
+                <div class="menu-row" onclick="openItemModal('Jam Toast', 40)"><div class="item-details"><span class="item-name">Jam Toast</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Bread Butter Toast', 40)"><div class="item-details"><span class="item-name">Bread Butter Toast</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Plain Bread Slice', 30)"><div class="item-details"><span class="item-name">Plain Bread Slice (4 pcs)</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Crispy Veg Pakoda', 90)"><div class="item-details"><span class="item-name">Crispy Veg Pakoda</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Crispy Onion Pakoda', 90)"><div class="item-details"><span class="item-name">Crispy Onion Pakoda</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Bread Pakoda', 65)"><div class="item-details"><span class="item-name">Bread Pakoda</span><span class="item-price">₹65</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Pakoda', 105)"><div class="item-details"><span class="item-name">Paneer Pakoda</span><span class="item-price">₹105</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Aloo Paratha', 65)"><div class="item-details"><span class="item-name">Aloo Paratha w/ Butter</span><span class="item-price">₹65</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Onion Paratha', 65)"><div class="item-details"><span class="item-name">Onion Paratha w/ Butter</span><span class="item-price">₹65</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Paratha', 90)"><div class="item-details"><span class="item-name">Paneer Paratha w/ Butter</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mix Veg Paratha', 95)"><div class="item-details"><span class="item-name">Mix Veg Paratha</span><span class="item-price">₹95</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Classic Poha', 50)"><div class="item-details"><span class="item-name">Classic Poha</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cholle Bhature', 90)"><div class="item-details"><span class="item-name">Cholle Bhature</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Puri Bhaji', 80)"><div class="item-details"><span class="item-name">Puri Bhaji</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Kachori Chaat', 80)"><div class="item-details"><span class="item-name">Kachori Chaat</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Samosa Chaat', 80)"><div class="item-details"><span class="item-name">Samosa Chaat</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
+            </div>
+        </section>
+
+        <section id="fastfood" class="category-section">
+            <h2 class="category-title">Fast Food</h2>
+            
+            <div class="sub-category-title">Maggi Corner</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Classic Maggi', 30)"><div class="item-details"><span class="item-name">Classic Maggi</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Maggi', 50)"><div class="item-details"><span class="item-name">Veg Maggi</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cheese Maggi', 60)"><div class="item-details"><span class="item-name">Cheese Maggi</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Cheese Maggi', 80)"><div class="item-details"><span class="item-name">Veg Cheese Maggi</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
+            </div>
+
+            <div class="sub-category-title">Pasta & Momos</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Creamy White Sauce Pasta', 150)"><div class="item-details"><span class="item-name">Creamy White Sauce Pasta</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Tangy Red Sauce Pasta', 160)"><div class="item-details"><span class="item-name">Tangy Red Sauce Pasta</span><span class="item-price">₹160</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Pink Sauce Pasta', 160)"><div class="item-details"><span class="item-name">Pink Sauce Pasta</span><span class="item-price">₹160</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Steamed Veg Momos', 90)"><div class="item-details"><span class="item-name">Steamed Veg Momos</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Fried Veg Momos', 110)"><div class="item-details"><span class="item-name">Fried Veg Momos</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+            </div>
+
+            <div class="sub-category-title">Pizza & Burger</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Garlic Bread Toast', 100)"><div class="item-details"><span class="item-name">Garlic Bread Toast</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Classic OTC Pizza', 150)"><div class="item-details"><span class="item-name">Classic OTC Pizza</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Onion & Capsicum Pizza', 150)"><div class="item-details"><span class="item-name">Onion & Capsicum Pizza</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Tandoori Pizza', 190)"><div class="item-details"><span class="item-name">Paneer Tandoori Pizza</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Classic Paneer Pizza', 170)"><div class="item-details"><span class="item-name">Classic Paneer Pizza</span><span class="item-price">₹170</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mushroom Delight Pizza', 190)"><div class="item-details"><span class="item-name">Mushroom Delight Pizza</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cheese & Corn Pizza', 120)"><div class="item-details"><span class="item-name">Cheese & Corn Pizza</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Loaded Pizza', 280)"><div class="item-details"><span class="item-name">Chef's Special Loaded Pizza</span><span class="item-price">₹280</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Burger', 60)"><div class="item-details"><span class="item-name">Classic Veg Burger</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Aloo Tikki Burger', 50)"><div class="item-details"><span class="item-name">Aloo Tikki Burger</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Tandoori Veg Burger', 100)"><div class="item-details"><span class="item-name">Tandoori Veg Burger</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+            </div>
+
+            <div class="sub-category-title">Sandwiches</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Classic Veg Sandwich', 60)"><div class="item-details"><span class="item-name">Classic Veg Sandwich</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Cheese Sandwich', 80)"><div class="item-details"><span class="item-name">Veg Cheese Sandwich</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Grilled Veg Sandwich', 90)"><div class="item-details"><span class="item-name">Grilled Veg Sandwich</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Grilled Cheese Sandwich', 100)"><div class="item-details"><span class="item-name">Grilled Cheese Sandwich</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Grilled Veg Cheese Sandwich', 110)"><div class="item-details"><span class="item-name">Grilled Veg Cheese Sandwich</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cheese & Corn Sandwich', 120)"><div class="item-details"><span class="item-name">Cheese & Corn Sandwich</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Sandwich', 120)"><div class="item-details"><span class="item-name">Paneer Sandwich</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Cheese Corn Sandwich', 150)"><div class="item-details"><span class="item-name">Paneer Cheese Corn Sandwich</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Aloo Masala Sandwich', 100)"><div class="item-details"><span class="item-name">Aloo Masala Sandwich</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+            </div>
+        </section>
+
+        <section id="starters" class="category-section">
+            <h2 class="category-title">Starters & Soups</h2>
+            
+            <div class="sub-category-title">Soups</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Tomato Soup', 80)"><div class="item-details"><span class="item-name">Tomato Soup</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Manchow Soup', 100)"><div class="item-details"><span class="item-name">Veg Manchow Soup</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Sweet Corn Soup', 100)"><div class="item-details"><span class="item-name">Sweet Corn Soup</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Hot & Sour Soup', 90)"><div class="item-details"><span class="item-name">Hot & Sour Soup</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mix Vegetable Soup', 100)"><div class="item-details"><span class="item-name">Mix Vegetable Soup</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+            </div>
+
+            <div class="sub-category-title">Starters</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('French Fries', 90)"><div class="item-details"><span class="item-name">French Fries</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Peri-Peri Fries', 110)"><div class="item-details"><span class="item-name">Peri-Peri Fries</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Tandoori Fries', 130)"><div class="item-details"><span class="item-name">Tandoori Fries</span><span class="item-price">₹130</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Bhel Puri', 70)"><div class="item-details"><span class="item-name">Bhel Puri</span><span class="item-price">₹70</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Peanut Chaat', 120)"><div class="item-details"><span class="item-name">Peanut Chaat</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cheese Ball', 140)"><div class="item-details"><span class="item-name">Cheese Ball</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Crispy Corn', 140)"><div class="item-details"><span class="item-name">Crispy Corn</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Cheese Tikka', 140)"><div class="item-details"><span class="item-name">Paneer Cheese Tikka</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Classic Paneer Tikka', 180)"><div class="item-details"><span class="item-name">Classic Paneer Tikka</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Achari Paneer Tikka', 170)"><div class="item-details"><span class="item-name">Achari Paneer Tikka</span><span class="item-price">₹170</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Pudina Paneer Tikka', 170)"><div class="item-details"><span class="item-name">Pudina Paneer Tikka</span><span class="item-price">₹170</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Tandoori Soya Chaap', 170)"><div class="item-details"><span class="item-name">Tandoori Soya Chaap</span><span class="item-price">₹170</span></div><div class="add-btn">+</div></div>
+            </div>
+        </section>
+
+        <section id="chinese" class="category-section">
+            <h2 class="category-title">Chinese</h2>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Veg Fried Rice', 110)"><div class="item-details"><span class="item-name">Veg Fried Rice</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Fried Rice', 130)"><div class="item-details"><span class="item-name">Paneer Fried Rice</span><span class="item-price">₹130</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Chowmein', 130)"><div class="item-details"><span class="item-name">Veg Chowmein</span><span class="item-price">₹130</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Garlic Noodles', 130)"><div class="item-details"><span class="item-name">Garlic Noodles</span><span class="item-price">₹130</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Schezwan Noodles', 150)"><div class="item-details"><span class="item-name">Schezwan Noodles</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Hakka Noodles', 140)"><div class="item-details"><span class="item-name">Hakka Noodles</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('American Chopsuey', 160)"><div class="item-details"><span class="item-name">American Chopsuey</span><span class="item-price">₹160</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Honey Chilli Potato', 170)"><div class="item-details"><span class="item-name">Honey Chilli Potato</span><span class="item-price">₹170</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Chowmein', 150)"><div class="item-details"><span class="item-name">Paneer Chowmein</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Chilli Paneer Dry', 150)"><div class="item-details"><span class="item-name">Chilli Paneer Dry</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Chilli Paneer Gravy', 170)"><div class="item-details"><span class="item-name">Chilli Paneer Gravy</span><span class="item-price">₹170</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Manchurian Dry', 170)"><div class="item-details"><span class="item-name">Veg Manchurian Dry</span><span class="item-price">₹170</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Manchurian Gravy', 180)"><div class="item-details"><span class="item-name">Veg Manchurian Gravy</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Singapuri Noodles', 150)"><div class="item-details"><span class="item-name">Singapuri Noodles</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Singapuri Fried Rice', 180)"><div class="item-details"><span class="item-name">Singapuri Fried Rice</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer 65', 180)"><div class="item-details"><span class="item-name">Paneer 65</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+            </div>
+        </section>
+
+        <section id="indian" class="category-section">
+            <h2 class="category-title">Indian Main Course</h2>
+            
+            <div class="sub-category-title">Vegetables</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Aloo Mutter', 140)"><div class="item-details"><span class="item-name">Aloo Mutter</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Malai Pyaaz', 140)"><div class="item-details"><span class="item-name">Malai Pyaaz</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Aloo Pudina', 140)"><div class="item-details"><span class="item-name">Aloo Pudina</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Methi Malai Mutter', 140)"><div class="item-details"><span class="item-name">Methi Malai Mutter</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mix Veg', 140)"><div class="item-details"><span class="item-name">Mix Veg</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Gatta Masala', 140)"><div class="item-details"><span class="item-name">Gatta Masala</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Channa Masala', 140)"><div class="item-details"><span class="item-name">Channa Masala</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Kolhapuri', 140)"><div class="item-details"><span class="item-name">Veg Kolhapuri</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Sev Tamatar', 140)"><div class="item-details"><span class="item-name">Sev Tamatar</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Jaalfrezi', 150)"><div class="item-details"><span class="item-name">Veg Jaalfrezi</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Corn Palak', 140)"><div class="item-details"><span class="item-name">Corn Palak</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Kaju Curry', 180)"><div class="item-details"><span class="item-name">Kaju Curry</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mushroom Masala', 180)"><div class="item-details"><span class="item-name">Mushroom Masala</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mushroom Kolhapuri', 180)"><div class="item-details"><span class="item-name">Mushroom Kolhapuri</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Navaratan Korma', 180)"><div class="item-details"><span class="item-name">Navaratan Korma</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Stuffed Tamatar', 160)"><div class="item-details"><span class="item-name">Stuffed Tamatar</span><span class="item-price">₹160</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Banarasi Dum Aloo', 180)"><div class="item-details"><span class="item-name">Banarasi Dum Aloo</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Egg Curry', 180)"><div class="item-details"><span class="item-name">Veg Egg Curry</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+            </div>
+
+            <div class="sub-category-title">Paneer & Kofta</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Paneer Burji', 190)"><div class="item-details"><span class="item-name">Paneer Burji</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Butter Masala', 190)"><div class="item-details"><span class="item-name">Paneer Butter Masala</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Palak Paneer', 190)"><div class="item-details"><span class="item-name">Palak Paneer</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Lababdar', 200)"><div class="item-details"><span class="item-name">Paneer Lababdar</span><span class="item-price">₹200</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Tikka Masala', 200)"><div class="item-details"><span class="item-name">Paneer Tikka Masala</span><span class="item-price">₹200</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mutter Paneer', 180)"><div class="item-details"><span class="item-name">Mutter Paneer</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Kadai Paneer', 200)"><div class="item-details"><span class="item-name">Kadai Paneer</span><span class="item-price">₹200</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Smokie', 240)"><div class="item-details"><span class="item-name">Paneer Smokie</span><span class="item-price">₹240</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Peshawari', 210)"><div class="item-details"><span class="item-name">Paneer Peshawari</span><span class="item-price">₹210</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Methi Malai Paneer', 190)"><div class="item-details"><span class="item-name">Methi Malai Paneer</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Handi Paneer', 190)"><div class="item-details"><span class="item-name">Handi Paneer</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Do Pyaaza', 190)"><div class="item-details"><span class="item-name">Paneer Do Pyaaza</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paneer Pasanda', 190)"><div class="item-details"><span class="item-name">Paneer Pasanda</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Malai Kofta', 180)"><div class="item-details"><span class="item-name">Malai Kofta</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Shahi Kofta', 200)"><div class="item-details"><span class="item-name">Shahi Kofta</span><span class="item-price">₹200</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cheese Kofta', 200)"><div class="item-details"><span class="item-name">Cheese Kofta</span><span class="item-price">₹200</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Red Kofta', 190)"><div class="item-details"><span class="item-name">Red Kofta</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
+            </div>
+        </section>
+
+        <section id="ricebread" class="category-section">
+            <h2 class="category-title">Breads & Rice</h2>
+            
+            <div class="sub-category-title">Dal & Rice</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Dal Fry', 100)"><div class="item-details"><span class="item-name">Dal Fry</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Dal Tadka', 110)"><div class="item-details"><span class="item-name">Dal Tadka</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Dal Handi', 120)"><div class="item-details"><span class="item-name">Dal Handi</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Dal Makhani', 120)"><div class="item-details"><span class="item-name">Dal Makhani</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Plain Rice', 60)"><div class="item-details"><span class="item-name">Plain Rice</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Jeera Rice', 80)"><div class="item-details"><span class="item-name">Jeera Rice</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mutter Pulao', 90)"><div class="item-details"><span class="item-name">Mutter Pulao</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Kashmir Veg Biryani', 110)"><div class="item-details"><span class="item-name">Kashmir Veg Biryani</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Pulao', 100)"><div class="item-details"><span class="item-name">Veg Pulao</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Biryani', 120)"><div class="item-details"><span class="item-name">Veg Biryani</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
+            </div>
+
+            <div class="sub-category-title">Indian Breads</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Tawa Roti Plain', 20)"><div class="item-details"><span class="item-name">Tawa Roti Plain</span><span class="item-price">₹20</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Tawa Roti Butter', 25)"><div class="item-details"><span class="item-name">Tawa Roti Butter</span><span class="item-price">₹25</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Tandoori Roti Plain', 25)"><div class="item-details"><span class="item-name">Tandoori Roti Plain</span><span class="item-price">₹25</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Tandoori Roti Butter', 30)"><div class="item-details"><span class="item-name">Tandoori Roti Butter</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Plain Naan', 30)"><div class="item-details"><span class="item-name">Plain Naan</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Butter Naan', 35)"><div class="item-details"><span class="item-name">Butter Naan</span><span class="item-price">₹35</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Garlic Naan', 50)"><div class="item-details"><span class="item-name">Garlic Naan</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cheese Naan', 60)"><div class="item-details"><span class="item-name">Cheese Naan</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Stuffed Naan', 60)"><div class="item-details"><span class="item-name">Stuffed Naan</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Missi Roti', 30)"><div class="item-details"><span class="item-name">Missi Roti</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Laccha Paratha', 45)"><div class="item-details"><span class="item-name">Laccha Paratha</span><span class="item-price">₹45</span></div><div class="add-btn">+</div></div>
+            </div>
+            
+             <div class="sub-category-title">Salad, Raita & Papad</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Russian Salad', 90)"><div class="item-details"><span class="item-name">Russian Salad</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Green Salad', 40)"><div class="item-details"><span class="item-name">Green Salad</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Onion Salad', 30)"><div class="item-details"><span class="item-name">Onion Salad</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Spicy Kachumbar Salad', 60)"><div class="item-details"><span class="item-name">Spicy Kachumbar Salad</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Fry Chilli', 40)"><div class="item-details"><span class="item-name">Fry Chilli</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Boondi Raita', 50)"><div class="item-details"><span class="item-name">Boondi Raita</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Veg Raita', 65)"><div class="item-details"><span class="item-name">Veg Raita</span><span class="item-price">₹65</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Masala Raita', 70)"><div class="item-details"><span class="item-name">Masala Raita</span><span class="item-price">₹70</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Fruit Raita', 70)"><div class="item-details"><span class="item-name">Fruit Raita</span><span class="item-price">₹70</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Papad Fried', 30)"><div class="item-details"><span class="item-name">Papad Fried</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Papad Roasted', 25)"><div class="item-details"><span class="item-name">Papad Roasted</span><span class="item-price">₹25</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Masala Papad Fried', 45)"><div class="item-details"><span class="item-name">Masala Papad Fried</span><span class="item-price">₹45</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Masala Papad Roasted', 30)"><div class="item-details"><span class="item-name">Masala Papad Roasted</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Lassi', 55)"><div class="item-details"><span class="item-name">Lassi (Sweet/Salted)</span><span class="item-price">₹55</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Butter Milk', 30)"><div class="item-details"><span class="item-name">Butter Milk</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Curd', 40)"><div class="item-details"><span class="item-name">Curd</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
+            </div>
+        </section>
+
+        <section id="desserts" class="category-section">
+            <h2 class="category-title">Desserts & Shakes</h2>
+            
+            <div class="sub-category-title">Sweets</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Gulab Jamun (4pcs)', 70)"><div class="item-details"><span class="item-name">Gulab Jamun (4pcs)</span><span class="item-price">₹70</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Gulab Jamun w/ Ice Cream', 110)"><div class="item-details"><span class="item-name">Gulab Jamun w/ Ice Cream</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Rasgulla (4pcs)', 70)"><div class="item-details"><span class="item-name">Rasgulla (4pcs)</span><span class="item-price">₹70</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Rabri', 80)"><div class="item-details"><span class="item-name">Rabri</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
+            </div>
+
+            <div class="sub-category-title">Nasirabad Special Kulfi</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Kesar Pista Kulfi (S)', 30)"><div class="item-details"><span class="item-name">Kesar Pista Kulfi (Small)</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Kesar Pista Kulfi (M)', 50)"><div class="item-details"><span class="item-name">Kesar Pista Kulfi (Medium)</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Pista Badam Kulfi (S)', 30)"><div class="item-details"><span class="item-name">Pista Badam Kulfi (Small)</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Pista Badam Kulfi (M)', 50)"><div class="item-details"><span class="item-name">Pista Badam Kulfi (Medium)</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mango Kulfi (S)', 30)"><div class="item-details"><span class="item-name">Mango Kulfi (Small)</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Mango Kulfi (M)', 50)"><div class="item-details"><span class="item-name">Mango Kulfi (Medium)</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Chocolate Kulfi (S)', 30)"><div class="item-details"><span class="item-name">Chocolate Kulfi (Small)</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Chocolate Kulfi (M)', 50)"><div class="item-details"><span class="item-name">Chocolate Kulfi (Medium)</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paan Masala Kulfi (S)', 30)"><div class="item-details"><span class="item-name">Paan Masala Kulfi (Small)</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Paan Masala Kulfi (M)', 50)"><div class="item-details"><span class="item-name">Paan Masala Kulfi (Medium)</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+            </div>
+
+            <div class="sub-category-title">Mojito & Shakes</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Virgin Mojito', 110)"><div class="item-details"><span class="item-name">Virgin Mojito</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Watermelon Mojito', 100)"><div class="item-details"><span class="item-name">Watermelon Mojito</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Cold Coffee', 110)"><div class="item-details"><span class="item-name">Cold Coffee</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('KitKat Shake', 130)"><div class="item-details"><span class="item-name">KitKat Shake</span><span class="item-price">₹130</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Chocolate Shake', 120)"><div class="item-details"><span class="item-name">Chocolate Shake</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Vanilla Shake', 100)"><div class="item-details"><span class="item-name">Vanilla Shake</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Oreo Shake', 130)"><div class="item-details"><span class="item-name">Oreo Shake</span><span class="item-price">₹130</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Hotel Yashoday Special', 140)"><div class="item-details"><span class="item-name">Hotel Yashoday Special</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Bournvita Shake', 110)"><div class="item-details"><span class="item-name">Bournvita Shake</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Banana Shake', 120)"><div class="item-details"><span class="item-name">Banana Shake</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
+            </div>
+
+            <div class="sub-category-title">Ice Cream</div>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Vanilla Ice Cream', 40)"><div class="item-details"><span class="item-name">Vanilla</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Chocolate Ice Cream', 50)"><div class="item-details"><span class="item-name">Chocolate</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Strawberry Ice Cream', 50)"><div class="item-details"><span class="item-name">Strawberry</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Butterscotch Ice Cream', 50)"><div class="item-details"><span class="item-name">Butterscotch</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('American Nuts', 50)"><div class="item-details"><span class="item-name">American Nuts</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Kesar Pista', 50)"><div class="item-details"><span class="item-name">Kesar Pista</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Rajbhog', 50)"><div class="item-details"><span class="item-name">Rajbhog</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Shahi Kesar', 50)"><div class="item-details"><span class="item-name">Shahi Kesar</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Badam Elaichi', 50)"><div class="item-details"><span class="item-name">Badam Elaichi</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Choco Chips', 50)"><div class="item-details"><span class="item-name">Choco Chips</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
             </div>
         </section>
 
         <div style="text-align:center; padding: 40px 20px; color:#aaa; font-size:0.8rem;">
-            Full Menu Coming Soon...
+            End of Menu
         </div>
+        
+        <div style="background: var(--primary); color:white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px;">
+             <h3>HOTEL YASHODAY</h3>
+             <p>Yashoda Tower, Ajmer Road, Kekri</p>
+             <p>📞 92512-69294</p>
+        </div>
+
     </div>
 </div>
 
@@ -285,7 +556,7 @@
         <div class="form-group">
             <div style="display: flex; gap: 15px; align-items: center; justify-content: center;">
                 <button class="btn-outline" style="width: 45px; font-size: 1.4rem; border-radius: 50%;" onclick="adjustModalQty(-1)">-</button>
-                <input type="number" id="modal-qty" value="1" style="width: 50px; text-align: center; font-size: 1.4rem; border:none; font-weight:bold;" readonly>
+                <input type="number" id="modal-qty" value="1" style="width: 60px; text-align: center; font-size: 1.4rem; border:none; font-weight:bold;" readonly>
                 <button class="btn-outline" style="width: 45px; font-size: 1.4rem; border-radius: 50%;" onclick="adjustModalQty(1)">+</button>
             </div>
         </div>
@@ -444,7 +715,7 @@
         const modal = document.getElementById(id);
         modal.classList.add('active'); 
         
-        // FIX: Ensure Login/Profile logic triggers correctly
+        // Logic for Login/Profile Modal
         if(id === 'login-modal') {
             if(currentUser && currentUser.type === 'customer') {
                 document.getElementById('view-auth').classList.add('hidden');
