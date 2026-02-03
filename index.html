@@ -405,7 +405,7 @@
 
 <script>
     // ==============================================================
-    // STEP 3: FIREBASE CONFIG (INTEGRATED)
+    // CONFIGURATION
     // ==============================================================
     const firebaseConfig = {
         apiKey: "AIzaSyB34STsFkbB4l-tnFqpi1Cx-1GMZwd3Lyc",
@@ -472,7 +472,7 @@
         const existing = cart.find(item => item.name === name);
         if (existing) { existing.qty += qty; } else { cart.push({ name, price, qty }); }
         updateCartUI();
-        alert(`${name} added to cart!`); 
+        // REMOVED ALERT as requested
     }
     function removeFromCart(index) {
         cart.splice(index, 1);
@@ -509,7 +509,7 @@
 
     // --- AUTH ---
     function openLoginModal() {
-        if (currentUser) { if(confirm("Logout?")) logout(); } else { openModal('login-modal'); }
+        if (currentUser) { if(confirm("Are you sure you want to logout?")) logout(); } else { openModal('login-modal'); }
     }
     function switchLoginTab(type) {
         const custBtn = document.getElementById('tab-customer');
@@ -580,7 +580,7 @@
                 cart = [];
                 updateCartUI();
                 closeModal('cart-modal');
-                alert("Order Placed Successfully!");
+                // REMOVED ALERT: "Order Placed Successfully" - just opens My Orders
                 openMyOrdersModal();
             })
             .catch((error) => {
@@ -599,7 +599,7 @@
                 snapshot.forEach((childSnapshot) => {
                     orders.push(childSnapshot.val());
                 });
-                orders.sort((a, b) => b.createdAt - a.createdAt);
+                orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 
                 window.myLiveOrders = orders;
                 
@@ -657,8 +657,11 @@
 
         db.ref('orders').on('value', (snapshot) => {
             const orders = [];
-            snapshot.forEach((child) => orders.push(child.val()));
-            orders.sort((a, b) => b.createdAt - a.createdAt);
+            if (snapshot.exists()) {
+                snapshot.forEach((child) => orders.push(child.val()));
+                // Improved safety sort for admin
+                orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            }
             renderAdminOrders(orders);
         });
     }
