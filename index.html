@@ -29,8 +29,6 @@
         .btn-success { background: var(--success); color: white; }
         .btn-outline { border: 1px solid #ddd; background: transparent; color: #333; }
         .full-width { width: 100%; }
-        
-        /* Utility to hide elements */
         .hidden { display: none !important; }
 
         header {
@@ -193,17 +191,7 @@
             font-weight: bold;
         }
 
-        /* --- CART ITEM & ORDER ITEM STYLING --- */
-        .cart-item, .order-item-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed #ddd;
-        }
-
-        /* --- ADMIN & ORDER STATUS CARDS --- */
+        /* --- ORDER CARDS --- */
         .order-card {
             background: white;
             border: 1px solid #ddd;
@@ -388,16 +376,16 @@
         </div>
         <div id="form-customer">
             <div class="form-group">
+                <label>Phone Number (Your Unique ID)</label>
+                <input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile number">
+            </div>
+            <div class="form-group">
                 <label>Your Name</label>
                 <input type="text" id="cust-name" class="form-control" placeholder="Enter Name">
             </div>
             <div class="form-group">
                 <label>Table No / Room No</label>
                 <input type="text" id="cust-table" class="form-control" placeholder="e.g. Table 5">
-            </div>
-            <div class="form-group">
-                <label>Phone Number (Required for Tracking)</label>
-                <input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile">
             </div>
             <button class="btn btn-primary full-width" onclick="handleCustomerLogin()">Start Ordering</button>
         </div>
@@ -424,8 +412,7 @@
         <p style="font-size: 0.8rem; color: #666; margin-bottom: 10px; text-align:center;">
             Orders disappear here when Completed or Rejected.
         </p>
-        <div id="my-orders-list">
-            </div>
+        <div id="my-orders-list"></div>
         <button class="btn btn-outline full-width" style="margin-top: 15px;" onclick="renderMyOrders()">Refresh Status</button>
     </div>
 </div>
@@ -440,7 +427,8 @@
     });
 
     function checkSession() {
-        const storedUser = sessionStorage.getItem('yashoday_user');
+        // Changed to localStorage so login persists even after closing browser
+        const storedUser = localStorage.getItem('yashoday_user');
         if (storedUser) {
             currentUser = JSON.parse(storedUser);
             if (currentUser.type === 'admin') {
@@ -549,10 +537,12 @@
         const table = document.getElementById('cust-table').value;
         const phone = document.getElementById('cust-phone').value;
 
-        if (!name || !table || !phone) { alert("Please fill all details."); return; }
+        if (!name || !table || !phone) { alert("Please fill all details. Phone number is required to track orders."); return; }
 
         currentUser = { type: 'customer', name, table, phone };
-        sessionStorage.setItem('yashoday_user', JSON.stringify(currentUser));
+        // Save to LocalStorage so they stay logged in
+        localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
+        
         closeModal('login-modal');
         updateHeaderUser();
         if (cart.length > 0) initiateCheckout();
@@ -563,18 +553,21 @@
         const pass = document.getElementById('admin-pass').value;
         if (id === 'admin' && pass === 'admin123') {
             currentUser = { type: 'admin', name: 'Manager' };
-            sessionStorage.setItem('yashoday_user', JSON.stringify(currentUser));
+            localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
             closeModal('login-modal');
             showAdminDashboard();
         } else { alert("Invalid Credentials"); }
     }
 
-    function logout() { sessionStorage.removeItem('yashoday_user'); location.reload(); }
+    function logout() { 
+        localStorage.removeItem('yashoday_user'); 
+        location.reload(); 
+    }
 
     function updateHeaderUser() {
         const btn = document.getElementById('btn-login');
         btn.innerText = `Hi, ${currentUser.name}`;
-        document.getElementById('btn-my-orders').classList.remove('hidden'); // Show My Orders button
+        document.getElementById('btn-my-orders').classList.remove('hidden'); 
     }
 
     // --- CHECKOUT ---
@@ -615,7 +608,7 @@
         const container = document.getElementById('my-orders-list');
         const allOrders = JSON.parse(localStorage.getItem('yashoday_orders')) || [];
         
-        // Show only active orders (Pending/Accepted)
+        // UNIQUE USER LOGIC: Filter specifically by Phone Number
         const myOrders = allOrders.filter(o => 
             o.customer.phone === currentUser.phone && 
             (o.status === 'Pending' || o.status === 'Accepted')
@@ -650,20 +643,19 @@
 
     // --- ADMIN DASHBOARD ---
     function showAdminDashboard() {
-        // FIXED: Only hide customer view, NOT the parent container
         document.getElementById('customer-view').classList.add('hidden'); 
         document.getElementById('admin-panel').classList.remove('hidden');
         
-        document.querySelector('.cart-fab').classList.add('hidden'); // Hide cart button
+        document.querySelector('.cart-fab').classList.add('hidden');
         document.getElementById('btn-login').innerText = "Admin Panel";
-        document.getElementById('btn-my-orders').classList.add('hidden'); // Hide My Orders btn for admin
+        document.getElementById('btn-my-orders').classList.add('hidden');
         renderAdminOrders();
     }
 
     function renderAdminOrders() {
         const container = document.getElementById('admin-orders-list');
         const allOrders = JSON.parse(localStorage.getItem('yashoday_orders')) || [];
-        allOrders.sort((a, b) => b.id.localeCompare(a.id)); // Newest first
+        allOrders.sort((a, b) => b.id.localeCompare(a.id)); 
 
         if (allOrders.length === 0) { container.innerHTML = '<p style="text-align:center;">No orders found.</p>'; return; }
 
@@ -690,6 +682,9 @@
                     </div>
                     <div style="font-weight:bold; font-size:1.1rem; color:var(--primary);">
                         ${order.customer.table} - ${order.customer.name}
+                    </div>
+                    <div style="font-size:0.8rem; color:#555; margin-bottom:5px;">
+                        Phone: ${order.customer.phone}
                     </div>
                     <div class="order-items-list">${itemsSummary}</div>
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
