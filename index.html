@@ -11,7 +11,712 @@
 
     <style>
         :root { 
+            --primary: #0f1c2e; <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hotel Yashoday | Digital Ordering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        :root { 
             --primary: #0f1c2e; 
+            --accent: #c5a059; 
+            --bg: #f4f6f8; /* Softer background */
+            --card-bg: #ffffff;
+            --success: #28a745; 
+            --danger: #dc3545; 
+            --warning: #ffc107; 
+            --info: #17a2b8; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg); 
+            color: #333; 
+            padding-bottom: 100px;
+        }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .btn { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; width: 100%; transition: 0.2s; }
+        .btn-primary { background: var(--primary); color: var(--accent); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-outline { background: transparent; border: 1px solid #ccc; color: #555; }
+
+        /* --- TOP BAR --- */
+        .top-strip { background: var(--accent); color: var(--primary); text-align: center; font-size: 0.75rem; font-weight: bold; padding: 4px; letter-spacing: 2px; }
+
+        header {
+            background: var(--primary);
+            color: var(--accent);
+            text-align: center;
+            padding: 1.5rem 1rem;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0; }
+        header p { font-size: 0.85rem; opacity: 0.9; margin-top: 5px; }
+
+        /* --- STICKY NAV (SCROLLSPY) --- */
+        .nav-container { 
+            overflow-x: auto; 
+            white-space: nowrap; 
+            background: var(--card-bg); 
+            padding: 12px 10px; 
+            position: sticky; 
+            top: 0; 
+            z-index: 900; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-pill { 
+            display: inline-block;
+            padding: 8px 18px;
+            margin-right: 8px;
+            background: #f0f2f5;
+            color: #555;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .nav-pill.active { background: var(--primary); color: var(--accent); transform: scale(1.05); }
+        .nav-container::-webkit-scrollbar { display: none; }
+
+        /* --- MENU LAYOUT --- */
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+        .category-section { margin-bottom: 30px; scroll-margin-top: 70px; }
+        
+        .category-title { 
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; 
+            color: var(--primary); 
+            margin-bottom: 15px; 
+            padding-left: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .menu-list { display: flex; flex-direction: column; gap: 12px; }
+
+        /* --- COMPACT ITEM CARD (Row Layout) --- */
+        .menu-row { 
+            background: var(--card-bg); 
+            padding: 16px; 
+            border-radius: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: transform 0.1s;
+        }
+        .menu-row:active { transform: scale(0.98); background: #fafafa; }
+
+        .item-details { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-right: 15px; }
+        .item-name { font-size: 1.1rem; font-weight: 600; color: #2c3e50; }
+        .item-price { font-size: 1.1rem; font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 10px; }
+        
+        .add-btn { 
+            background: #edf2f7; color: var(--primary); 
+            width: 36px; height: 36px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: bold; font-size: 1.4rem; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* --- FLOATING BOTTOM BAR --- */
+        .bottom-bar {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 400px;
+            background: var(--primary);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 10px 25px rgba(15, 28, 46, 0.4);
+            z-index: 1000;
+        }
+        .bar-btn {
+            background: transparent; border: none; color: white;
+            font-size: 0.9rem; font-weight: 600;
+            display: flex; flex-direction: column; align-items: center;
+            opacity: 0.8; transition: 0.2s;
+        }
+        .bar-btn.active { opacity: 1; color: var(--accent); }
+        .cart-circle {
+            background: var(--accent); color: var(--primary);
+            width: 55px; height: 55px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; margin-top: -30px;
+            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.5);
+            border: 4px solid var(--bg);
+            position: relative;
+        }
+        .cart-badge {
+            position: absolute; top: 0; right: 0;
+            background: var(--danger); color: white;
+            font-size: 0.7rem; width: 20px; height: 20px;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+        }
+
+        /* --- MODALS --- */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
+            justify-content: center; align-items: flex-end; 
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-card { 
+            background: #fff; width: 100%; max-width: 500px; 
+            border-radius: 20px 20px 0 0; padding: 25px; 
+            max-height: 85vh; overflow-y: auto; 
+            animation: slideUp 0.3s; 
+        }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; border: none; background: none; color: #999; }
+
+        /* --- TABS (Admin & Status) --- */
+        .tab-header { display: flex; background: #f1f3f5; border-radius: 10px; padding: 4px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 8px; font-weight: 600; color: #666; font-size: 0.9rem; }
+        .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* --- ADMIN CARDS --- */
+        .order-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .border-Pending { border-left-color: var(--warning); }
+        .border-Accepted { border-left-color: var(--info); }
+        .border-Completed { border-left-color: var(--success); }
+        .border-Rejected { border-left-color: var(--danger); }
+
+        /* Form */
+        .form-group { margin-bottom: 15px; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background: #fafafa; }
+    </style>
+</head>
+<body>
+
+<div class="top-strip">JAI JINENDRA</div>
+
+<header>
+    <h1>HOTEL YASHODAY</h1>
+    <p>Rooftop Café • Digital Ordering</p>
+</header>
+
+<div id="connection-status" style="text-align:center; padding:5px; font-size:0.8rem; background:#e0f7fa; display:none;"></div>
+
+<div class="nav-container" id="customer-nav">
+    <a href="#tea" class="nav-pill active">Tea</a>
+    <a href="#maggi" class="nav-pill">Maggi</a>
+</div>
+
+<div class="nav-container hidden" id="admin-nav" style="justify-content: center; display: flex;">
+    <a href="#" class="nav-pill active" onclick="setAdminTab('active')">Active</a>
+    <a href="#" class="nav-pill" onclick="setAdminTab('completed')">Completed</a>
+    <a href="#" class="nav-pill" onclick="setAdminTab('rejected')">Rejected</a>
+</div>
+
+<div class="container" id="menu-container">
+
+    <div id="admin-panel" class="hidden" style="padding-bottom: 80px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 style="margin:0; font-size:1.5rem; color:var(--primary);">Admin Dashboard</h2>
+            <button class="btn-outline" style="padding:5px 15px; border-radius:20px;" onclick="logout()">Logout</button>
+        </div>
+        <div id="admin-orders-list">
+            <p style="text-align: center; color: #888; margin-top: 30px;">Loading orders...</p>
+        </div>
+    </div>
+
+    <div id="customer-view">
+        
+        <section id="tea" class="category-section">
+            <h2 class="category-title">Tea & Coffee</h2>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Classic Tea', 30)">
+                    <div class="item-details"><span class="item-name">Classic Tea</span><span class="item-price">₹30</span></div>
+                    <div class="add-btn">+</div>
+                </div>
+                <div class="menu-row" onclick="openItemModal('Black Tea', 30)">
+                    <div class="item-details"><span class="item-name">Black Tea</span><span class="item-price">₹30</span></div>
+                    <div class="add-btn">+</div>
+                </div>
+                <div class="menu-row" onclick="openItemModal('Hot Coffee', 40)">
+                    <div class="item-details"><span class="item-name">Hot Coffee</span><span class="item-price">₹40</span></div>
+                    <div class="add-btn">+</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="maggi" class="category-section">
+            <h2 class="category-title">Maggi & Pasta</h2>
+            <div class="menu-list">
+                <div class="menu-row" onclick="openItemModal('Classic Maggi', 30)">
+                    <div class="item-details"><span class="item-name">Classic Maggi</span><span class="item-price">₹30</span></div>
+                    <div class="add-btn">+</div>
+                </div>
+                <div class="menu-row" onclick="openItemModal('Cheese Maggi', 60)">
+                    <div class="item-details"><span class="item-name">Cheese Maggi</span><span class="item-price">₹60</span></div>
+                    <div class="add-btn">+</div>
+                </div>
+                <div class="menu-row" onclick="openItemModal('Red Sauce Pasta', 160)">
+                    <div class="item-details"><span class="item-name">Red Sauce Pasta</span><span class="item-price">₹160</span></div>
+                    <div class="add-btn">+</div>
+                </div>
+            </div>
+        </section>
+
+        <div style="text-align:center; padding: 40px 20px; color:#aaa; font-size:0.9rem;">
+            Full Menu Coming Soon...
+        </div>
+    </div>
+</div>
+
+<div class="bottom-bar" id="bottom-bar">
+    <button class="bar-btn" onclick="openLoginModal()">
+        <span style="font-size:1.2rem;">👤</span>
+        <span style="font-size:0.7rem;">Login</span>
+    </button>
+    
+    <div class="cart-circle" onclick="openCartModal()">
+        🛒
+        <span class="cart-badge" id="cart-count">0</span>
+    </div>
+
+    <button class="bar-btn" onclick="openOrderStatusModal()">
+        <span style="font-size:1.2rem;">📋</span>
+        <span style="font-size:0.7rem;">Status</span>
+    </button>
+</div>
+
+<div class="modal-overlay" id="item-modal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeModal('item-modal')">&times;</button>
+        <h3 id="modal-item-name" style="margin-bottom: 5px;">Item</h3>
+        <p style="color: var(--accent); font-weight: bold; font-size: 1.5rem; margin-bottom: 20px;">₹<span id="modal-item-price">0</span></p>
+        <div class="form-group">
+            <div style="display: flex; gap: 15px; align-items: center; justify-content: center;">
+                <button class="btn-outline" style="width: 50px; font-size: 1.5rem; border-radius: 50%;" onclick="adjustModalQty(-1)">-</button>
+                <input type="number" id="modal-qty" value="1" style="width: 60px; text-align: center; font-size: 1.5rem; border:none; font-weight:bold;" readonly>
+                <button class="btn-outline" style="width: 50px; font-size: 1.5rem; border-radius: 50%;" onclick="adjustModalQty(1)">+</button>
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="confirmAddToCart()">Add to Order</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="cart-modal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeModal('cart-modal')">&times;</button>
+        <h3>Your Cart</h3>
+        <div id="cart-items-container" style="margin-top: 20px; min-height: 100px;">
+            <p style="color:#999; text-align:center;">Cart is empty.</p>
+        </div>
+        <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;">
+                <span>Total</span>
+                <span>₹<span id="cart-total">0</span></span>
+            </div>
+            <button class="btn btn-success" onclick="initiateCheckout()">Place Order</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="status-modal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeModal('status-modal')">&times;</button>
+        <h3>Order Status</h3>
+        
+        <div class="tab-header">
+            <button class="tab-btn active" onclick="setCustTab('live', this)">Live Orders</button>
+            <button class="tab-btn" onclick="setCustTab('history', this)">History</button>
+        </div>
+
+        <div id="my-orders-list"></div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="login-modal">
+    <div class="modal-card">
+        <button class="close-modal" onclick="closeModal('login-modal')">&times;</button>
+        <h3>Login</h3>
+        <div class="tab-header" style="margin-top: 20px;">
+            <button class="tab-btn active" id="tab-cust-btn" onclick="switchLoginTab('customer')">Customer</button>
+            <button class="tab-btn" id="tab-admin-btn" onclick="switchLoginTab('admin')">Admin</button>
+        </div>
+
+        <div id="form-customer">
+            <div class="form-group"><label>Phone Number</label><input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile"></div>
+            <div class="form-group"><label>Name</label><input type="text" id="cust-name" class="form-control" placeholder="Your Name"></div>
+            <div class="form-group"><label>Table No</label><input type="text" id="cust-table" class="form-control" placeholder="Table Number"></div>
+            <button class="btn btn-primary" onclick="handleCustomerLogin()">Start Ordering</button>
+        </div>
+
+        <div id="form-admin" class="hidden">
+            <div class="form-group"><label>Admin ID</label><input type="text" id="admin-id" class="form-control"></div>
+            <div class="form-group"><label>Password</label><input type="password" id="admin-pass" class="form-control"></div>
+            <button class="btn btn-primary" onclick="handleAdminLogin()">Login as Admin</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ==============================================================
+    // CONFIGURATION
+    // ==============================================================
+    const firebaseConfig = {
+        apiKey: "AIzaSyB34STsFkbB4l-tnFqpi1Cx-1GMZwd3Lyc",
+        authDomain: "hotel-yashoday.firebaseapp.com",
+        databaseURL: "https://hotel-yashoday-default-rtdb.firebaseio.com",
+        projectId: "hotel-yashoday",
+        storageBucket: "hotel-yashoday.firebasestorage.app",
+        messagingSenderId: "432219813043",
+        appId: "1:432219813043:web:ce1533fce441b869ebecc6",
+        measurementId: "G-BNQBD76YH5"
+    };
+
+    if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+    const db = firebase.database();
+
+    // ==============================================================
+    // STATE VARIABLES
+    // ==============================================================
+    let cart = [];
+    let currentUser = null; 
+    let currentItemToAdd = null;
+    let currentAdminTab = 'active'; // active, completed, rejected
+    let currentCustTab = 'live'; // live, history
+    let allOrdersCache = []; // Store orders to filter locally
+
+    // ==============================================================
+    // INITIALIZATION & SCROLLSPY
+    // ==============================================================
+    document.addEventListener('DOMContentLoaded', () => { 
+        checkSession(); 
+        testConnection();
+        
+        // ScrollSpy Logic
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('.category-section');
+            const navLinks = document.querySelectorAll('.nav-container a');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 120) { // Offset for header height
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                    // Auto-scroll the nav bar
+                    link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
+            });
+        });
+    });
+
+    function testConnection() {
+        db.ref('.info/connected').on('value', function(snap) {
+            const el = document.getElementById('connection-status');
+            if (snap.val() === true) {
+                el.innerText = "● System Online"; el.style.color = "green";
+                setTimeout(() => { el.style.display = 'none'; }, 2000);
+            } else {
+                el.style.display = 'block'; el.innerText = "● Connecting..."; el.style.color = "orange";
+            }
+        });
+    }
+
+    function checkSession() {
+        const storedUser = localStorage.getItem('yashoday_user');
+        if (storedUser) {
+            currentUser = JSON.parse(storedUser);
+            if (currentUser.type === 'admin') { 
+                showAdminDashboard(); 
+            } else { 
+                listenToMyOrders(); 
+            }
+        }
+    }
+
+    // ==============================================================
+    // UI HELPERS
+    // ==============================================================
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    // --- TAB LOGIC ---
+    function setAdminTab(tab) {
+        currentAdminTab = tab;
+        // Update UI pills
+        document.querySelectorAll('#admin-nav a').forEach(el => el.classList.remove('active'));
+        event.target.classList.add('active');
+        renderAdminOrders(allOrdersCache); // Re-render with filter
+    }
+
+    function setCustTab(tab, btn) {
+        currentCustTab = tab;
+        document.querySelectorAll('#status-modal .tab-btn').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+        renderMyOrders(); // Re-render
+    }
+
+    // ==============================================================
+    // CART LOGIC
+    // ==============================================================
+    function openItemModal(name, price) {
+        currentItemToAdd = { name, price };
+        document.getElementById('modal-item-name').innerText = name;
+        document.getElementById('modal-item-price').innerText = price;
+        document.getElementById('modal-qty').value = 1;
+        openModal('item-modal');
+    }
+    function adjustModalQty(change) {
+        const input = document.getElementById('modal-qty');
+        let val = parseInt(input.value) + change;
+        if (val < 1) val = 1;
+        input.value = val;
+    }
+    function confirmAddToCart() {
+        const qty = parseInt(document.getElementById('modal-qty').value);
+        addToCart(currentItemToAdd.name, currentItemToAdd.price, qty);
+        closeModal('item-modal');
+    }
+    function addToCart(name, price, qty) {
+        const existing = cart.find(item => item.name === name);
+        if (existing) { existing.qty += qty; } else { cart.push({ name, price, qty }); }
+        updateCartUI();
+    }
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+    function updateCartUI() {
+        document.getElementById('cart-count').innerText = cart.length;
+        const container = document.getElementById('cart-items-container');
+        let html = '';
+        let total = 0;
+        if (cart.length === 0) { html = '<p style="text-align:center; color:#999; margin-top:20px;">Cart is empty.</p>'; }
+        else {
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+                html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px dashed #eee; padding-bottom:5px;">
+                            <div><div style="font-weight:600;">${item.name}</div><div style="font-size:0.85rem; color:#666;">₹${item.price} x ${item.qty}</div></div>
+                            <div style="display:flex; align-items:center; gap:10px;"><span style="font-weight:bold;">₹${itemTotal}</span><button style="background:none; border:none; color:red; font-weight:bold;" onclick="removeFromCart(${index})">✕</button></div>
+                         </div>`;
+            });
+        }
+        container.innerHTML = html;
+        document.getElementById('cart-total').innerText = total;
+    }
+    function openCartModal() { updateCartUI(); openModal('cart-modal'); }
+
+    // ==============================================================
+    // AUTH LOGIC
+    // ==============================================================
+    function openLoginModal() { if (currentUser) { if(confirm("Logout?")) logout(); } else { openModal('login-modal'); } }
+    
+    function switchLoginTab(type) {
+        document.getElementById('form-customer').classList.add('hidden');
+        document.getElementById('form-admin').classList.add('hidden');
+        document.getElementById('tab-cust-btn').classList.remove('active');
+        document.getElementById('tab-admin-btn').classList.remove('active');
+
+        if (type === 'customer') {
+            document.getElementById('form-customer').classList.remove('hidden');
+            document.getElementById('tab-cust-btn').classList.add('active');
+        } else {
+            document.getElementById('form-admin').classList.remove('hidden');
+            document.getElementById('tab-admin-btn').classList.add('active');
+        }
+    }
+
+    function handleCustomerLogin() {
+        const name = document.getElementById('cust-name').value;
+        const table = document.getElementById('cust-table').value;
+        const phone = document.getElementById('cust-phone').value;
+        if (!name || !table || !phone) { alert("Please fill all details."); return; }
+        currentUser = { type: 'customer', name, table, phone };
+        localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
+        closeModal('login-modal');
+        listenToMyOrders();
+        if (cart.length > 0) initiateCheckout();
+    }
+
+    function handleAdminLogin() {
+        const id = document.getElementById('admin-id').value;
+        const pass = document.getElementById('admin-pass').value;
+        if (id === 'admin' && pass === 'admin123') {
+            currentUser = { type: 'admin', name: 'Manager' };
+            localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
+            closeModal('login-modal');
+            showAdminDashboard();
+        } else { alert("Invalid Credentials"); }
+    }
+
+    function logout() { localStorage.removeItem('yashoday_user'); location.reload(); }
+
+    // ==============================================================
+    // ORDER LOGIC
+    // ==============================================================
+    function initiateCheckout() {
+        if (cart.length === 0) { alert("Cart is empty!"); return; }
+        if (!currentUser) { alert("Please Login."); openLoginModal(); return; }
+        if (currentUser.type === 'admin') { alert("Admins cannot order."); return; }
+
+        const orderId = 'ORD-' + Date.now();
+        const newOrder = {
+            id: orderId,
+            customer: currentUser,
+            items: cart,
+            total: parseInt(document.getElementById('cart-total').innerText),
+            status: 'Pending',
+            timestamp: new Date().toLocaleTimeString(),
+            createdAt: firebase.database.ServerValue.TIMESTAMP
+        };
+
+        db.ref('orders/' + orderId).set(newOrder).then(() => {
+            cart = []; updateCartUI(); closeModal('cart-modal'); openOrderStatusModal();
+        });
+    }
+
+    // --- CUSTOMER STATUS ---
+    function listenToMyOrders() {
+        if (!currentUser || currentUser.type === 'admin') return;
+        db.ref('orders').orderByChild('customer/phone').equalTo(currentUser.phone).on('value', (snapshot) => {
+            const orders = [];
+            snapshot.forEach((child) => {
+                try { const o = child.val(); if(o.status) orders.push(o); } catch(e){}
+            });
+            orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            window.myLiveOrders = orders; // Store for filtering
+            if (document.getElementById('status-modal').classList.contains('active')) renderMyOrders();
+        });
+    }
+
+    function openOrderStatusModal() { if (!currentUser) return; renderMyOrders(); openModal('status-modal'); }
+
+    function renderMyOrders() {
+        const container = document.getElementById('my-orders-list');
+        const all = window.myLiveOrders || [];
+        
+        // Filter based on Tab
+        let filtered = [];
+        if (currentCustTab === 'live') {
+            filtered = all.filter(o => o.status === 'Pending' || o.status === 'Accepted');
+        } else {
+            filtered = all.filter(o => o.status === 'Completed' || o.status === 'Rejected');
+        }
+
+        if (filtered.length === 0) { container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">No orders found.</p>'; return; }
+
+        let html = '';
+        filtered.forEach(order => {
+            let itemsArr = order.items || [];
+            if (!Array.isArray(itemsArr)) itemsArr = Object.values(itemsArr);
+            const summary = itemsArr.map(i => `${i.name} (${i.qty})`).join(', ');
+            
+            html += `<div class="order-card border-${order.status}">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                            <b>#${order.id.slice(-4)}</b> <span class="status-badge" style="background:var(--${order.status==='Pending'?'warning':(order.status==='Accepted'?'info':(order.status==='Completed'?'success':'danger'))})">${order.status}</span>
+                        </div>
+                        <div style="color:#555; font-size:0.9rem; margin-bottom:5px;">${summary}</div>
+                        <div style="text-align:right; font-weight:bold;">₹${order.total}</div>
+                     </div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    // --- ADMIN PANEL ---
+    function showAdminDashboard() {
+        document.getElementById('customer-view').classList.add('hidden');
+        document.getElementById('customer-nav').classList.add('hidden'); // Hide Customer Nav
+        document.getElementById('bottom-bar').classList.add('hidden'); // Hide Customer Bottom Bar
+        
+        document.getElementById('admin-panel').classList.remove('hidden');
+        document.getElementById('admin-nav').classList.remove('hidden'); // Show Admin Nav
+        document.getElementById('admin-nav').style.display = "flex";
+
+        db.ref('orders').on('value', (snapshot) => {
+            const orders = [];
+            if (snapshot.exists()) {
+                snapshot.forEach((child) => {
+                    try { const o = child.val(); if(o.customer) orders.push(o); } catch(e){}
+                });
+                orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            }
+            allOrdersCache = orders; // Save to global variable
+            renderAdminOrders(orders);
+        });
+    }
+
+    function renderAdminOrders(orders) {
+        const container = document.getElementById('admin-orders-list');
+        
+        // FILTER BASED ON ADMIN TAB
+        let filtered = [];
+        if (currentAdminTab === 'active') {
+            filtered = orders.filter(o => o.status === 'Pending' || o.status === 'Accepted');
+        } else if (currentAdminTab === 'completed') {
+            filtered = orders.filter(o => o.status === 'Completed');
+        } else {
+            filtered = orders.filter(o => o.status === 'Rejected');
+        }
+
+        if (filtered.length === 0) { container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">No orders here.</p>'; return; }
+
+        let html = '';
+        filtered.forEach(order => {
+            let itemsArr = order.items || [];
+            if (!Array.isArray(itemsArr)) itemsArr = Object.values(itemsArr);
+            const summary = itemsArr.map(i => `${i.name} (x${i.qty})`).join(', ');
+
+            // Action Buttons (Only for Active Tab)
+            let actions = '';
+            if (currentAdminTab === 'active') {
+                if (order.status === 'Pending') {
+                    actions = `<div style="display:flex; gap:10px; margin-top:10px;">
+                                <button class="btn btn-primary" style="flex:1;" onclick="updateStatus('${order.id}', 'Accepted')">Accept</button>
+                                <button class="btn btn-danger" style="flex:1;" onclick="updateStatus('${order.id}', 'Rejected')">Reject</button>
+                               </div>`;
+                } else if (order.status === 'Accepted') {
+                    actions = `<button class="btn btn-success" style="margin-top:10px;" onclick="updateStatus('${order.id}', 'Completed')">Mark Completed</button>`;
+                }
+            }
+
+            html += `<div class="order-card border-${order.status}">
+                        <div style="display:flex; justify-content:space-between; color:#666; font-size:0.85rem;">
+                            <span>#${order.id.slice(-4)} • ${order.timestamp}</span>
+                            <span style="font-weight:bold;">${order.status}</span>
+                        </div>
+                        <div style="font-weight:bold; font-size:1.1rem; color:var(--primary); margin:5px 0;">
+                            ${order.customer.table} - ${order.customer.name}
+                        </div>
+                        <div style="font-size:0.9rem; color:#555;">📞 ${order.customer.phone}</div>
+                        <div style="background:#f8f9fa; padding:10px; border-radius:8px; margin:10px 0; font-size:0.95rem;">${summary}</div>
+                        <div style="text-align:right; font-weight:bold; font-size:1.2rem;">₹${order.total}</div>
+                        ${actions}
+                     </div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    function updateStatus(id, status) {
+        db.ref('orders/' + id).update({ status: status });
+    }
+</script>
+</body>
+</html>
             --accent: #c5a059; 
             --bg: #fdfaf5; 
             --white: #ffffff; 
@@ -719,3 +1424,4 @@
 </script>
 </body>
 </html>
+
