@@ -55,10 +55,10 @@
         .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
         footer { text-align: center; padding: 30px; font-size: 0.8rem; color: #666; background: #eee; margin-top: 40px; }
         
-        /* Error Message Box */
-        #db-status { text-align: center; padding: 10px; margin: 10px 0; border-radius: 5px; font-size: 0.9rem; display:none; }
-        .db-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .db-ok { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        /* DIAGNOSTIC BOX */
+        #connection-status { text-align:center; padding:10px; margin: 10px 0; border-radius: 5px; font-size: 0.85rem;}
+        .status-ok { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status-bad { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
     </style>
 </head>
 <body>
@@ -80,16 +80,16 @@
 
 <div class="container" id="menu-container">
     
-    <div id="db-status"></div>
+    <div id="connection-status">Initializing...</div>
 
     <div id="admin-panel" class="hidden">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2 class="category-title" style="margin:0;">Admin Dashboard</h2>
             <button class="btn btn-outline" onclick="logout()">Logout</button>
         </div>
-        <div class="sub-category-title" style="border-bottom: 2px solid var(--accent); padding-bottom: 5px; margin-bottom: 15px; font-weight: bold; color: var(--primary);">Live Orders (Auto-Sync)</div>
+        <div class="sub-category-title" style="border-bottom: 2px solid var(--accent); padding-bottom: 5px; margin-bottom: 15px; font-weight: bold; color: var(--primary);">Live Orders</div>
         <div id="admin-orders-list">
-            <p style="text-align: center; color: #888;">Connecting to database...</p>
+            <p style="text-align: center; color: #888;">Waiting for orders...</p>
         </div>
     </div>
 
@@ -186,7 +186,7 @@
 
 <script>
     // ==============================================================
-    // FIREBASE CONFIG
+    // CONFIGURATION
     // ==============================================================
     const firebaseConfig = {
         apiKey: "AIzaSyB34STsFkbB4l-tnFqpi1Cx-1GMZwd3Lyc",
@@ -207,7 +207,24 @@
     let currentUser = null; 
     let currentItemToAdd = null;
 
-    document.addEventListener('DOMContentLoaded', () => { checkSession(); });
+    document.addEventListener('DOMContentLoaded', () => { 
+        checkSession(); 
+        testConnection();
+    });
+
+    function testConnection() {
+        const el = document.getElementById('connection-status');
+        db.ref('.info/connected').on('value', function(snap) {
+            if (snap.val() === true) {
+                el.innerText = "Database Connected ✅";
+                el.className = 'status-ok';
+                setTimeout(() => { el.style.display = 'none'; }, 3000);
+            } else {
+                el.innerText = "Connecting...";
+                el.className = 'status-bad';
+            }
+        });
+    }
 
     function checkSession() {
         const storedUser = localStorage.getItem('yashoday_user');
@@ -216,13 +233,6 @@
             if (currentUser.type === 'admin') { showAdminDashboard(); }
             else { updateHeaderUser(); listenToMyOrders(); }
         }
-    }
-
-    function showStatus(msg, type) {
-        const el = document.getElementById('db-status');
-        el.style.display = 'block';
-        el.innerText = msg;
-        el.className = type === 'error' ? 'db-error' : 'db-ok';
     }
 
     function openModal(id) { document.getElementById(id).classList.add('active'); }
@@ -343,17 +353,22 @@
         db.ref('orders/' + orderId).set(newOrder).then(() => {
             cart = []; updateCartUI(); closeModal('cart-modal'); openMyOrdersModal();
         }).catch(err => {
-            alert("Order Failed! " + err.message);
-            showStatus("Order Failed: " + err.message, 'error');
+            alert("Connection Error! Check your internet or Firebase Rules.");
         });
     }
 
-    // --- LIVE UPDATES ---
+    // --- LIVE UPDATES (CUSTOMER) ---
     function listenToMyOrders() {
         if (!currentUser || currentUser.type === 'admin') return;
         db.ref('orders').orderByChild('customer/phone').equalTo(currentUser.phone).on('value', (snapshot) => {
             const orders = [];
-            snapshot.forEach((child) => orders.push(child.val()));
+            snapshot.forEach((child) => {
+                // ROBUST DATA EXTRACTION
+                try {
+                    const o = child.val();
+                    if(o.status && o.total) orders.push(o);
+                } catch(e) { console.log("Skipped bad order"); }
+            });
             orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             window.myLiveOrders = orders;
             if (document.getElementById('my-orders-modal').classList.contains('active')) renderMyOrders();
@@ -367,10 +382,10 @@
         if (activeOrders.length === 0) { container.innerHTML = '<p style="text-align:center;">No active orders.</p>'; return; }
         let html = '';
         activeOrders.forEach(order => {
-            // SAFETY FIX
-            let itemsArr = order.items;
-            if (!Array.isArray(itemsArr) && itemsArr) { itemsArr = Object.values(itemsArr); }
-            const summary = (itemsArr || []).map(i => `${i.name} (${i.qty})`).join(', ');
+            // CRASH PROOF ITEMS
+            let itemsArr = order.items || [];
+            if (!Array.isArray(itemsArr)) itemsArr = Object.values(itemsArr);
+            const summary = itemsArr.map(i => `${i.name} (${i.qty})`).join(', ');
             
             html += `<div style="background:#f9f9f9; padding:10px; margin-bottom:10px; border-radius:5px; border-left:4px solid ${order.status==='Pending'?'orange':'#17a2b8'};">
                         <div style="display:flex; justify-content:space-between;"><b>#${order.id.slice(-6)}</b> <span>${order.status}</span></div>
@@ -389,19 +404,23 @@
         document.getElementById('btn-login').innerText = "Admin Panel";
         document.getElementById('btn-my-orders').classList.add('hidden');
 
-        // Added Error Handling to detect Rule Issues
         db.ref('orders').on('value', (snapshot) => {
             const orders = [];
             if (snapshot.exists()) {
-                snapshot.forEach((child) => orders.push(child.val()));
+                snapshot.forEach((child) => {
+                    // ROBUST DATA EXTRACTION
+                    try {
+                        const o = child.val();
+                        if (o && o.customer) orders.push(o);
+                    } catch (e) { console.log("Skipping corrupt order"); }
+                });
                 orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             }
+            // UPDATE DEBUG COUNTER
+            document.getElementById('connection-status').innerText = `Admin: Loaded ${orders.length} orders`;
+            document.getElementById('connection-status').style.display = 'block';
+            
             renderAdminOrders(orders);
-            showStatus("Connected to Database ✅", 'ok');
-        }, (error) => {
-            console.error(error);
-            showStatus("PERMISSION DENIED! ❌ Check Firebase Rules.", 'error');
-            document.getElementById('admin-orders-list').innerHTML = `<p style="color:red; text-align:center;"><b>Error: Permission Denied</b><br>Please update Firebase Rules to ".read": true</p>`;
         });
     }
 
@@ -410,10 +429,15 @@
         if (allOrders.length === 0) { container.innerHTML = '<p style="text-align:center;">No orders found.</p>'; return; }
         let html = '';
         allOrders.forEach(order => {
-            // SAFETY FIX
-            let itemsArr = order.items;
-            if (!Array.isArray(itemsArr) && itemsArr) { itemsArr = Object.values(itemsArr); }
-            const summary = (itemsArr || []).map(i => `${i.name} (x${i.qty})`).join(', ');
+            // CRASH PROOF ITEMS & CUSTOMER
+            let itemsArr = order.items || [];
+            if (!Array.isArray(itemsArr)) itemsArr = Object.values(itemsArr);
+            const summary = itemsArr.map(i => `${i.name} (x${i.qty})`).join(', ');
+            
+            // CRASH PROOF CUSTOMER
+            const tableName = order.customer ? order.customer.table : 'Unknown';
+            const custName = order.customer ? order.customer.name : 'Guest';
+            const custPhone = order.customer ? order.customer.phone : 'No Phone';
 
             let actions = '';
             if (order.status === 'Pending') {
@@ -430,7 +454,7 @@
                             <span>#${order.id.slice(-6)} | ${order.timestamp}</span> <span>${order.status}</span>
                         </div>
                         <div style="font-weight:bold; font-size:1.1rem; color:var(--primary); margin:5px 0;">
-                            ${order.customer.table} - ${order.customer.name} <small>(${order.customer.phone})</small>
+                            ${tableName} - ${custName} <small>(${custPhone})</small>
                         </div>
                         <div style="margin-bottom:10px;">${summary}</div>
                         <div style="display:flex; justify-content:space-between; align-items:center;">
