@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Hotel Yashoday | Digital Ordering</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
@@ -28,13 +28,12 @@
             font-family: 'Poppins', sans-serif; 
             background-color: var(--bg); 
             color: #333; 
-            /* GOOGLE APP FIX: Huge bottom padding */
-            padding-bottom: 160px; 
+            padding-bottom: 160px; /* Space for Google App UI */
         }
 
         /* --- UTILS --- */
         .hidden { display: none !important; }
-        .btn { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; width: 100%; transition: 0.2s; }
+        .btn { padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; width: 100%; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: var(--accent); }
         .btn-success { background: var(--success); color: white; }
         .btn-danger { background: var(--danger); color: white; }
@@ -44,21 +43,32 @@
         .top-strip { background: var(--accent); color: var(--primary); text-align: center; font-size: 0.75rem; font-weight: bold; padding: 4px; letter-spacing: 2px; }
 
         header {
-            background: var(--primary); color: var(--accent); text-align: center; padding: 1.2rem 1rem;
-            position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            background: var(--primary);
+            color: var(--accent);
+            text-align: center;
+            padding: 1.2rem 1rem;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
         header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 0; }
         header p { font-size: 0.8rem; opacity: 0.9; margin-top: 3px; }
 
         /* --- NAV --- */
         .nav-container { 
-            overflow-x: auto; white-space: nowrap; background: var(--card-bg); padding: 10px; 
-            position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow-x: auto; 
+            white-space: nowrap; 
+            background: var(--card-bg); 
+            padding: 10px; 
+            position: sticky; 
+            top: 0; 
+            z-index: 900; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .nav-pill { 
             display: inline-block; padding: 6px 14px; margin-right: 5px;
             background: #f0f2f5; color: #555; border-radius: 20px;
-            text-decoration: none; font-size: 0.8rem; font-weight: 600; transition: all 0.3s ease;
+            text-decoration: none; font-size: 0.8rem; font-weight: 600;
+            transition: all 0.3s ease;
         }
         .nav-pill.active { background: var(--primary); color: var(--accent); transform: scale(1.05); }
         .nav-container::-webkit-scrollbar { display: none; }
@@ -67,16 +77,24 @@
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
         .category-section { margin-bottom: 25px; scroll-margin-top: 60px; }
         .category-title { 
-            font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--primary); 
-            margin-bottom: 12px; padding-left: 10px; border-left: 4px solid var(--accent);
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; 
+            color: var(--primary); margin-bottom: 12px; padding-left: 10px;
+            border-left: 4px solid var(--accent);
         }
-        .sub-category-title { color: #666; font-weight: 700; font-size: 0.95rem; margin: 15px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
+        .sub-category-title {
+            color: #666; font-weight: 700; font-size: 0.95rem;
+            margin: 15px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 2px;
+        }
         
         .menu-list { display: flex; flex-direction: column; gap: 8px; }
+        
         .menu-row { 
-            background: var(--card-bg); padding: 12px 15px; border-radius: 10px; 
+            background: var(--card-bg); 
+            padding: 12px 15px; 
+            border-radius: 10px; 
             display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+            border: 1px solid var(--border-color);
         }
         .menu-row:active { transform: scale(0.99); background: #fafafa; }
         .item-details { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-right: 15px; }
@@ -87,10 +105,10 @@
             display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3rem; 
         }
 
-        /* --- BOTTOM BAR (FIXED FOR GOOGLE APP) --- */
+        /* --- BOTTOM BAR --- */
         .bottom-bar {
             position: fixed; 
-            bottom: 30px; /* MOVED HIGHER FOR SAFETY */
+            bottom: 30px; 
             left: 50%; transform: translateX(-50%);
             width: 92%; max-width: 400px; background: var(--primary);
             border-radius: 50px; padding: 10px 20px;
@@ -107,7 +125,7 @@
             background: var(--primary); color: var(--accent);
             width: 65px; height: 65px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center; font-size: 1.6rem; 
-            margin-top: -45px; /* POP OUT MORE */
+            margin-top: -45px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 3px solid var(--accent);
             position: relative; cursor: pointer;
         }
@@ -116,29 +134,6 @@
             font-size: 0.7rem; width: 22px; height: 22px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center; border: 2px solid white;
         }
-
-        /* --- CAPTAIN ALERT CARD (Floating) --- */
-        #captain-alert {
-            position: fixed; bottom: 100px; left: 5%; width: 90%;
-            background: white; border-left: 5px solid #ff9800;
-            padding: 15px; border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            z-index: 1100; display: none;
-            animation: slideUp 0.4s ease-out;
-        }
-        .alert-actions { display: flex; gap: 10px; margin-top: 10px; }
-        .alert-btn { flex: 1; padding: 8px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; }
-        .btn-call { background: var(--success); color: white; text-decoration: none; display: block; text-align: center; padding: 8px; border-radius: 5px; flex:1; font-weight:bold;}
-        
-        /* --- ADMIN DATE HEADER --- */
-        .date-header {
-            text-align: center; font-size: 0.85rem; font-weight: bold; color: #888;
-            margin: 20px 0 10px 0; position: relative;
-        }
-        .date-header::before, .date-header::after {
-            content: ""; position: absolute; top: 50%; width: 30%; height: 1px; background: #ddd;
-        }
-        .date-header::before { left: 0; } .date-header::after { right: 0; }
 
         /* --- MODALS --- */
         .modal-overlay { 
@@ -155,7 +150,6 @@
             animation: fadeIn 0.2s ease-out; margin-bottom: 50px; 
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
         .close-modal { position: absolute; top: 12px; right: 12px; font-size: 1.1rem; border: none; background: #f0f0f0; width: 28px; height: 28px; border-radius: 50%; color: #333; display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
 
@@ -171,6 +165,29 @@
         .border-Completed { border-left-color: var(--success); }
         .border-Rejected { border-left-color: var(--danger); }
         .border-Cancelled { border-left-color: #999; }
+
+        /* Admin Colored Backgrounds */
+        .bg-light-pending { background-color: #fff9e6; }
+        .bg-light-accepted { background-color: #f0fbff; }
+        .bg-light-completed { background-color: #f0fff4; }
+        .bg-light-rejected { background-color: #fff5f5; }
+
+        /* Admin Compact History */
+        .compact-card { padding: 8px 12px; font-size: 0.85rem; margin-bottom: 8px; }
+        .compact-card .item-summary { font-size: 0.8rem; color: #777; margin-bottom: 2px; }
+        .compact-card h4 { font-size: 0.95rem; margin: 2px 0; }
+
+        /* Captain Alert Inside Card */
+        .captain-alert-box {
+            background: #fff3cd; border: 1px solid #ffeeba; 
+            padding: 10px; margin-top: 10px; border-radius: 5px;
+            font-size: 0.85rem; color: #856404;
+        }
+        .btn-call {
+            background: var(--success); color: white; text-decoration: none; 
+            padding: 5px 10px; border-radius: 4px; display: inline-block; 
+            margin-top: 5px; font-weight: bold; font-size: 0.8rem;
+        }
 
         .form-group { margin-bottom: 8px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 2px;}
@@ -206,19 +223,9 @@
     <a href="#" class="nav-pill" onclick="setAdminTab('completed')">History</a>
 </div>
 
-<div id="captain-alert">
-    <div style="font-weight:bold; color:#d35400; margin-bottom:5px;">⚠️ Order Not Accepted Yet?</div>
-    <div style="font-size:0.9rem; color:#555;">Please contact Captain <b>Mr. Vinod</b> directly.</div>
-    <div class="alert-actions">
-        <a href="tel:9649460972" class="btn-call">📞 Call Now</a>
-        <button class="alert-btn" style="background:#eee;" onclick="document.getElementById('captain-alert').style.display='none'">Wait</button>
-    </div>
-</div>
-
 <div class="container" id="menu-container">
 
     <div id="admin-panel" class="hidden" style="padding-bottom: 80px;">
-        
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
             <h2 style="margin:0; font-size:1.3rem; color:var(--primary);">Admin Dashboard</h2>
             <button class="btn-outline" style="padding:5px 15px; border-radius:20px; font-size:0.8rem;" onclick="logout()">Logout</button>
@@ -465,7 +472,6 @@
 
         <section id="desserts" class="category-section">
             <h2 class="category-title">Desserts & Shakes</h2>
-            
             <div class="sub-category-title">Sweets</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Gulab Jamun (4pcs)', 70)"><div class="item-details"><span class="item-name">Gulab Jamun (4pcs)</span><span class="item-price">₹70</span></div><div class="add-btn">+</div></div>
@@ -473,7 +479,6 @@
                 <div class="menu-row" onclick="openItemModal('Rasgulla (4pcs)', 70)"><div class="item-details"><span class="item-name">Rasgulla (4pcs)</span><span class="item-price">₹70</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Rabri', 80)"><div class="item-details"><span class="item-name">Rabri</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
             </div>
-
             <div class="sub-category-title">Nasirabad Special Kulfi</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Kesar Pista Kulfi (S)', 30)"><div class="item-details"><span class="item-name">Kesar Pista Kulfi (Small)</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
@@ -487,7 +492,6 @@
                 <div class="menu-row" onclick="openItemModal('Paan Masala Kulfi (S)', 30)"><div class="item-details"><span class="item-name">Paan Masala Kulfi (Small)</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Paan Masala Kulfi (M)', 50)"><div class="item-details"><span class="item-name">Paan Masala Kulfi (Medium)</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
             </div>
-
             <div class="sub-category-title">Mojito & Shakes</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Virgin Mojito', 110)"><div class="item-details"><span class="item-name">Virgin Mojito</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
@@ -501,7 +505,6 @@
                 <div class="menu-row" onclick="openItemModal('Bournvita Shake', 110)"><div class="item-details"><span class="item-name">Bournvita Shake</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Banana Shake', 120)"><div class="item-details"><span class="item-name">Banana Shake</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
             </div>
-
             <div class="sub-category-title">Ice Cream</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Vanilla Ice Cream', 40)"><div class="item-details"><span class="item-name">Vanilla</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
@@ -663,7 +666,7 @@
     let currentAdminTab = 'active';
     let currentCustTab = 'live';
     let allOrdersCache = []; 
-    let adminFilterPhone = null; // New variable for filtering by customer
+    let adminFilterPhone = null;
 
     document.addEventListener('DOMContentLoaded', () => { 
         checkSession(); 
@@ -886,21 +889,11 @@
         if (!currentUser || currentUser.type === 'admin') return;
         db.ref('orders').orderByChild('customer/phone').equalTo(currentUser.phone).on('value', (snapshot) => {
             const orders = [];
-            let hasPending = false;
             snapshot.forEach((child) => {
-                try { 
-                    const o = child.val(); 
-                    if(o.status) orders.push(o); 
-                    if(o.status === 'Pending') hasPending = true;
-                } catch(e){}
+                try { const o = child.val(); if(o.status) orders.push(o); } catch(e){}
             });
             orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             window.myLiveOrders = orders;
-            
-            // Show Alert if Pending exists
-            if(hasPending) document.getElementById('captain-alert').style.display = 'block';
-            else document.getElementById('captain-alert').style.display = 'none';
-
             if (document.getElementById('status-modal').classList.contains('active')) renderMyOrders();
         });
     }
@@ -930,8 +923,18 @@
             if(order.status === 'Accepted') statusDisplay = 'Accepted (Preparing)';
             
             let cancelBtn = '';
+            let captainAlert = '';
+
             if (order.status === 'Pending') {
-                cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel Order</button>`;
+                cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel</button>`;
+                // CAPTAIN ALERT INSIDE CARD
+                captainAlert = `
+                    <div class="captain-alert-box">
+                        ⚠️ Order not accepted yet?
+                        <br>
+                        <a href="tel:9649460972" class="btn-call">📞 Call Captain Vinod</a>
+                    </div>
+                `;
             }
 
             html += `<div class="order-card border-${order.status}">
@@ -939,6 +942,7 @@
                             <b>#${order.id.slice(-4)}</b> <span class="status-badge" style="background:var(--${order.status==='Pending'?'warning':(order.status==='Accepted'?'info':(order.status==='Completed'?'success':'danger'))})">${statusDisplay}</span>
                         </div>
                         <div style="color:#555; font-size:0.9rem; margin-bottom:5px;">${summary}</div>
+                        ${captainAlert}
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
                             <span style="font-weight:bold;">₹${order.total}</span>
                             ${cancelBtn}
@@ -959,7 +963,6 @@
         document.getElementById('customer-view').classList.add('hidden');
         document.getElementById('customer-nav').classList.add('hidden'); 
         document.getElementById('bottom-bar').classList.add('hidden');
-        document.getElementById('captain-alert').classList.add('hidden');
         
         document.getElementById('admin-panel').classList.remove('hidden');
         document.getElementById('admin-nav').classList.remove('hidden'); 
@@ -983,7 +986,7 @@
         adminFilterPhone = phone;
         document.getElementById('admin-filter-info').classList.remove('hidden');
         document.getElementById('filter-name').innerText = name;
-        setAdminTab('completed'); // Switch to history tab to see past orders
+        setAdminTab('completed'); 
     }
 
     function clearAdminFilter() {
@@ -1014,12 +1017,8 @@
         let lastDate = '';
 
         filtered.forEach(order => {
-            // DATE HEADER LOGIC
-            // Convert Firebase Timestamp to Date String
             let dateObj = new Date(order.createdAt || Date.now());
             let dateStr = dateObj.toLocaleDateString();
-            
-            // Check if today
             const today = new Date().toLocaleDateString();
             if(dateStr === today) dateStr = "Today";
 
@@ -1035,26 +1034,39 @@
             let actions = '';
             if (currentAdminTab === 'active') {
                 if (order.status === 'Pending') {
-                    actions = `<div style="display:flex; gap:10px; margin-top:10px;">
-                                <button class="btn btn-primary" style="flex:1;" onclick="updateStatus('${order.id}', 'Accepted')">Accept</button>
-                                <button class="btn btn-danger" style="flex:1;" onclick="updateStatus('${order.id}', 'Rejected')">Reject</button>
+                    actions = `<div style="display:flex; gap:10px; margin-top:5px;">
+                                <button class="btn btn-primary" style="flex:1; padding:5px; font-size:0.8rem;" onclick="updateStatus('${order.id}', 'Accepted')">Accept</button>
+                                <button class="btn btn-danger" style="flex:1; padding:5px; font-size:0.8rem;" onclick="updateStatus('${order.id}', 'Rejected')">Reject</button>
                                </div>`;
                 } else if (order.status === 'Accepted') {
-                    actions = `<button class="btn btn-success" style="margin-top:10px;" onclick="updateStatus('${order.id}', 'Completed')">Mark Completed</button>`;
+                    actions = `<button class="btn btn-success" style="margin-top:5px; padding:5px; font-size:0.8rem;" onclick="updateStatus('${order.id}', 'Completed')">Mark Completed</button>`;
                 }
             }
 
-            html += `<div class="order-card border-${order.status}">
-                        <div style="display:flex; justify-content:space-between; color:#666; font-size:0.85rem;">
+            // Colored Background Class
+            let bgClass = '';
+            if(order.status === 'Pending') bgClass = 'bg-light-pending';
+            else if(order.status === 'Accepted') bgClass = 'bg-light-accepted';
+            else if(order.status === 'Completed') bgClass = 'bg-light-completed';
+            else if(order.status === 'Rejected') bgClass = 'bg-light-rejected';
+
+            // Compact Class for History Tab
+            let cardClass = 'order-card';
+            if (currentAdminTab === 'completed') cardClass += ' compact-card';
+
+            html += `<div class="${cardClass} border-${order.status} ${bgClass}">
+                        <div style="display:flex; justify-content:space-between; color:#666; font-size:0.8rem;">
                             <span>#${order.id.slice(-4)} • ${order.timestamp}</span>
                             <span style="font-weight:bold;">${order.status}</span>
                         </div>
-                        <div style="font-weight:bold; font-size:1.1rem; color:var(--primary); margin:5px 0; cursor:pointer; text-decoration:underline;" onclick="filterByCustomer('${order.customer.phone}', '${order.customer.name}')">
-                            ${order.customer.table} - ${order.customer.name} (View History)
+                        <div style="font-weight:bold; font-size:1rem; color:var(--primary); margin:2px 0; cursor:pointer; text-decoration:underline;" onclick="filterByCustomer('${order.customer.phone}', '${order.customer.name}')">
+                            ${order.customer.table} - ${order.customer.name}
                         </div>
-                        <div style="font-size:0.9rem; color:#555;">📞 <a href="tel:${order.customer.phone}">${order.customer.phone}</a></div>
-                        <div style="background:#f8f9fa; padding:10px; border-radius:8px; margin:10px 0; font-size:0.95rem;">${summary}</div>
-                        <div style="text-align:right; font-weight:bold; font-size:1.2rem;">₹${order.total}</div>
+                        <div class="item-summary">${summary}</div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
+                            <span style="font-weight:bold; font-size:1rem;">₹${order.total}</span>
+                            ${currentAdminTab === 'active' ? '' : `<small>${order.customer.phone}</small>`}
+                        </div>
                         ${actions}
                      </div>`;
         });
