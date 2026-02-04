@@ -22,6 +22,16 @@
             --border-color: #e0e0e0;
         }
 
+        /* DARK MODE FORCE FIX */
+        @media (prefers-color-scheme: dark) {
+            body, .modal-card, .order-card, .menu-row, .nav-container {
+                background-color: #ffffff !important;
+                color: #333333 !important;
+            }
+            .item-name, h2, h3 { color: #000000 !important; }
+            .item-details span { color: #333 !important; }
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; }
         body { 
@@ -63,6 +73,8 @@
             top: 0; 
             z-index: 900; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            /* Smooth scrolling for the nav bar itself */
+            scroll-behavior: smooth; 
         }
         .nav-pill { 
             display: inline-block; padding: 6px 14px; margin-right: 5px;
@@ -135,6 +147,28 @@
             display: flex; justify-content: center; align-items: center; border: 2px solid white;
         }
 
+        /* --- CAPTAIN ALERT INSIDE CARD --- */
+        .captain-alert-box {
+            background: #fff3cd; border: 1px solid #ffeeba; 
+            padding: 10px; margin-top: 10px; border-radius: 5px;
+            font-size: 0.85rem; color: #856404;
+        }
+        .btn-call {
+            background: var(--success); color: white; text-decoration: none; 
+            padding: 5px 10px; border-radius: 4px; display: inline-block; 
+            margin-top: 5px; font-weight: bold; font-size: 0.8rem;
+        }
+
+        /* --- ADMIN DATE HEADER --- */
+        .date-header {
+            text-align: center; font-size: 0.85rem; font-weight: bold; color: #888;
+            margin: 20px 0 10px 0; position: relative;
+        }
+        .date-header::before, .date-header::after {
+            content: ""; position: absolute; top: 50%; width: 30%; height: 1px; background: #ddd;
+        }
+        .date-header::before { left: 0; } .date-header::after { right: 0; }
+
         /* --- MODALS --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -176,18 +210,6 @@
         .compact-card { padding: 8px 12px; font-size: 0.85rem; margin-bottom: 8px; }
         .compact-card .item-summary { font-size: 0.8rem; color: #777; margin-bottom: 2px; }
         .compact-card h4 { font-size: 0.95rem; margin: 2px 0; }
-
-        /* Captain Alert Inside Card */
-        .captain-alert-box {
-            background: #fff3cd; border: 1px solid #ffeeba; 
-            padding: 10px; margin-top: 10px; border-radius: 5px;
-            font-size: 0.85rem; color: #856404;
-        }
-        .btn-call {
-            background: var(--success); color: white; text-decoration: none; 
-            padding: 5px 10px; border-radius: 4px; display: inline-block; 
-            margin-top: 5px; font-weight: bold; font-size: 0.8rem;
-        }
 
         .form-group { margin-bottom: 8px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 2px;}
@@ -667,25 +689,44 @@
     let currentCustTab = 'live';
     let allOrdersCache = []; 
     let adminFilterPhone = null;
+    let lastNavActiveId = '';
 
     document.addEventListener('DOMContentLoaded', () => { 
         checkSession(); 
         testConnection();
-        // ScrollSpy
+        
+        // OPTIMIZED SCROLL SPY (No Jitter)
         window.addEventListener('scroll', () => {
             let current = '';
             const sections = document.querySelectorAll('.category-section');
-            const navLinks = document.querySelectorAll('.nav-container a');
+            const navContainer = document.querySelector('.nav-container');
+            
+            // Find current section
             sections.forEach(section => {
                 if (scrollY >= section.offsetTop - 120) current = section.getAttribute('id');
             });
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').includes(current)) {
-                    link.classList.add('active');
-                    link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                }
-            });
+
+            // Only update if changed (Prevents jitter loop)
+            if (current && current !== lastNavActiveId) {
+                lastNavActiveId = current;
+                
+                // Update Classes
+                document.querySelectorAll('.nav-container a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                        
+                        // Smooth Scroll Nav Container to Center the Item
+                        const linkLeft = link.offsetLeft;
+                        const linkWidth = link.offsetWidth;
+                        const containerWidth = navContainer.offsetWidth;
+                        navContainer.scrollTo({
+                            left: linkLeft - (containerWidth / 2) + (linkWidth / 2),
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            }
         });
     });
 
@@ -829,7 +870,11 @@
         const name = document.getElementById('cust-name').value;
         const table = document.getElementById('cust-table').value;
         const phone = document.getElementById('cust-phone').value;
+        
+        // VALIDATION
         if (!name || !table || !phone) { alert("Please fill all details."); return; }
+        if (!/^\d{10}$/.test(phone)) { alert("Please enter a valid 10-digit mobile number."); return; }
+
         currentUser = { type: 'customer', name, table, phone };
         localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
         closeModal('login-modal');
@@ -926,7 +971,7 @@
             let captainAlert = '';
 
             if (order.status === 'Pending') {
-                cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel Order</button>`;
+                cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel</button>`;
                 // CAPTAIN ALERT INSIDE CARD
                 captainAlert = `
                     <div class="captain-alert-box">
@@ -1079,4 +1124,3 @@
 </script>
 </body>
 </html>
-
