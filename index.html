@@ -32,7 +32,6 @@
             }
             .item-name, h2, h3, h1, p, span, div, label, b, strong { color: #333333 !important; }
             
-            /* Enforce Brand Colors */
             .bottom-bar { background-color: #0f1c2e !important; }
             header { background-color: #0f1c2e !important; }
             header h1, header p { color: #c5a059 !important; }
@@ -52,13 +51,16 @@
             .bg-light-pending { background-color: #fffde7 !important; }
         }
 
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; /* <--- ADD THIS LINE */
-}        html { scroll-behavior: smooth; }
+        /* --- ZOOM FIX (touch-action) --- */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation; /* Prevents double-tap zoom */
+        }
+        
+        html { scroll-behavior: smooth; }
         body { 
             font-family: 'Poppins', sans-serif; 
             background-color: var(--bg); 
@@ -152,7 +154,7 @@
             display: flex; justify-content: center; align-items: center; border: 2px solid white;
         }
 
-        /* --- MODALS --- */
+        /* --- MODALS FIXED --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
@@ -194,12 +196,12 @@
         .border-Rejected { border-left-color: var(--danger); }
         .border-Cancelled { border-left-color: #999; }
 
-        /* Background Colors for Admin History - Verified pastel shades */
-        .bg-light-pending { background-color: #fffde7; }   
-        .bg-light-accepted { background-color: #e3f2fd; }  
-        .bg-light-completed { background-color: #e8f5e9; } 
-        .bg-light-rejected { background-color: #ffebee; }  
-        .bg-light-cancelled { background-color: #f5f5f5; } 
+        /* Background Colors for Admin History */
+        .bg-light-pending { background-color: #fffde7; }   /* Light Yellow */
+        .bg-light-accepted { background-color: #e3f2fd; }  /* Light Blue */
+        .bg-light-completed { background-color: #e8f5e9; } /* Light Green */
+        .bg-light-rejected { background-color: #ffebee; }  /* Light Red */
+        .bg-light-cancelled { background-color: #f5f5f5; } /* Light Grey */
 
         .compact-card { padding: 8px 12px; font-size: 0.85rem; margin-bottom: 8px; }
         .compact-card .item-summary { font-size: 0.8rem; color: #555; margin-bottom: 2px; }
@@ -210,6 +212,12 @@
         
         .qty-controls { display: flex; align-items: center; gap: 10px; }
         .qty-btn { width: 28px; height: 28px; border-radius: 5px; border: 1px solid #ddd; background: white; font-weight: bold; }
+        
+        /* Admin Card Info Layout */
+        .info-row { display: flex; margin-bottom: 4px; font-size: 0.9rem; align-items: baseline; }
+        .info-label { font-weight: 600; color: #777; width: 60px; font-size: 0.8rem; flex-shrink: 0; }
+        .info-val { color: #333; font-weight: 500; }
+        .status-header { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 5px; margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -1167,7 +1175,6 @@
                 }
             }
 
-            // Order Type Badge (Dine-in vs Delivery)
             let typeBadge = '';
             if (order.customer.orderType === 'delivery') {
                 typeBadge = `<span style="background:#6c5ce7; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-left:5px;">DELIVERY</span>`;
@@ -1177,7 +1184,7 @@
 
             // Status Colors & Backgrounds
             let bgClass = '';
-            let statusColor = '#333'; // default
+            let statusColor = '#333';
             
             if(order.status === 'Pending') { bgClass = 'bg-light-pending'; statusColor = '#fbc02d'; }
             else if(order.status === 'Accepted') { bgClass = 'bg-light-accepted'; statusColor = '#0288d1'; }
@@ -1188,19 +1195,27 @@
             let cardClass = 'order-card';
             if (currentAdminTab === 'completed') cardClass += ' compact-card';
 
-            // FIXED HTML STRUCTURE: Status Top Right, Badge Next to Name
+            // --- ADMIN CARD FIXED LAYOUT ---
             html += `<div class="${cardClass} border-${order.status} ${bgClass}">
-                        <div style="display:flex; justify-content:space-between; color:#666; font-size:0.8rem; margin-bottom: 4px;">
+                        <div style="display:flex; justify-content:space-between; color:#666; font-size:0.8rem; margin-bottom: 6px; border-bottom:1px dotted rgba(0,0,0,0.1); padding-bottom:4px;">
                             <span>#${order.id.slice(-4)} • ${order.timestamp}</span>
-                            <span style="font-weight:900; letter-spacing:0.5px; color:${statusColor}; font-size:0.8rem;">${order.status.toUpperCase()}</span>
+                            <span style="font-weight:900; letter-spacing:0.5px; color:${statusColor}; font-size:0.85rem;">${order.status.toUpperCase()}</span>
                         </div>
-                        <div style="font-weight:bold; font-size:1rem; color:var(--primary); margin:2px 0; cursor:pointer; text-decoration:underline;" onclick="filterByCustomer('${order.customer.phone}', '${order.customer.name}')">
-                            ${order.customer.table} - ${order.customer.name} ${typeBadge}
+
+                        <div style="font-weight:bold; font-size:1.05rem; color:var(--primary); margin-bottom:4px;" onclick="filterByCustomer('${order.customer.phone}', '${order.customer.name}')">
+                            ${order.customer.name} ${typeBadge}
                         </div>
-                        <div class="item-summary" style="margin-top:5px; margin-bottom:5px;">${summary}</div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px; border-top:1px dashed #ccc; padding-top:5px;">
+                        <div style="display:flex; flex-direction:column; gap:2px; color:#444; font-size:0.9rem; margin-bottom:8px;">
+                            <a href="tel:${order.customer.phone}" style="text-decoration:none; color:#333; font-weight:600;">📞 ${order.customer.phone}</a>
+                            <span>📍 ${order.customer.table}</span>
+                        </div>
+
+                        <div class="item-summary" style="background:rgba(255,255,255,0.6); padding:6px; border-radius:4px; margin-bottom:8px; border:1px solid rgba(0,0,0,0.05);">
+                            ${summary}
+                        </div>
+
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px; padding-top:5px; border-top:1px dashed #ccc;">
                             <span style="font-weight:bold; font-size:1.1rem;">₹${order.total}</span>
-                            ${currentAdminTab === 'active' ? '' : `<small>${order.customer.phone}</small>`}
                         </div>
                         ${actions}
                      </div>`;
@@ -1214,4 +1229,3 @@
 </script>
 </body>
 </html>
-
