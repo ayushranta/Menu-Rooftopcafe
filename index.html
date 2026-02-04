@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Hotel Yashoday | Digital Ordering</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
@@ -28,12 +28,13 @@
             font-family: 'Poppins', sans-serif; 
             background-color: var(--bg); 
             color: #333; 
-            padding-bottom: 100px;
+            /* GOOGLE APP FIX: Huge bottom padding */
+            padding-bottom: 160px; 
         }
 
         /* --- UTILS --- */
         .hidden { display: none !important; }
-        .btn { padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; width: 100%; transition: 0.2s; }
+        .btn { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; width: 100%; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: var(--accent); }
         .btn-success { background: var(--success); color: white; }
         .btn-danger { background: var(--danger); color: white; }
@@ -43,32 +44,21 @@
         .top-strip { background: var(--accent); color: var(--primary); text-align: center; font-size: 0.75rem; font-weight: bold; padding: 4px; letter-spacing: 2px; }
 
         header {
-            background: var(--primary);
-            color: var(--accent);
-            text-align: center;
-            padding: 1.2rem 1rem;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            background: var(--primary); color: var(--accent); text-align: center; padding: 1.2rem 1rem;
+            position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
         header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 0; }
         header p { font-size: 0.8rem; opacity: 0.9; margin-top: 3px; }
 
         /* --- NAV --- */
         .nav-container { 
-            overflow-x: auto; 
-            white-space: nowrap; 
-            background: var(--card-bg); 
-            padding: 10px; 
-            position: sticky; 
-            top: 0; 
-            z-index: 900; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow-x: auto; white-space: nowrap; background: var(--card-bg); padding: 10px; 
+            position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .nav-pill { 
             display: inline-block; padding: 6px 14px; margin-right: 5px;
             background: #f0f2f5; color: #555; border-radius: 20px;
-            text-decoration: none; font-size: 0.8rem; font-weight: 600;
-            transition: all 0.3s ease;
+            text-decoration: none; font-size: 0.8rem; font-weight: 600; transition: all 0.3s ease;
         }
         .nav-pill.active { background: var(--primary); color: var(--accent); transform: scale(1.05); }
         .nav-container::-webkit-scrollbar { display: none; }
@@ -77,24 +67,16 @@
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
         .category-section { margin-bottom: 25px; scroll-margin-top: 60px; }
         .category-title { 
-            font-family: 'Playfair Display', serif; font-size: 1.3rem; 
-            color: var(--primary); margin-bottom: 12px; padding-left: 10px;
-            border-left: 4px solid var(--accent);
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--primary); 
+            margin-bottom: 12px; padding-left: 10px; border-left: 4px solid var(--accent);
         }
-        .sub-category-title {
-            color: #666; font-weight: 700; font-size: 0.95rem;
-            margin: 15px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 2px;
-        }
+        .sub-category-title { color: #666; font-weight: 700; font-size: 0.95rem; margin: 15px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
         
         .menu-list { display: flex; flex-direction: column; gap: 8px; }
-        
         .menu-row { 
-            background: var(--card-bg); 
-            padding: 12px 15px; 
-            border-radius: 10px; 
+            background: var(--card-bg); padding: 12px 15px; border-radius: 10px; 
             display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
-            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid var(--border-color);
         }
         .menu-row:active { transform: scale(0.99); background: #fafafa; }
         .item-details { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-right: 15px; }
@@ -105,13 +87,15 @@
             display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3rem; 
         }
 
-        /* --- BOTTOM BAR --- */
+        /* --- BOTTOM BAR (FIXED FOR GOOGLE APP) --- */
         .bottom-bar {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 400px; background: var(--primary);
+            position: fixed; 
+            bottom: 30px; /* MOVED HIGHER FOR SAFETY */
+            left: 50%; transform: translateX(-50%);
+            width: 92%; max-width: 400px; background: var(--primary);
             border-radius: 50px; padding: 10px 20px;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 10px 25px rgba(15, 28, 46, 0.4); z-index: 1000;
+            box-shadow: 0 10px 25px rgba(15, 28, 46, 0.5); z-index: 1000;
         }
         .bar-btn {
             background: transparent; border: none; color: white; font-size: 0.9rem; font-weight: 600;
@@ -121,57 +105,66 @@
         
         .cart-circle {
             background: var(--primary); color: var(--accent);
-            width: 60px; height: 60px; border-radius: 50%;
+            width: 65px; height: 65px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center; font-size: 1.6rem; 
-            margin-top: -35px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
-            border: 3px solid var(--accent);
-            position: relative;
-            cursor: pointer;
+            margin-top: -45px; /* POP OUT MORE */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 3px solid var(--accent);
+            position: relative; cursor: pointer;
         }
         .cart-badge {
             position: absolute; top: -2px; right: -2px; background: var(--danger); color: white;
             font-size: 0.7rem; width: 22px; height: 22px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            border: 2px solid white;
+            display: flex; justify-content: center; align-items: center; border: 2px solid white;
         }
 
-        /* --- MODALS FIXED FOR MOBILE KEYBOARD (Top Pinned & Compact) --- */
+        /* --- CAPTAIN ALERT CARD (Floating) --- */
+        #captain-alert {
+            position: fixed; bottom: 100px; left: 5%; width: 90%;
+            background: white; border-left: 5px solid #ff9800;
+            padding: 15px; border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1100; display: none;
+            animation: slideUp 0.4s ease-out;
+        }
+        .alert-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .alert-btn { flex: 1; padding: 8px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; }
+        .btn-call { background: var(--success); color: white; text-decoration: none; display: block; text-align: center; padding: 8px; border-radius: 5px; flex:1; font-weight:bold;}
+        
+        /* --- ADMIN DATE HEADER --- */
+        .date-header {
+            text-align: center; font-size: 0.85rem; font-weight: bold; color: #888;
+            margin: 20px 0 10px 0; position: relative;
+        }
+        .date-header::before, .date-header::after {
+            content: ""; position: absolute; top: 50%; width: 30%; height: 1px; background: #ddd;
+        }
+        .date-header::before { left: 0; } .date-header::after { right: 0; }
+
+        /* --- MODALS --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
-            align-items: flex-start; 
-            justify-content: center;
-            overflow-y: auto; 
-            padding-top: 40px; 
-            padding-bottom: 20px;
+            align-items: flex-start; justify-content: center;
+            overflow-y: auto; padding-top: 40px; padding-bottom: 20px;
         }
         .modal-overlay.active { display: flex; }
-        
         .modal-card { 
             background: #fff; width: 90%; max-width: 450px; 
-            border-radius: 15px; padding: 20px; 
-            position: relative;
+            border-radius: 15px; padding: 20px; position: relative;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: fadeIn 0.2s ease-out;
-            margin-bottom: 50px; 
+            animation: fadeIn 0.2s ease-out; margin-bottom: 50px; 
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-        .close-modal { 
-            position: absolute; top: 12px; right: 12px; 
-            font-size: 1.1rem; border: none; background: #f0f0f0; 
-            width: 28px; height: 28px; border-radius: 50%; color: #333;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 10; cursor: pointer;
-        }
+        .close-modal { position: absolute; top: 12px; right: 12px; font-size: 1.1rem; border: none; background: #f0f0f0; width: 28px; height: 28px; border-radius: 50%; color: #333; display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
 
         /* --- TABS --- */
         .tab-header { display: flex; background: #f1f3f5; border-radius: 10px; padding: 4px; margin-bottom: 12px; }
         .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 8px; font-weight: 600; color: #666; font-size: 0.9rem; }
         .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-        /* --- CARDS & FORMS --- */
+        /* --- CARDS --- */
         .order-card { background: white; padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #ccc; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #eee; }
         .border-Pending { border-left-color: var(--warning); }
         .border-Accepted { border-left-color: var(--info); }
@@ -182,7 +175,6 @@
         .form-group { margin-bottom: 8px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 2px;}
         .form-control { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; background: #fafafa; }
-        
         .qty-controls { display: flex; align-items: center; gap: 10px; }
         .qty-btn { width: 28px; height: 28px; border-radius: 5px; border: 1px solid #ddd; background: white; font-weight: bold; }
     </style>
@@ -214,20 +206,35 @@
     <a href="#" class="nav-pill" onclick="setAdminTab('completed')">History</a>
 </div>
 
+<div id="captain-alert">
+    <div style="font-weight:bold; color:#d35400; margin-bottom:5px;">⚠️ Order Not Accepted Yet?</div>
+    <div style="font-size:0.9rem; color:#555;">Please contact Captain <b>Mr. Vinod</b> directly.</div>
+    <div class="alert-actions">
+        <a href="tel:9649460972" class="btn-call">📞 Call Now</a>
+        <button class="alert-btn" style="background:#eee;" onclick="document.getElementById('captain-alert').style.display='none'">Wait</button>
+    </div>
+</div>
+
 <div class="container" id="menu-container">
 
     <div id="admin-panel" class="hidden" style="padding-bottom: 80px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
             <h2 style="margin:0; font-size:1.3rem; color:var(--primary);">Admin Dashboard</h2>
             <button class="btn-outline" style="padding:5px 15px; border-radius:20px; font-size:0.8rem;" onclick="logout()">Logout</button>
         </div>
+        
+        <div id="admin-filter-info" class="hidden" style="background:#e3f2fd; padding:10px; border-radius:5px; margin-bottom:15px; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
+            <span>Filtering: <b id="filter-name">Name</b></span>
+            <button onclick="clearAdminFilter()" style="border:none; background:none; color:red; font-weight:bold;">Clear X</button>
+        </div>
+
         <div id="admin-orders-list">
             <p style="text-align: center; color: #888; margin-top: 30px;">Loading...</p>
         </div>
     </div>
 
     <div id="customer-view">
-        
         <section id="tea" class="category-section">
             <h2 class="category-title">Tea & Coffee</h2>
             <div class="menu-list">
@@ -268,7 +275,6 @@
 
         <section id="fastfood" class="category-section">
             <h2 class="category-title">Fast Food</h2>
-            
             <div class="sub-category-title">Maggi Corner</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Classic Maggi', 30)"><div class="item-details"><span class="item-name">Classic Maggi</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
@@ -276,7 +282,6 @@
                 <div class="menu-row" onclick="openItemModal('Cheese Maggi', 60)"><div class="item-details"><span class="item-name">Cheese Maggi</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Veg Cheese Maggi', 80)"><div class="item-details"><span class="item-name">Veg Cheese Maggi</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
             </div>
-
             <div class="sub-category-title">Pasta & Momos</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Creamy White Sauce Pasta', 150)"><div class="item-details"><span class="item-name">Creamy White Sauce Pasta</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
@@ -285,10 +290,10 @@
                 <div class="menu-row" onclick="openItemModal('Steamed Veg Momos', 90)"><div class="item-details"><span class="item-name">Steamed Veg Momos</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Fried Veg Momos', 110)"><div class="item-details"><span class="item-name">Fried Veg Momos</span><span class="item-price">₹110</span></div><div class="add-btn">+</div></div>
             </div>
-
             <div class="sub-category-title">Pizza & Burger</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Garlic Bread Toast', 100)"><div class="item-details"><span class="item-name">Garlic Bread Toast</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
+                <div class="menu-row" onclick="openItemModal('Garlic BOT', 240)"><div class="item-details"><span class="item-name">Garlic BOT</span><span class="item-price">₹240</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Classic OTC Pizza', 150)"><div class="item-details"><span class="item-name">Classic OTC Pizza</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Onion & Capsicum Pizza', 150)"><div class="item-details"><span class="item-name">Onion & Capsicum Pizza</span><span class="item-price">₹150</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Paneer Tandoori Pizza', 190)"><div class="item-details"><span class="item-name">Paneer Tandoori Pizza</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
@@ -300,7 +305,6 @@
                 <div class="menu-row" onclick="openItemModal('Aloo Tikki Burger', 50)"><div class="item-details"><span class="item-name">Aloo Tikki Burger</span><span class="item-price">₹50</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Tandoori Veg Burger', 100)"><div class="item-details"><span class="item-name">Tandoori Veg Burger</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
             </div>
-
             <div class="sub-category-title">Sandwiches</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Classic Veg Sandwich', 60)"><div class="item-details"><span class="item-name">Classic Veg Sandwich</span><span class="item-price">₹60</span></div><div class="add-btn">+</div></div>
@@ -317,7 +321,6 @@
 
         <section id="starters" class="category-section">
             <h2 class="category-title">Starters & Soups</h2>
-            
             <div class="sub-category-title">Soups</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Tomato Soup', 80)"><div class="item-details"><span class="item-name">Tomato Soup</span><span class="item-price">₹80</span></div><div class="add-btn">+</div></div>
@@ -326,7 +329,6 @@
                 <div class="menu-row" onclick="openItemModal('Hot & Sour Soup', 90)"><div class="item-details"><span class="item-name">Hot & Sour Soup</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Mix Vegetable Soup', 100)"><div class="item-details"><span class="item-name">Mix Vegetable Soup</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
             </div>
-
             <div class="sub-category-title">Starters</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('French Fries', 90)"><div class="item-details"><span class="item-name">French Fries</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
@@ -368,7 +370,6 @@
 
         <section id="indian" class="category-section">
             <h2 class="category-title">Indian Main Course</h2>
-            
             <div class="sub-category-title">Vegetables</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Aloo Mutter', 140)"><div class="item-details"><span class="item-name">Aloo Mutter</span><span class="item-price">₹140</span></div><div class="add-btn">+</div></div>
@@ -390,7 +391,6 @@
                 <div class="menu-row" onclick="openItemModal('Banarasi Dum Aloo', 180)"><div class="item-details"><span class="item-name">Banarasi Dum Aloo</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Veg Egg Curry', 180)"><div class="item-details"><span class="item-name">Veg Egg Curry</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
             </div>
-
             <div class="sub-category-title">Paneer & Kofta</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Paneer Burji', 190)"><div class="item-details"><span class="item-name">Paneer Burji</span><span class="item-price">₹190</span></div><div class="add-btn">+</div></div>
@@ -415,7 +415,6 @@
 
         <section id="ricebread" class="category-section">
             <h2 class="category-title">Breads & Rice</h2>
-            
             <div class="sub-category-title">Dal & Rice</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Dal Fry', 100)"><div class="item-details"><span class="item-name">Dal Fry</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
@@ -429,7 +428,6 @@
                 <div class="menu-row" onclick="openItemModal('Veg Pulao', 100)"><div class="item-details"><span class="item-name">Veg Pulao</span><span class="item-price">₹100</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Veg Biryani', 120)"><div class="item-details"><span class="item-name">Veg Biryani</span><span class="item-price">₹120</span></div><div class="add-btn">+</div></div>
             </div>
-
             <div class="sub-category-title">Indian Breads</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Tawa Roti Plain', 20)"><div class="item-details"><span class="item-name">Tawa Roti Plain</span><span class="item-price">₹20</span></div><div class="add-btn">+</div></div>
@@ -444,8 +442,7 @@
                 <div class="menu-row" onclick="openItemModal('Missi Roti', 30)"><div class="item-details"><span class="item-name">Missi Roti</span><span class="item-price">₹30</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Laccha Paratha', 45)"><div class="item-details"><span class="item-name">Laccha Paratha</span><span class="item-price">₹45</span></div><div class="add-btn">+</div></div>
             </div>
-            
-             <div class="sub-category-title">Salad, Raita & Papad</div>
+            <div class="sub-category-title">Salad, Raita & Papad</div>
             <div class="menu-list">
                 <div class="menu-row" onclick="openItemModal('Russian Salad', 90)"><div class="item-details"><span class="item-name">Russian Salad</span><span class="item-price">₹90</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Green Salad', 40)"><div class="item-details"><span class="item-name">Green Salad</span><span class="item-price">₹40</span></div><div class="add-btn">+</div></div>
@@ -666,6 +663,7 @@
     let currentAdminTab = 'active';
     let currentCustTab = 'live';
     let allOrdersCache = []; 
+    let adminFilterPhone = null; // New variable for filtering by customer
 
     document.addEventListener('DOMContentLoaded', () => { 
         checkSession(); 
@@ -715,7 +713,6 @@
         const modal = document.getElementById(id);
         modal.classList.add('active'); 
         
-        // Logic for Login/Profile Modal
         if(id === 'login-modal') {
             if(currentUser && currentUser.type === 'customer') {
                 document.getElementById('view-auth').classList.add('hidden');
@@ -889,11 +886,21 @@
         if (!currentUser || currentUser.type === 'admin') return;
         db.ref('orders').orderByChild('customer/phone').equalTo(currentUser.phone).on('value', (snapshot) => {
             const orders = [];
+            let hasPending = false;
             snapshot.forEach((child) => {
-                try { const o = child.val(); if(o.status) orders.push(o); } catch(e){}
+                try { 
+                    const o = child.val(); 
+                    if(o.status) orders.push(o); 
+                    if(o.status === 'Pending') hasPending = true;
+                } catch(e){}
             });
             orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             window.myLiveOrders = orders;
+            
+            // Show Alert if Pending exists
+            if(hasPending) document.getElementById('captain-alert').style.display = 'block';
+            else document.getElementById('captain-alert').style.display = 'none';
+
             if (document.getElementById('status-modal').classList.contains('active')) renderMyOrders();
         });
     }
@@ -919,6 +926,9 @@
             if (!Array.isArray(itemsArr)) itemsArr = Object.values(itemsArr);
             const summary = itemsArr.map(i => `${i.name} (${i.qty})`).join(', ');
             
+            let statusDisplay = order.status;
+            if(order.status === 'Accepted') statusDisplay = 'Accepted (Preparing)';
+            
             let cancelBtn = '';
             if (order.status === 'Pending') {
                 cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel Order</button>`;
@@ -926,7 +936,7 @@
 
             html += `<div class="order-card border-${order.status}">
                         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                            <b>#${order.id.slice(-4)}</b> <span class="status-badge" style="background:var(--${order.status==='Pending'?'warning':(order.status==='Accepted'?'info':(order.status==='Completed'?'success':'danger'))})">${order.status}</span>
+                            <b>#${order.id.slice(-4)}</b> <span class="status-badge" style="background:var(--${order.status==='Pending'?'warning':(order.status==='Accepted'?'info':(order.status==='Completed'?'success':'danger'))})">${statusDisplay}</span>
                         </div>
                         <div style="color:#555; font-size:0.9rem; margin-bottom:5px;">${summary}</div>
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
@@ -949,6 +959,7 @@
         document.getElementById('customer-view').classList.add('hidden');
         document.getElementById('customer-nav').classList.add('hidden'); 
         document.getElementById('bottom-bar').classList.add('hidden');
+        document.getElementById('captain-alert').classList.add('hidden');
         
         document.getElementById('admin-panel').classList.remove('hidden');
         document.getElementById('admin-nav').classList.remove('hidden'); 
@@ -967,20 +978,56 @@
         });
     }
 
+    // Filter Admin Orders by Phone
+    function filterByCustomer(phone, name) {
+        adminFilterPhone = phone;
+        document.getElementById('admin-filter-info').classList.remove('hidden');
+        document.getElementById('filter-name').innerText = name;
+        setAdminTab('completed'); // Switch to history tab to see past orders
+    }
+
+    function clearAdminFilter() {
+        adminFilterPhone = null;
+        document.getElementById('admin-filter-info').classList.add('hidden');
+        renderAdminOrders(allOrdersCache);
+    }
+
     function renderAdminOrders(orders) {
         const container = document.getElementById('admin-orders-list');
         
+        // 1. Filter by Tab
         let filtered = [];
         if (currentAdminTab === 'active') {
             filtered = orders.filter(o => o.status === 'Pending' || o.status === 'Accepted');
-        } else if (currentAdminTab === 'completed') {
+        } else {
             filtered = orders.filter(o => o.status === 'Completed' || o.status === 'Rejected' || o.status === 'Cancelled');
         } 
+
+        // 2. Filter by Customer (if selected)
+        if (adminFilterPhone) {
+            filtered = filtered.filter(o => o.customer.phone === adminFilterPhone);
+        }
 
         if (filtered.length === 0) { container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">No orders here.</p>'; return; }
 
         let html = '';
+        let lastDate = '';
+
         filtered.forEach(order => {
+            // DATE HEADER LOGIC
+            // Convert Firebase Timestamp to Date String
+            let dateObj = new Date(order.createdAt || Date.now());
+            let dateStr = dateObj.toLocaleDateString();
+            
+            // Check if today
+            const today = new Date().toLocaleDateString();
+            if(dateStr === today) dateStr = "Today";
+
+            if (dateStr !== lastDate) {
+                html += `<div class="date-header">${dateStr}</div>`;
+                lastDate = dateStr;
+            }
+
             let itemsArr = order.items || [];
             if (!Array.isArray(itemsArr)) itemsArr = Object.values(itemsArr);
             const summary = itemsArr.map(i => `${i.name} (x${i.qty})`).join(', ');
@@ -1002,8 +1049,8 @@
                             <span>#${order.id.slice(-4)} • ${order.timestamp}</span>
                             <span style="font-weight:bold;">${order.status}</span>
                         </div>
-                        <div style="font-weight:bold; font-size:1.1rem; color:var(--primary); margin:5px 0;">
-                            ${order.customer.table} - ${order.customer.name}
+                        <div style="font-weight:bold; font-size:1.1rem; color:var(--primary); margin:5px 0; cursor:pointer; text-decoration:underline;" onclick="filterByCustomer('${order.customer.phone}', '${order.customer.name}')">
+                            ${order.customer.table} - ${order.customer.name} (View History)
                         </div>
                         <div style="font-size:0.9rem; color:#555;">📞 <a href="tel:${order.customer.phone}">${order.customer.phone}</a></div>
                         <div style="background:#f8f9fa; padding:10px; border-radius:8px; margin:10px 0; font-size:0.95rem;">${summary}</div>
