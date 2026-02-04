@@ -12,8 +12,8 @@
 
     <style>
         :root { 
-            --primary: #0f1c2e; /* Dark Blue */
-            --accent: #c5a059;  /* Gold */
+            --primary: #0f1c2e; 
+            --accent: #c5a059; 
             --bg: #f4f6f8; 
             --card-bg: #ffffff;
             --success: #28a745; 
@@ -23,16 +23,16 @@
             --border-color: #e0e0e0;
         }
 
-        /* --- NUCLEAR DARK MODE FIX (Force Light Theme) --- */
+        /* --- DARK MODE FORCE FIX --- */
         @media (prefers-color-scheme: dark) {
             body { background-color: #f4f6f8 !important; color: #333333 !important; }
-            .modal-card, .order-card, .menu-row, .nav-container, header, .container {
+            .modal-card, .order-card, .menu-row, .nav-container, .container {
                 background-color: #ffffff !important;
                 color: #333333 !important;
             }
             .item-name, h2, h3, h1, p, span, div, label, b, strong { color: #333333 !important; }
             
-            /* Keep Branding Colors Intact */
+            /* Enforce Brand Colors */
             .bottom-bar { background-color: #0f1c2e !important; }
             header { background-color: #0f1c2e !important; }
             header h1, header p { color: #c5a059 !important; }
@@ -132,7 +132,7 @@
             background: transparent; border: none; color: white; font-size: 0.9rem; font-weight: 600;
             display: flex; flex-direction: column; align-items: center; opacity: 0.8; transition: 0.2s; cursor: pointer;
         }
-        .bar-btn.active { opacity: 1; color: var(--accent); } /* GOLD COLOR FIXED */
+        .bar-btn.active { opacity: 1; color: var(--accent) !important; }
         
         .cart-circle {
             background: var(--primary); color: var(--accent);
@@ -147,7 +147,7 @@
             display: flex; justify-content: center; align-items: center; border: 2px solid white;
         }
 
-        /* --- MODALS FIXED (Keyboard Safe) --- */
+        /* --- MODALS --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
@@ -167,7 +167,6 @@
 
         .close-modal { position: absolute; top: 12px; right: 12px; font-size: 1.1rem; border: none; background: #f0f0f0; width: 28px; height: 28px; border-radius: 50%; color: #333; display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
 
-        /* --- FORMS --- */
         .form-group { margin-bottom: 8px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 2px;}
         .form-control { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; background: #fafafa; }
@@ -190,12 +189,12 @@
         .border-Rejected { border-left-color: var(--danger); }
         .border-Cancelled { border-left-color: #999; }
 
-        /* Background Colors for Admin History */
-        .bg-light-pending { background-color: #fffde7; }   /* Light Yellow */
-        .bg-light-accepted { background-color: #e3f2fd; }  /* Light Blue */
-        .bg-light-completed { background-color: #e8f5e9; } /* Light Green */
-        .bg-light-rejected { background-color: #ffebee; }  /* Light Red */
-        .bg-light-cancelled { background-color: #f5f5f5; } /* Light Grey */
+        /* Background Colors for Admin History - Verified pastel shades */
+        .bg-light-pending { background-color: #fffde7; }   
+        .bg-light-accepted { background-color: #e3f2fd; }  
+        .bg-light-completed { background-color: #e8f5e9; } 
+        .bg-light-rejected { background-color: #ffebee; }  
+        .bg-light-cancelled { background-color: #f5f5f5; } 
 
         .compact-card { padding: 8px 12px; font-size: 0.85rem; margin-bottom: 8px; }
         .compact-card .item-summary { font-size: 0.8rem; color: #555; margin-bottom: 2px; }
@@ -1163,6 +1162,7 @@
                 }
             }
 
+            // Order Type Badge (Dine-in vs Delivery)
             let typeBadge = '';
             if (order.customer.orderType === 'delivery') {
                 typeBadge = `<span style="background:#6c5ce7; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-left:5px;">DELIVERY</span>`;
@@ -1170,27 +1170,31 @@
                 typeBadge = `<span style="background:#00b894; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-left:5px;">DINE-IN</span>`;
             }
 
+            // Status Colors & Backgrounds
             let bgClass = '';
-            if(order.status === 'Pending') bgClass = 'bg-light-pending';
-            else if(order.status === 'Accepted') bgClass = 'bg-light-accepted';
-            else if(order.status === 'Completed') bgClass = 'bg-light-completed';
-            else if(order.status === 'Rejected') bgClass = 'bg-light-rejected';
-            else if(order.status === 'Cancelled') bgClass = 'bg-light-cancelled';
+            let statusColor = '#333'; // default
+            
+            if(order.status === 'Pending') { bgClass = 'bg-light-pending'; statusColor = '#fbc02d'; }
+            else if(order.status === 'Accepted') { bgClass = 'bg-light-accepted'; statusColor = '#0288d1'; }
+            else if(order.status === 'Completed') { bgClass = 'bg-light-completed'; statusColor = '#388e3c'; }
+            else if(order.status === 'Rejected') { bgClass = 'bg-light-rejected'; statusColor = '#d32f2f'; }
+            else if(order.status === 'Cancelled') { bgClass = 'bg-light-cancelled'; statusColor = '#616161'; }
 
             let cardClass = 'order-card';
             if (currentAdminTab === 'completed') cardClass += ' compact-card';
 
+            // FIXED HTML STRUCTURE: Status Top Right, Badge Next to Name
             html += `<div class="${cardClass} border-${order.status} ${bgClass}">
-                        <div style="display:flex; justify-content:space-between; color:#666; font-size:0.8rem;">
+                        <div style="display:flex; justify-content:space-between; color:#666; font-size:0.8rem; margin-bottom: 4px;">
                             <span>#${order.id.slice(-4)} • ${order.timestamp}</span>
-                            <span>${typeBadge}</span>
+                            <span style="font-weight:900; letter-spacing:0.5px; color:${statusColor}; font-size:0.8rem;">${order.status.toUpperCase()}</span>
                         </div>
                         <div style="font-weight:bold; font-size:1rem; color:var(--primary); margin:2px 0; cursor:pointer; text-decoration:underline;" onclick="filterByCustomer('${order.customer.phone}', '${order.customer.name}')">
-                            ${order.customer.table} - ${order.customer.name}
+                            ${order.customer.table} - ${order.customer.name} ${typeBadge}
                         </div>
-                        <div class="item-summary">${summary}</div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
-                            <span style="font-weight:bold; font-size:1rem;">₹${order.total}</span>
+                        <div class="item-summary" style="margin-top:5px; margin-bottom:5px;">${summary}</div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px; border-top:1px dashed #ccc; padding-top:5px;">
+                            <span style="font-weight:bold; font-size:1.1rem;">₹${order.total}</span>
                             ${currentAdminTab === 'active' ? '' : `<small>${order.customer.phone}</small>`}
                         </div>
                         ${actions}
