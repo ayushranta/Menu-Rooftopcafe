@@ -22,14 +22,21 @@
             --border-color: #e0e0e0;
         }
 
-        /* DARK MODE FORCE FIX */
+        /* --- DARK MODE NUCLEAR FIX --- */
         @media (prefers-color-scheme: dark) {
             body, .modal-card, .order-card, .menu-row, .nav-container {
                 background-color: #ffffff !important;
                 color: #333333 !important;
             }
-            .item-name, h2, h3 { color: #000000 !important; }
-            .item-details span { color: #333 !important; }
+            .item-name, h2, h3, h1, p, span, div, label { color: #333333 !important; }
+            .bottom-bar { background-color: #0f1c2e !important; }
+            .bar-btn { color: #ffffff !important; }
+            .bar-btn.active { color: #c5a059 !important; }
+            input { background-color: #fafafa !important; color: #333 !important; border: 1px solid #ddd !important; }
+            .btn-primary { background-color: #0f1c2e !important; color: #c5a059 !important; }
+            .cart-circle { background-color: #0f1c2e !important; border-color: #c5a059 !important; }
+            .type-btn { background-color: #f0f0f0 !important; color: #333 !important; }
+            .type-btn.active { background-color: #0f1c2e !important; color: #fff !important; }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -38,7 +45,7 @@
             font-family: 'Poppins', sans-serif; 
             background-color: var(--bg); 
             color: #333; 
-            padding-bottom: 160px; /* Space for Google App UI */
+            padding-bottom: 160px; 
         }
 
         /* --- UTILS --- */
@@ -53,34 +60,21 @@
         .top-strip { background: var(--accent); color: var(--primary); text-align: center; font-size: 0.75rem; font-weight: bold; padding: 4px; letter-spacing: 2px; }
 
         header {
-            background: var(--primary);
-            color: var(--accent);
-            text-align: center;
-            padding: 1.2rem 1rem;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            background: var(--primary); color: var(--accent); text-align: center; padding: 1.2rem 1rem;
+            position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
         header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 0; }
         header p { font-size: 0.8rem; opacity: 0.9; margin-top: 3px; }
 
         /* --- NAV --- */
         .nav-container { 
-            overflow-x: auto; 
-            white-space: nowrap; 
-            background: var(--card-bg); 
-            padding: 10px; 
-            position: sticky; 
-            top: 0; 
-            z-index: 900; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            /* Smooth scrolling for the nav bar itself */
-            scroll-behavior: smooth; 
+            overflow-x: auto; white-space: nowrap; background: var(--card-bg); padding: 10px; 
+            position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .nav-pill { 
             display: inline-block; padding: 6px 14px; margin-right: 5px;
             background: #f0f2f5; color: #555; border-radius: 20px;
-            text-decoration: none; font-size: 0.8rem; font-weight: 600;
-            transition: all 0.3s ease;
+            text-decoration: none; font-size: 0.8rem; font-weight: 600; transition: all 0.3s ease;
         }
         .nav-pill.active { background: var(--primary); color: var(--accent); transform: scale(1.05); }
         .nav-container::-webkit-scrollbar { display: none; }
@@ -93,20 +87,13 @@
             color: var(--primary); margin-bottom: 12px; padding-left: 10px;
             border-left: 4px solid var(--accent);
         }
-        .sub-category-title {
-            color: #666; font-weight: 700; font-size: 0.95rem;
-            margin: 15px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 2px;
-        }
+        .sub-category-title { color: #666; font-weight: 700; font-size: 0.95rem; margin: 15px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
         
         .menu-list { display: flex; flex-direction: column; gap: 8px; }
-        
         .menu-row { 
-            background: var(--card-bg); 
-            padding: 12px 15px; 
-            border-radius: 10px; 
+            background: var(--card-bg); padding: 12px 15px; border-radius: 10px; 
             display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
-            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid var(--border-color);
         }
         .menu-row:active { transform: scale(0.99); background: #fafafa; }
         .item-details { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-right: 15px; }
@@ -119,9 +106,7 @@
 
         /* --- BOTTOM BAR --- */
         .bottom-bar {
-            position: fixed; 
-            bottom: 30px; 
-            left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             width: 92%; max-width: 400px; background: var(--primary);
             border-radius: 50px; padding: 10px 20px;
             display: flex; justify-content: space-between; align-items: center;
@@ -137,8 +122,7 @@
             background: var(--primary); color: var(--accent);
             width: 65px; height: 65px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center; font-size: 1.6rem; 
-            margin-top: -45px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 3px solid var(--accent);
+            margin-top: -45px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 3px solid var(--accent);
             position: relative; cursor: pointer;
         }
         .cart-badge {
@@ -146,28 +130,6 @@
             font-size: 0.7rem; width: 22px; height: 22px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center; border: 2px solid white;
         }
-
-        /* --- CAPTAIN ALERT INSIDE CARD --- */
-        .captain-alert-box {
-            background: #fff3cd; border: 1px solid #ffeeba; 
-            padding: 10px; margin-top: 10px; border-radius: 5px;
-            font-size: 0.85rem; color: #856404;
-        }
-        .btn-call {
-            background: var(--success); color: white; text-decoration: none; 
-            padding: 5px 10px; border-radius: 4px; display: inline-block; 
-            margin-top: 5px; font-weight: bold; font-size: 0.8rem;
-        }
-
-        /* --- ADMIN DATE HEADER --- */
-        .date-header {
-            text-align: center; font-size: 0.85rem; font-weight: bold; color: #888;
-            margin: 20px 0 10px 0; position: relative;
-        }
-        .date-header::before, .date-header::after {
-            content: ""; position: absolute; top: 50%; width: 30%; height: 1px; background: #ddd;
-        }
-        .date-header::before { left: 0; } .date-header::after { right: 0; }
 
         /* --- MODALS --- */
         .modal-overlay { 
@@ -187,6 +149,17 @@
 
         .close-modal { position: absolute; top: 12px; right: 12px; font-size: 1.1rem; border: none; background: #f0f0f0; width: 28px; height: 28px; border-radius: 50%; color: #333; display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
 
+        /* --- FORMS & TOGGLES --- */
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 3px;}
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; background: #fafafa; }
+        
+        .type-toggle-container { display: flex; gap: 10px; margin-bottom: 15px; }
+        .type-btn { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd; background: #f0f0f0; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .type-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .notice-box { background: #fff3cd; color: #856404; padding: 10px; font-size: 0.85rem; border-radius: 5px; margin-bottom: 15px; border: 1px solid #ffeeba; }
+
         /* --- TABS --- */
         .tab-header { display: flex; background: #f1f3f5; border-radius: 10px; padding: 4px; margin-bottom: 12px; }
         .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 8px; font-weight: 600; color: #666; font-size: 0.9rem; }
@@ -200,20 +173,18 @@
         .border-Rejected { border-left-color: var(--danger); }
         .border-Cancelled { border-left-color: #999; }
 
-        /* Admin Colored Backgrounds */
         .bg-light-pending { background-color: #fff9e6; }
         .bg-light-accepted { background-color: #f0fbff; }
         .bg-light-completed { background-color: #f0fff4; }
         .bg-light-rejected { background-color: #fff5f5; }
 
-        /* Admin Compact History */
         .compact-card { padding: 8px 12px; font-size: 0.85rem; margin-bottom: 8px; }
         .compact-card .item-summary { font-size: 0.8rem; color: #777; margin-bottom: 2px; }
         .compact-card h4 { font-size: 0.95rem; margin: 2px 0; }
 
-        .form-group { margin-bottom: 8px; }
-        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 2px;}
-        .form-control { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; background: #fafafa; }
+        .captain-alert-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; margin-top: 10px; border-radius: 5px; font-size: 0.85rem; color: #856404; }
+        .btn-call { background: var(--success); color: white; text-decoration: none; padding: 5px 10px; border-radius: 4px; display: inline-block; margin-top: 5px; font-weight: bold; font-size: 0.8rem; }
+        
         .qty-controls { display: flex; align-items: center; gap: 10px; }
         .qty-btn { width: 28px; height: 28px; border-radius: 5px; border: 1px solid #ddd; background: white; font-weight: bold; }
     </style>
@@ -625,9 +596,21 @@
             </div>
             
             <div id="form-customer">
+                <div class="type-toggle-container">
+                    <button id="btn-dinein" class="type-btn active" onclick="setOrderType('dinein')">🍽 Dine-In</button>
+                    <button id="btn-delivery" class="type-btn" onclick="setOrderType('delivery')">🛵 Delivery</button>
+                </div>
+
+                <p id="delivery-notice" class="notice-box hidden">⚠️ ₹40 Delivery Charge will be added to your bill.</p>
+
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile"></div>
                 <div class="form-group"><label>Name</label><input type="text" id="cust-name" class="form-control" placeholder="Your Name"></div>
-                <div class="form-group"><label>Table No / Room No</label><input type="text" id="cust-table" class="form-control" placeholder="Table No / Room No"></div>
+                
+                <div class="form-group">
+                    <label id="lbl-table">Table No / Room No</label>
+                    <input type="text" id="cust-table" class="form-control" placeholder="Table / Room No">
+                </div>
+                
                 <button class="btn btn-primary" style="margin-top:5px;" onclick="handleCustomerLogin()">Start Ordering</button>
             </div>
 
@@ -641,6 +624,9 @@
         <div id="view-profile" class="hidden">
             <h3 style="margin-top:0;">My Profile</h3>
             <div style="margin: 15px 0; padding: 12px; background: #f8f9fa; border-radius: 10px;">
+                <div style="margin-bottom:10px; font-weight:bold; color:var(--primary);">
+                    Type: <span id="prof-type">Dine-In</span>
+                </div>
                 <div class="form-group">
                     <label>Your Name</label>
                     <input type="text" id="prof-name" class="form-control">
@@ -650,7 +636,7 @@
                     <input type="tel" id="prof-phone" class="form-control" readonly style="background: #e9ecef;">
                 </div>
                 <div class="form-group">
-                    <label>Table No / Room No</label>
+                    <label id="prof-lbl-table">Table / Address</label>
                     <input type="text" id="prof-table" class="form-control">
                 </div>
                 <button class="btn btn-primary" style="margin-top:5px;" onclick="saveProfile()">Save Details</button>
@@ -689,44 +675,26 @@
     let currentCustTab = 'live';
     let allOrdersCache = []; 
     let adminFilterPhone = null;
-    let lastNavActiveId = '';
+    let selectedOrderType = 'dinein'; // Default
 
     document.addEventListener('DOMContentLoaded', () => { 
         checkSession(); 
         testConnection();
-        
-        // OPTIMIZED SCROLL SPY (No Jitter)
+        // ScrollSpy
         window.addEventListener('scroll', () => {
             let current = '';
             const sections = document.querySelectorAll('.category-section');
-            const navContainer = document.querySelector('.nav-container');
-            
-            // Find current section
+            const navLinks = document.querySelectorAll('.nav-container a');
             sections.forEach(section => {
                 if (scrollY >= section.offsetTop - 120) current = section.getAttribute('id');
             });
-
-            // Only update if changed (Prevents jitter loop)
-            if (current && current !== lastNavActiveId) {
-                lastNavActiveId = current;
-                
-                // Update Classes
-                document.querySelectorAll('.nav-container a').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href').includes(current)) {
-                        link.classList.add('active');
-                        
-                        // Smooth Scroll Nav Container to Center the Item
-                        const linkLeft = link.offsetLeft;
-                        const linkWidth = link.offsetWidth;
-                        const containerWidth = navContainer.offsetWidth;
-                        navContainer.scrollTo({
-                            left: linkLeft - (containerWidth / 2) + (linkWidth / 2),
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            }
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                    link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
+            });
         });
     });
 
@@ -761,6 +729,11 @@
             if(currentUser && currentUser.type === 'customer') {
                 document.getElementById('view-auth').classList.add('hidden');
                 document.getElementById('view-profile').classList.remove('hidden');
+                
+                // Profile View Setup
+                document.getElementById('prof-type').innerText = (currentUser.orderType === 'delivery') ? 'Delivery' : 'Dine-In';
+                document.getElementById('prof-lbl-table').innerText = (currentUser.orderType === 'delivery') ? 'Full Address' : 'Table No / Room No';
+                
                 document.getElementById('prof-name').value = currentUser.name;
                 document.getElementById('prof-phone').value = currentUser.phone;
                 document.getElementById('prof-table').value = currentUser.table;
@@ -823,12 +796,13 @@
         document.getElementById('cart-count').innerText = cart.length;
         const container = document.getElementById('cart-items-container');
         let html = '';
-        let total = 0;
+        let subtotal = 0;
+        
         if (cart.length === 0) { html = '<p style="text-align:center; color:#999; margin-top:20px;">Cart is empty.</p>'; }
         else {
             cart.forEach((item, index) => {
                 const itemTotal = item.price * item.qty;
-                total += itemTotal;
+                subtotal += itemTotal;
                 html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; padding-bottom:10px; border-bottom:1px dashed #eee;">
                             <div><div style="font-weight:600;">${item.name}</div><div style="font-size:0.85rem; color:#666;">₹${item.price} each</div></div>
                             <div class="qty-controls">
@@ -840,8 +814,19 @@
                          </div>`;
             });
         }
+
+        // Delivery Charge Logic
+        let deliveryCharge = 0;
+        if (currentUser && currentUser.orderType === 'delivery') {
+            deliveryCharge = 40;
+            html += `<div style="display:flex; justify-content:space-between; color:var(--danger); font-weight:bold; margin-top:10px;">
+                        <span>Delivery Charge</span>
+                        <span>₹40</span>
+                     </div>`;
+        }
+
         container.innerHTML = html;
-        document.getElementById('cart-total').innerText = total;
+        document.getElementById('cart-total').innerText = subtotal + deliveryCharge;
     }
     function openCartModal() { updateCartUI(); openModal('cart-modal'); }
 
@@ -852,6 +837,23 @@
         openModal('login-modal'); 
     }
     
+    function setOrderType(type) {
+        selectedOrderType = type;
+        if (type === 'dinein') {
+            document.getElementById('btn-dinein').classList.add('active');
+            document.getElementById('btn-delivery').classList.remove('active');
+            document.getElementById('lbl-table').innerText = "Table No / Room No";
+            document.getElementById('cust-table').placeholder = "Table / Room No";
+            document.getElementById('delivery-notice').classList.add('hidden');
+        } else {
+            document.getElementById('btn-delivery').classList.add('active');
+            document.getElementById('btn-dinein').classList.remove('active');
+            document.getElementById('lbl-table').innerText = "Full Delivery Address";
+            document.getElementById('cust-table').placeholder = "House No, Street, Landmark";
+            document.getElementById('delivery-notice').classList.remove('hidden');
+        }
+    }
+
     function switchLoginTab(type) {
         document.getElementById('form-customer').classList.add('hidden');
         document.getElementById('form-admin').classList.add('hidden');
@@ -875,10 +877,17 @@
         if (!name || !table || !phone) { alert("Please fill all details."); return; }
         if (!/^\d{10}$/.test(phone)) { alert("Please enter a valid 10-digit mobile number."); return; }
 
-        currentUser = { type: 'customer', name, table, phone };
+        currentUser = { 
+            type: 'customer', 
+            name: name, 
+            table: table, 
+            phone: phone,
+            orderType: selectedOrderType // Store 'dinein' or 'delivery'
+        };
         localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
         closeModal('login-modal');
         listenToMyOrders();
+        updateCartUI(); // Update cart to show/hide delivery charge
         if (cart.length > 0) initiateCheckout();
     }
 
@@ -914,11 +923,13 @@
         if (currentUser.type === 'admin') { alert("Admins cannot order."); return; }
 
         const orderId = 'ORD-' + Date.now();
+        const totalAmount = parseInt(document.getElementById('cart-total').innerText);
+
         const newOrder = {
             id: orderId,
             customer: currentUser,
             items: cart,
-            total: parseInt(document.getElementById('cart-total').innerText),
+            total: totalAmount,
             status: 'Pending',
             timestamp: new Date().toLocaleTimeString(),
             createdAt: firebase.database.ServerValue.TIMESTAMP
@@ -934,11 +945,17 @@
         if (!currentUser || currentUser.type === 'admin') return;
         db.ref('orders').orderByChild('customer/phone').equalTo(currentUser.phone).on('value', (snapshot) => {
             const orders = [];
+            let hasPending = false;
             snapshot.forEach((child) => {
-                try { const o = child.val(); if(o.status) orders.push(o); } catch(e){}
+                try { 
+                    const o = child.val(); 
+                    if(o.status) orders.push(o); 
+                    if(o.status === 'Pending') hasPending = true;
+                } catch(e){}
             });
             orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             window.myLiveOrders = orders;
+            
             if (document.getElementById('status-modal').classList.contains('active')) renderMyOrders();
         });
     }
@@ -972,7 +989,6 @@
 
             if (order.status === 'Pending') {
                 cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel</button>`;
-                // CAPTAIN ALERT INSIDE CARD
                 captainAlert = `
                     <div class="captain-alert-box">
                         ⚠️ Order not accepted yet?
@@ -1026,7 +1042,6 @@
         });
     }
 
-    // Filter Admin Orders by Phone
     function filterByCustomer(phone, name) {
         adminFilterPhone = phone;
         document.getElementById('admin-filter-info').classList.remove('hidden');
@@ -1043,7 +1058,6 @@
     function renderAdminOrders(orders) {
         const container = document.getElementById('admin-orders-list');
         
-        // 1. Filter by Tab
         let filtered = [];
         if (currentAdminTab === 'active') {
             filtered = orders.filter(o => o.status === 'Pending' || o.status === 'Accepted');
@@ -1051,7 +1065,6 @@
             filtered = orders.filter(o => o.status === 'Completed' || o.status === 'Rejected' || o.status === 'Cancelled');
         } 
 
-        // 2. Filter by Customer (if selected)
         if (adminFilterPhone) {
             filtered = filtered.filter(o => o.customer.phone === adminFilterPhone);
         }
@@ -1088,21 +1101,27 @@
                 }
             }
 
-            // Colored Background Class
+            // Order Type Badge (Dine-in vs Delivery)
+            let typeBadge = '';
+            if (order.customer.orderType === 'delivery') {
+                typeBadge = `<span style="background:#6c5ce7; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-left:5px;">DELIVERY</span>`;
+            } else {
+                typeBadge = `<span style="background:#00b894; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-left:5px;">DINE-IN</span>`;
+            }
+
             let bgClass = '';
             if(order.status === 'Pending') bgClass = 'bg-light-pending';
             else if(order.status === 'Accepted') bgClass = 'bg-light-accepted';
             else if(order.status === 'Completed') bgClass = 'bg-light-completed';
             else if(order.status === 'Rejected') bgClass = 'bg-light-rejected';
 
-            // Compact Class for History Tab
             let cardClass = 'order-card';
             if (currentAdminTab === 'completed') cardClass += ' compact-card';
 
             html += `<div class="${cardClass} border-${order.status} ${bgClass}">
                         <div style="display:flex; justify-content:space-between; color:#666; font-size:0.8rem;">
                             <span>#${order.id.slice(-4)} • ${order.timestamp}</span>
-                            <span style="font-weight:bold;">${order.status}</span>
+                            <span>${typeBadge}</span>
                         </div>
                         <div style="font-weight:bold; font-size:1rem; color:var(--primary); margin:2px 0; cursor:pointer; text-decoration:underline;" onclick="filterByCustomer('${order.customer.phone}', '${order.customer.name}')">
                             ${order.customer.table} - ${order.customer.name}
