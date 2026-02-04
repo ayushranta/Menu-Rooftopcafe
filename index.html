@@ -22,7 +22,7 @@
             --border-color: #e0e0e0;
         }
 
-        /* --- DARK MODE NUCLEAR FIX --- */
+        /* DARK MODE FORCE FIX */
         @media (prefers-color-scheme: dark) {
             body, .modal-card, .order-card, .menu-row, .nav-container {
                 background-color: #ffffff !important;
@@ -47,6 +47,9 @@
             color: #333; 
             padding-bottom: 160px; 
         }
+        
+        /* Stop background scrolling when modal is open */
+        body.modal-open { overflow: hidden; position: fixed; width: 100%; }
 
         /* --- UTILS --- */
         .hidden { display: none !important; }
@@ -66,17 +69,18 @@
         header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 0; }
         header p { font-size: 0.8rem; opacity: 0.9; margin-top: 3px; }
 
-        /* --- NAV --- */
+        /* --- NAV (FIXED JITTER) --- */
         .nav-container { 
             overflow-x: auto; white-space: nowrap; background: var(--card-bg); padding: 10px; 
             position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            -webkit-overflow-scrolling: touch; /* Smooth iOS scroll */
         }
         .nav-pill { 
             display: inline-block; padding: 6px 14px; margin-right: 5px;
             background: #f0f2f5; color: #555; border-radius: 20px;
-            text-decoration: none; font-size: 0.8rem; font-weight: 600; transition: all 0.3s ease;
+            text-decoration: none; font-size: 0.8rem; font-weight: 600; transition: background 0.2s ease;
         }
-        .nav-pill.active { background: var(--primary); color: var(--accent); transform: scale(1.05); }
+        .nav-pill.active { background: var(--primary); color: var(--accent); }
         .nav-container::-webkit-scrollbar { display: none; }
 
         /* --- MENU --- */
@@ -131,41 +135,45 @@
             display: flex; justify-content: center; align-items: center; border: 2px solid white;
         }
 
-        /* --- MODALS --- */
+        /* --- MODALS FIXED (Keyboard Safe) --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
             align-items: flex-start; justify-content: center;
-            overflow-y: auto; padding-top: 40px; padding-bottom: 20px;
+            overflow-y: auto; 
+            /* Fix: Ensure padding handles virtual keyboard resize */
+            padding-top: 20px; padding-bottom: 50px;
+            -webkit-overflow-scrolling: touch;
         }
         .modal-overlay.active { display: flex; }
+        
         .modal-card { 
             background: #fff; width: 90%; max-width: 450px; 
             border-radius: 15px; padding: 20px; position: relative;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: fadeIn 0.2s ease-out; margin-bottom: 50px; 
+            margin: 20px auto; 
+            animation: fadeIn 0.2s ease-out;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
         .close-modal { position: absolute; top: 12px; right: 12px; font-size: 1.1rem; border: none; background: #f0f0f0; width: 28px; height: 28px; border-radius: 50%; color: #333; display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
 
-        /* --- FORMS & TOGGLES --- */
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 3px;}
-        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; background: #fafafa; }
+        /* --- FORMS --- */
+        .form-group { margin-bottom: 8px; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #555; margin-bottom: 2px;}
+        .form-control { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.95rem; background: #fafafa; }
         
         .type-toggle-container { display: flex; gap: 10px; margin-bottom: 15px; }
-        .type-btn { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd; background: #f0f0f0; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .type-btn { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #ddd; background: #f0f0f0; font-weight: bold; cursor: pointer; transition: 0.2s; font-size:0.9rem; }
         .type-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        .notice-box { background: #fff3cd; color: #856404; padding: 10px; font-size: 0.85rem; border-radius: 5px; margin-bottom: 15px; border: 1px solid #ffeeba; }
+        .notice-box { background: #fff3cd; color: #856404; padding: 8px; font-size: 0.8rem; border-radius: 5px; margin-bottom: 10px; border: 1px solid #ffeeba; }
 
-        /* --- TABS --- */
+        /* --- CARDS & TABS --- */
         .tab-header { display: flex; background: #f1f3f5; border-radius: 10px; padding: 4px; margin-bottom: 12px; }
         .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 8px; font-weight: 600; color: #666; font-size: 0.9rem; }
         .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-        /* --- CARDS --- */
         .order-card { background: white; padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #ccc; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #eee; }
         .border-Pending { border-left-color: var(--warning); }
         .border-Accepted { border-left-color: var(--info); }
@@ -676,27 +684,50 @@
     let allOrdersCache = []; 
     let adminFilterPhone = null;
     let selectedOrderType = 'dinein'; // Default
+    let lastNavActiveId = '';
+    let isScrolling = false;
 
     document.addEventListener('DOMContentLoaded', () => { 
         checkSession(); 
         testConnection();
-        // ScrollSpy
+        // ScrollSpy Optimized
         window.addEventListener('scroll', () => {
-            let current = '';
-            const sections = document.querySelectorAll('.category-section');
-            const navLinks = document.querySelectorAll('.nav-container a');
-            sections.forEach(section => {
-                if (scrollY >= section.offsetTop - 120) current = section.getAttribute('id');
-            });
-            navLinks.forEach(link => {
+            if (!isScrolling) {
+                window.requestAnimationFrame(() => {
+                    updateActiveNav();
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        });
+    });
+
+    function updateActiveNav() {
+        let current = '';
+        const sections = document.querySelectorAll('.category-section');
+        const navContainer = document.querySelector('.nav-container');
+        
+        sections.forEach(section => {
+            if (scrollY >= section.offsetTop - 120) current = section.getAttribute('id');
+        });
+
+        if (current && current !== lastNavActiveId) {
+            lastNavActiveId = current;
+            document.querySelectorAll('.nav-container a').forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href').includes(current)) {
                     link.classList.add('active');
-                    link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    const linkLeft = link.offsetLeft;
+                    const linkWidth = link.offsetWidth;
+                    const containerWidth = navContainer.offsetWidth;
+                    navContainer.scrollTo({
+                        left: linkLeft - (containerWidth / 2) + (linkWidth / 2),
+                        behavior: 'smooth'
+                    });
                 }
             });
-        });
-    });
+        }
+    }
 
     function testConnection() {
         db.ref('.info/connected').on('value', function(snap) {
@@ -722,6 +753,7 @@
     // UI HELPERS
     // ==============================================================
     function openModal(id) { 
+        document.body.classList.add('modal-open'); // Lock Background Scroll
         const modal = document.getElementById(id);
         modal.classList.add('active'); 
         
@@ -729,11 +761,8 @@
             if(currentUser && currentUser.type === 'customer') {
                 document.getElementById('view-auth').classList.add('hidden');
                 document.getElementById('view-profile').classList.remove('hidden');
-                
-                // Profile View Setup
                 document.getElementById('prof-type').innerText = (currentUser.orderType === 'delivery') ? 'Delivery' : 'Dine-In';
                 document.getElementById('prof-lbl-table').innerText = (currentUser.orderType === 'delivery') ? 'Full Address' : 'Table No / Room No';
-                
                 document.getElementById('prof-name').value = currentUser.name;
                 document.getElementById('prof-phone').value = currentUser.phone;
                 document.getElementById('prof-table').value = currentUser.table;
@@ -743,7 +772,10 @@
             }
         }
     }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function closeModal(id) { 
+        document.body.classList.remove('modal-open'); // Unlock Scroll
+        document.getElementById(id).classList.remove('active'); 
+    }
 
     // Tabs
     function setAdminTab(tab) {
@@ -873,7 +905,6 @@
         const table = document.getElementById('cust-table').value;
         const phone = document.getElementById('cust-phone').value;
         
-        // VALIDATION
         if (!name || !table || !phone) { alert("Please fill all details."); return; }
         if (!/^\d{10}$/.test(phone)) { alert("Please enter a valid 10-digit mobile number."); return; }
 
@@ -882,12 +913,12 @@
             name: name, 
             table: table, 
             phone: phone,
-            orderType: selectedOrderType // Store 'dinein' or 'delivery'
+            orderType: selectedOrderType
         };
         localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
         closeModal('login-modal');
         listenToMyOrders();
-        updateCartUI(); // Update cart to show/hide delivery charge
+        updateCartUI(); 
         if (cart.length > 0) initiateCheckout();
     }
 
@@ -1101,7 +1132,6 @@
                 }
             }
 
-            // Order Type Badge (Dine-in vs Delivery)
             let typeBadge = '';
             if (order.customer.orderType === 'delivery') {
                 typeBadge = `<span style="background:#6c5ce7; color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem; margin-left:5px;">DELIVERY</span>`;
