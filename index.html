@@ -685,7 +685,7 @@
 
     </div>
 </div>
-
+<audio id="alert-sound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
 <script>
     // ==============================================================
     // CONFIGURATION
@@ -718,7 +718,10 @@
     let selectedOrderType = 'dinein'; 
     let lastNavActiveId = '';
     let isScrolling = false;
+    let lastPendingCount = 0; // To track new orders
+    let wakeLock = null;      // To keep screen awake
 
+    
     document.addEventListener('DOMContentLoaded', () => { 
         checkSession(); 
         testConnection();
@@ -761,7 +764,24 @@
             });
         }
     }
+    // --- WAKE LOCK & SOUND ---
+async function activateAdminMode() {
+    // 1. Try to keep screen on
+    try {
+        if ('wakeLock' in navigator) {
+            wakeLock = await navigator.wakeLock.request('screen');
+            console.log('Screen Locked ON');
+        }
+    } catch (err) { console.log("Wake Lock Error:", err); }
 
+    // 2. Unlock Audio (Plays silent momentarily to "warm up" the speakers)
+    const sound = document.getElementById('alert-sound');
+    sound.volume = 1.0;
+    sound.play().then(() => {
+        sound.pause();
+        sound.currentTime = 0;
+    }).catch((e) => console.log("Audio permission needed"));
+}
     function testConnection() {
         db.ref('.info/connected').on('value', function(snap) {
             const el = document.getElementById('connection-status');
@@ -982,6 +1002,7 @@
                 currentUser = { type: 'admin', name: 'Manager' };
                 localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
                 closeModal('login-modal');
+                activateAdminMode(); // <--- ADD THIS LINE HERE
                 showAdminDashboard();
             })
             .catch((error) => {
@@ -1138,6 +1159,23 @@
     }
 
     function renderAdminOrders(orders) {
+        // --- SOUND ALERT LOGIC ---
+    const pendingOrders = orders.filter(o => o.status === 'Pending');
+    
+    // If we have MORE pending orders than before, RING THE BELL!
+    if (pendingOrders.length > lastPendingCount) {
+        const sound = document.getElementById('alert-sound');
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log("Sound blocked"));
+        
+        // Optional: Vibrate phone for 500ms
+        if("vibrate" in navigator) navigator.vibrate(500);
+    }
+    
+    // Update the tracker
+    lastPendingCount = pendingOrders.length;
+    // -------------------------
+
         const container = document.getElementById('admin-orders-list');
         
         let filtered = [];
@@ -1237,6 +1275,7 @@
 </script>
 </body>
 </html>
+
 
 
 
