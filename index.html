@@ -32,6 +32,7 @@
             }
             .item-name, h2, h3, h1, p, span, div, label, b, strong { color: #333333 !important; }
             
+            /* Enforce Brand Colors */
             .bottom-bar { background-color: #0f1c2e !important; }
             header { background-color: #0f1c2e !important; }
             header h1, header p { color: #c5a059 !important; }
@@ -51,13 +52,11 @@
             .bg-light-pending { background-color: #fffde7 !important; }
         }
 
-        /* --- ZOOM FIX (touch-action) --- */
+        /* --- ZOOM FIX --- */
         * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
+            margin: 0; padding: 0; box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation; /* Prevents double-tap zoom */
+            touch-action: manipulation; 
         }
         
         html { scroll-behavior: smooth; }
@@ -68,7 +67,8 @@
             padding-bottom: 160px; 
         }
         
-        body.modal-open { overflow: hidden; position: fixed; width: 100%; }
+        /* SCROLL JUMP FIX: Removed 'position: fixed' so page stays put */
+        body.modal-open { overflow: hidden; width: 100%; }
 
         /* --- UTILS --- */
         .hidden { display: none !important; }
@@ -102,7 +102,7 @@
         .nav-pill.active { background: var(--primary); color: var(--accent); }
         .nav-container::-webkit-scrollbar { display: none; }
 
-        /* --- MENU --- */
+        /* --- MENU (COMPACT FIXED) --- */
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
         .category-section { margin-bottom: 25px; scroll-margin-top: 60px; }
         .category-title { 
@@ -113,18 +113,24 @@
         .sub-category-title { color: #666; font-weight: 700; font-size: 0.95rem; margin: 15px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
         
         .menu-list { display: flex; flex-direction: column; gap: 8px; }
+        
+        /* Compact Card Styling */
         .menu-row { 
-            background: var(--card-bg); padding: 12px 15px; border-radius: 10px; 
+            background: var(--card-bg); 
+            padding: 8px 12px; /* Reduced Padding */
+            border-radius: 10px; 
             display: flex; justify-content: space-between; align-items: center; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid var(--border-color);
         }
         .menu-row:active { transform: scale(0.99); background: #fafafa; }
         .item-details { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-right: 15px; }
-        .item-name { font-size: 0.95rem; font-weight: 600; color: #2c3e50; }
-        .item-price { font-size: 0.95rem; font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 10px; }
+        .item-name { font-size: 0.9rem; font-weight: 600; color: #2c3e50; } /* Smaller Font */
+        .item-price { font-size: 0.9rem; font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 10px; }
         .add-btn { 
-            background: #edf2f7; color: var(--primary); width: 32px; height: 32px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.3rem; 
+            background: #edf2f7; color: var(--primary); 
+            width: 28px; height: 28px; /* Smaller Button */
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; 
         }
 
         /* --- BOTTOM BAR --- */
@@ -136,10 +142,10 @@
             box-shadow: 0 10px 25px rgba(15, 28, 46, 0.5); z-index: 1000;
         }
         .bar-btn {
-            background: transparent; border: none; color: var(--accent); font-size: 0.9rem; font-weight: 600;
-            display: flex; flex-direction: column; align-items: center; opacity: 1; transition: 0.2s; cursor: pointer;
+            background: transparent; border: none; color: white; font-size: 0.9rem; font-weight: 600;
+            display: flex; flex-direction: column; align-items: center; opacity: 0.8; transition: 0.2s; cursor: pointer;
         }
-        .bar-btn.active { opacity: 1; color: var(--accent) !important; }
+        .bar-btn.active { opacity: 1; color: var(--accent) !important; } /* GOLD FIXED */
         
         .cart-circle {
             background: var(--primary); color: var(--accent);
@@ -154,7 +160,7 @@
             display: flex; justify-content: center; align-items: center; border: 2px solid white;
         }
 
-        /* --- MODALS FIXED --- */
+        /* --- MODALS FIXED (Keyboard Safe) --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
@@ -197,11 +203,11 @@
         .border-Cancelled { border-left-color: #999; }
 
         /* Background Colors for Admin History */
-        .bg-light-pending { background-color: #fffde7; }   /* Light Yellow */
-        .bg-light-accepted { background-color: #e3f2fd; }  /* Light Blue */
-        .bg-light-completed { background-color: #e8f5e9; } /* Light Green */
-        .bg-light-rejected { background-color: #ffebee; }  /* Light Red */
-        .bg-light-cancelled { background-color: #f5f5f5; } /* Light Grey */
+        .bg-light-pending { background-color: #fffde7; }   
+        .bg-light-accepted { background-color: #e3f2fd; }  
+        .bg-light-completed { background-color: #e8f5e9; } 
+        .bg-light-rejected { background-color: #ffebee; }  
+        .bg-light-cancelled { background-color: #f5f5f5; } 
 
         .compact-card { padding: 8px 12px; font-size: 0.85rem; margin-bottom: 8px; }
         .compact-card .item-summary { font-size: 0.8rem; color: #555; margin-bottom: 2px; }
@@ -212,12 +218,6 @@
         
         .qty-controls { display: flex; align-items: center; gap: 10px; }
         .qty-btn { width: 28px; height: 28px; border-radius: 5px; border: 1px solid #ddd; background: white; font-weight: bold; }
-        
-        /* Admin Card Info Layout */
-        .info-row { display: flex; margin-bottom: 4px; font-size: 0.9rem; align-items: baseline; }
-        .info-label { font-weight: 600; color: #777; width: 60px; font-size: 0.8rem; flex-shrink: 0; }
-        .info-val { color: #333; font-weight: 500; }
-        .status-header { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 5px; margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -1229,4 +1229,3 @@
 </script>
 </body>
 </html>
-
