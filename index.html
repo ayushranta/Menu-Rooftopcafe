@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <style>
@@ -48,7 +49,6 @@
             padding-bottom: 160px; 
         }
         
-        /* Stop background scrolling when modal is open */
         body.modal-open { overflow: hidden; position: fixed; width: 100%; }
 
         /* --- UTILS --- */
@@ -73,7 +73,7 @@
         .nav-container { 
             overflow-x: auto; white-space: nowrap; background: var(--card-bg); padding: 10px; 
             position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            -webkit-overflow-scrolling: touch; /* Smooth iOS scroll */
+            -webkit-overflow-scrolling: touch; 
         }
         .nav-pill { 
             display: inline-block; padding: 6px 14px; margin-right: 5px;
@@ -140,9 +140,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.6); z-index: 2000; display: none; 
             align-items: flex-start; justify-content: center;
-            overflow-y: auto; 
-            /* Fix: Ensure padding handles virtual keyboard resize */
-            padding-top: 20px; padding-bottom: 50px;
+            overflow-y: auto; padding-top: 20px; padding-bottom: 50px;
             -webkit-overflow-scrolling: touch;
         }
         .modal-overlay.active { display: flex; }
@@ -151,8 +149,7 @@
             background: #fff; width: 90%; max-width: 450px; 
             border-radius: 15px; padding: 20px; position: relative;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            margin: 20px auto; 
-            animation: fadeIn 0.2s ease-out;
+            margin: 20px auto; animation: fadeIn 0.2s ease-out;
         }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
@@ -672,6 +669,7 @@
 
     if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
     const db = firebase.database();
+    const auth = firebase.auth();
 
     // ==============================================================
     // STATE
@@ -683,14 +681,15 @@
     let currentCustTab = 'live';
     let allOrdersCache = []; 
     let adminFilterPhone = null;
-    let selectedOrderType = 'dinein'; // Default
+    let selectedOrderType = 'dinein'; 
     let lastNavActiveId = '';
     let isScrolling = false;
 
     document.addEventListener('DOMContentLoaded', () => { 
         checkSession(); 
         testConnection();
-        // ScrollSpy Optimized
+        
+        // ScrollSpy Optimized (Throttled)
         window.addEventListener('scroll', () => {
             if (!isScrolling) {
                 window.requestAnimationFrame(() => {
@@ -745,7 +744,15 @@
         const storedUser = localStorage.getItem('yashoday_user');
         if (storedUser) {
             currentUser = JSON.parse(storedUser);
-            if (currentUser.type === 'admin') { showAdminDashboard(); } else { listenToMyOrders(); }
+            if (currentUser.type === 'admin') { 
+                // Check if Auth is still valid
+                auth.onAuthStateChanged(user => {
+                    if(user) showAdminDashboard();
+                    else logout();
+                });
+            } else { 
+                listenToMyOrders(); 
+            }
         }
     }
 
@@ -753,7 +760,7 @@
     // UI HELPERS
     // ==============================================================
     function openModal(id) { 
-        document.body.classList.add('modal-open'); // Lock Background Scroll
+        document.body.classList.add('modal-open'); 
         const modal = document.getElementById(id);
         modal.classList.add('active'); 
         
@@ -773,7 +780,7 @@
         }
     }
     function closeModal(id) { 
-        document.body.classList.remove('modal-open'); // Unlock Scroll
+        document.body.classList.remove('modal-open'); 
         document.getElementById(id).classList.remove('active'); 
     }
 
@@ -847,7 +854,6 @@
             });
         }
 
-        // Delivery Charge Logic
         let deliveryCharge = 0;
         if (currentUser && currentUser.orderType === 'delivery') {
             deliveryCharge = 40;
@@ -935,15 +941,25 @@
     function handleAdminLogin() {
         const id = document.getElementById('admin-id').value;
         const pass = document.getElementById('admin-pass').value;
-        if (id === 'admin' && pass === 'yadmin') {
-            currentUser = { type: 'admin', name: 'Manager' };
-            localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
-            closeModal('login-modal');
-            showAdminDashboard();
-        } else { alert("Invalid Credentials"); }
+        
+        // Secure Auth Login
+        auth.signInWithEmailAndPassword(id, pass)
+            .then((userCredential) => {
+                currentUser = { type: 'admin', name: 'Manager' };
+                localStorage.setItem('yashoday_user', JSON.stringify(currentUser));
+                closeModal('login-modal');
+                showAdminDashboard();
+            })
+            .catch((error) => {
+                alert("Login Failed: " + error.message);
+            });
     }
 
-    function logout() { localStorage.removeItem('yashoday_user'); location.reload(); }
+    function logout() { 
+        if(currentUser && currentUser.type === 'admin') auth.signOut();
+        localStorage.removeItem('yashoday_user'); 
+        location.reload(); 
+    }
 
     // ==============================================================
     // ORDER LOGIC
@@ -1019,7 +1035,7 @@
             let captainAlert = '';
 
             if (order.status === 'Pending') {
-                cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel</button>`;
+                cancelBtn = `<button class="btn-danger" style="padding:5px 10px; border-radius:5px; border:none; font-size:0.8rem; cursor:pointer;" onclick="cancelOrder('${order.id}')">Cancel Order</button>`;
                 captainAlert = `
                     <div class="captain-alert-box">
                         ⚠️ Order not accepted yet?
@@ -1060,7 +1076,8 @@
         document.getElementById('admin-nav').classList.remove('hidden'); 
         document.getElementById('admin-nav').style.display = "flex";
 
-        db.ref('orders').on('value', (snapshot) => {
+        // LIMIT 500 FIX
+        db.ref('orders').limitToLast(500).on('value', (snapshot) => {
             const orders = [];
             if (snapshot.exists()) {
                 snapshot.forEach((child) => {
