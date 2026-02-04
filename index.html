@@ -52,8 +52,13 @@
             .bg-light-pending { background-color: #fffde7 !important; }
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; }
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; /* <--- ADD THIS LINE */
+}        html { scroll-behavior: smooth; }
         body { 
             font-family: 'Poppins', sans-serif; 
             background-color: var(--bg); 
@@ -1209,3 +1214,4 @@
 </script>
 </body>
 </html>
+
