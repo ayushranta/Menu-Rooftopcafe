@@ -686,6 +686,7 @@
     </div>
 </div>
 <audio id="alert-sound" src="https://assets.mixkit.co/active_storage/sfx/1359/1359-preview.mp3" preload="auto"></audio>
+    
     <script>
     // ==============================================================
     // CONFIGURATION
@@ -1168,14 +1169,19 @@ async function activateAdminMode() {
         sound.currentTime = 0;
         sound.play().catch(e => console.log("Sound blocked"));
         
-        // Optional: Vibrate phone for 500ms
+        // --- STOP SOUND AFTER 4.5 SECONDS (1.5 Loops) ---
+        setTimeout(() => {
+            sound.pause();
+            sound.currentTime = 0; // Reset to start
+        }, 3000); // 4500ms = 4.5 seconds
+        
+        // Optional: Vibrate phone
         if("vibrate" in navigator) navigator.vibrate(500);
     }
     
     // Update the tracker
     lastPendingCount = pendingOrders.length;
     // -------------------------
-
         const container = document.getElementById('admin-orders-list');
         
         let filtered = [];
@@ -1275,6 +1281,7 @@ async function activateAdminMode() {
 </script>
 </body>
 </html>
+
 
 
 
