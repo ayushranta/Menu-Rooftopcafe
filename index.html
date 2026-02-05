@@ -1018,6 +1018,36 @@ async function activateAdminMode() {
     }
 
     // ==============================================================
+    // TELEGRAM INTEGRATION
+    // ==============================================================
+    function sendTelegramNotification(order) {
+        const token = "7787471862:AAEKEpqzPF4ky5DpIrP3LHtd0iBilDxwsco";
+        const chatId = "5902271550";
+        
+        // Formatting the message
+        const itemList = order.items.map(i => `- ${i.name} x${i.qty}`).join('%0A');
+        
+        const message = `🔔 *New Order Received!*
+        
+👤 *Name:* ${order.customer.name}
+📞 *Phone:* ${order.customer.phone}
+📍 *Location:* ${order.customer.table} (${order.customer.orderType})
+💰 *Total:* ₹${order.total}
+
+📜 *Order Details:*
+${itemList}`;
+
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+
+        // Send request (fire and forget)
+        fetch(url).then(response => {
+            console.log("Telegram notification sent");
+        }).catch(error => {
+            console.error("Error sending notification:", error);
+        });
+    }
+
+    // ==============================================================
     // ORDER LOGIC
     // ==============================================================
     function initiateCheckout() {
@@ -1039,6 +1069,9 @@ async function activateAdminMode() {
         };
 
         db.ref('orders/' + orderId).set(newOrder).then(() => {
+            // --- TELEGRAM TRIGGER ---
+            sendTelegramNotification(newOrder); 
+            // ------------------------
             cart = []; updateCartUI(); closeModal('cart-modal'); openOrderStatusModal();
         });
     }
@@ -1063,10 +1096,21 @@ async function activateAdminMode() {
         });
     }
 
-    function openOrderStatusModal() { if (!currentUser) return; renderMyOrders(); openModal('status-modal'); }
+    function openOrderStatusModal() { 
+        // FIX: Removed the "if (!currentUser) return;" so it opens for everyone
+        renderMyOrders(); 
+        openModal('status-modal'); 
+    }
 
     function renderMyOrders() {
         const container = document.getElementById('my-orders-list');
+        
+        // FIX: If logged out, show this message instead of empty/error
+        if (!currentUser) {
+            container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">No active orders.<br>(Login to see your history)</p>';
+            return;
+        }
+
         const all = window.myLiveOrders || [];
         
         let filtered = [];
@@ -1219,9 +1263,9 @@ async function activateAdminMode() {
             if (currentAdminTab === 'active') {
                 if (order.status === 'Pending') {
                     actions = `<div style="display:flex; gap:10px; margin-top:5px;">
-                                <button class="btn btn-primary" style="flex:1; padding:5px; font-size:0.8rem;" onclick="updateStatus('${order.id}', 'Accepted')">Accept</button>
-                                <button class="btn btn-danger" style="flex:1; padding:5px; font-size:0.8rem;" onclick="updateStatus('${order.id}', 'Rejected')">Reject</button>
-                               </div>`;
+                                    <button class="btn btn-primary" style="flex:1; padding:5px; font-size:0.8rem;" onclick="updateStatus('${order.id}', 'Accepted')">Accept</button>
+                                    <button class="btn btn-danger" style="flex:1; padding:5px; font-size:0.8rem;" onclick="updateStatus('${order.id}', 'Rejected')">Reject</button>
+                                   </div>`;
                 } else if (order.status === 'Accepted') {
                     actions = `<button class="btn btn-success" style="margin-top:5px; padding:5px; font-size:0.8rem;" onclick="updateStatus('${order.id}', 'Completed')">Mark Completed</button>`;
                 }
@@ -1281,11 +1325,3 @@ async function activateAdminMode() {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
