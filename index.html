@@ -1037,6 +1037,9 @@ async function activateAdminMode() {
 📜 *Order Details:*
 ${itemList}`;
 
+👇 *Action:*
+[Open Admin Dashboard](https://ayushranta.github.io/Menu-Rooftopcafe/)`;
+                       
         const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
         // Send request (fire and forget)
@@ -1325,5 +1328,6 @@ ${itemList}`;
 </script>
 </body>
 </html>
+
 
 
