@@ -1042,8 +1042,28 @@ ${itemList}
 [Open Admin Dashboard](https://ayushranta.github.io/Menu-Rooftopcafe/)`; 
         // -----------------------------------------------------------
 
-        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+        // 1. Construct the Telegram URL
+        const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
 
+        // 2. Use a Proxy to bypass the laptop's security block
+        // We use 'corsproxy.io' to route the request
+        const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(telegramUrl);
+
+        // Attempt 1: Try via Proxy (Best for blocked networks)
+        fetch(proxyUrl)
+            .then(response => {
+                if(response.ok) console.log("Telegram sent via Proxy");
+                else throw new Error("Proxy failed");
+            })
+            .catch(error => {
+                console.warn("Proxy failed, trying Direct connection...", error);
+                
+                // Attempt 2: Direct connection (Backup for mobile)
+                fetch(telegramUrl, { mode: 'no-cors' })
+                    .catch(err => console.error("All methods failed:", err));
+            });
+
+        
         // Send request (fire and forget)
         fetch(url).then(response => {
             console.log("Telegram notification sent");
@@ -1345,6 +1365,7 @@ ${itemList}
 </script>
 </body>
 </html>
+
 
 
 
