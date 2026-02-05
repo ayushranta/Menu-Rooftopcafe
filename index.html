@@ -980,7 +980,7 @@ async function activateAdminMode() {
         closeModal('login-modal');
         listenToMyOrders();
         updateCartUI(); 
-        if (cart.length > 0) initiateCheckout();
+        openCartModal();
     }
 
     function saveProfile() {
@@ -1325,3 +1325,4 @@ ${itemList}`;
 </script>
 </body>
 </html>
+
