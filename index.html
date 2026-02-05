@@ -1024,13 +1024,12 @@ async function activateAdminMode() {
         const token = "7787471862:AAEKEpqzPF4ky5DpIrP3LHtd0iBilDxwsco";
         const chatId = "-5041607242";
         
-        // Formatting the message
+        const safeName = order.customer.name.replace(/[*_`\[\]]/g, '');
         const itemList = order.items.map(i => `- ${i.name} x${i.qty}`).join('%0A');
         
-        // --- THE FIX IS HERE (Backticks moved to cover everything) ---
         const message = `🔔 *New Order Received!*
         
-👤 *Name:* ${order.customer.name}
+👤 *Name:* ${safeName}
 📞 *Phone:* ${order.customer.phone}
 📍 *Location:* ${order.customer.table} (${order.customer.orderType})
 💰 *Total:* ₹${order.total}
@@ -1039,54 +1038,28 @@ async function activateAdminMode() {
 ${itemList}
 
 👇 *Action:*
-[Open Admin Dashboard](https://ayushranta.github.io/Menu-Rooftopcafe/)`; 
-        // -----------------------------------------------------------
+[Open Admin Dashboard](https://ayushranta.github.io/Menu-Rooftopcafe/)`;
 
-        // 1. Construct the Telegram URL
-        const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
+        // 1. Prepare the URL (Fixing the variable name issue)
+        const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
-        // 2. Use a Proxy to bypass the laptop's security block
-        // We use 'corsproxy.io' to route the request
+        // 2. Prepare the Proxy (For laptops)
         const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(telegramUrl);
 
-        // Attempt 1: Try via Proxy (Best for blocked networks)
+        // 3. Send Logic: Try Proxy first, then Direct
         fetch(proxyUrl)
             .then(response => {
                 if(response.ok) console.log("Telegram sent via Proxy");
                 else throw new Error("Proxy failed");
             })
             .catch(error => {
-                console.warn("Proxy failed, trying Direct connection...", error);
+                console.warn("Proxy failed, switching to Mobile Mode...", error);
                 
-                // Attempt 2: Direct connection (Backup for mobile)
+                // Fallback: Direct connection (Works on phones)
                 fetch(telegramUrl, { mode: 'no-cors' })
                     .catch(err => console.error("All methods failed:", err));
             });
-
-        
-        // Send request (fire and forget)
-        fetch(url).then(response => {
-            console.log("Telegram notification sent");
-        }).catch(error => {
-            console.error("Error sending notification:", error);
-        });
-
-        
-        // METHOD 1: Try standard fetch with 'no-cors' (Bypasses security block)
-        fetch(url, { mode: 'no-cors' })
-            .then(() => {
-                console.log("Telegram notification sent (opaque mode)");
-            })
-            .catch(error => {
-                console.error("Fetch failed, trying backup method...", error);
-                
-                // METHOD 2: Backup (Image Hack)
-                // If fetch fails (e.g. strict adblocker), we load the URL as an invisible image.
-                // The browser thinks it's an image and lets it through.
-                new Image().src = url;
-            });
     }
-
     // ==============================================================
     // ORDER LOGIC
     // ==============================================================
@@ -1365,6 +1338,7 @@ ${itemList}
 </script>
 </body>
 </html>
+
 
 
 
