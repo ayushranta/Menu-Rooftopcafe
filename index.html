@@ -1050,6 +1050,21 @@ ${itemList}
         }).catch(error => {
             console.error("Error sending notification:", error);
         });
+
+        
+        // METHOD 1: Try standard fetch with 'no-cors' (Bypasses security block)
+        fetch(url, { mode: 'no-cors' })
+            .then(() => {
+                console.log("Telegram notification sent (opaque mode)");
+            })
+            .catch(error => {
+                console.error("Fetch failed, trying backup method...", error);
+                
+                // METHOD 2: Backup (Image Hack)
+                // If fetch fails (e.g. strict adblocker), we load the URL as an invisible image.
+                // The browser thinks it's an image and lets it through.
+                new Image().src = url;
+            });
     }
 
     // ==============================================================
@@ -1330,6 +1345,7 @@ ${itemList}
 </script>
 </body>
 </html>
+
 
 
 
