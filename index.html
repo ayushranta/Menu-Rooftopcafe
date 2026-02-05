@@ -428,7 +428,6 @@
                 <div class="menu-row" onclick="openItemModal('Navaratan Korma', 180)"><div class="item-details"><span class="item-name">Navaratan Korma</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Stuffed Tamatar', 160)"><div class="item-details"><span class="item-name">Stuffed Tamatar</span><span class="item-price">₹160</span></div><div class="add-btn">+</div></div>
                 <div class="menu-row" onclick="openItemModal('Banarasi Dum Aloo', 180)"><div class="item-details"><span class="item-name">Banarasi Dum Aloo</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
-                <div class="menu-row" onclick="openItemModal('Veg Egg Curry', 180)"><div class="item-details"><span class="item-name">Veg Egg Curry</span><span class="item-price">₹180</span></div><div class="add-btn">+</div></div>
             </div>
             <div class="sub-category-title">Paneer & Kofta</div>
             <div class="menu-list">
@@ -640,7 +639,7 @@
                     <button id="btn-delivery" class="type-btn" onclick="setOrderType('delivery')">🛵 Delivery</button>
                 </div>
 
-                <p id="delivery-notice" class="notice-box hidden">⚠️ ₹40 Delivery Charge will be added to your bill.</p>
+               <p id="delivery-notice" class="notice-box hidden">⚠️ ₹40 Delivery Charge. <b>Delivery available in Kekri only.</b></p>
 
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="cust-phone" class="form-control" placeholder="10 digit mobile"></div>
                 <div class="form-group"><label>Name</label><input type="text" id="cust-name" class="form-control" placeholder="Your Name"></div>
@@ -980,7 +979,6 @@ async function activateAdminMode() {
         closeModal('login-modal');
         listenToMyOrders();
         updateCartUI(); 
-        openCartModal();
     }
 
     function saveProfile() {
@@ -1331,6 +1329,7 @@ ${itemList}
 </script>
 </body>
 </html>
+
 
 
 
