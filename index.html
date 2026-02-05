@@ -1020,10 +1020,11 @@ async function activateAdminMode() {
     // ==============================================================
     // TELEGRAM INTEGRATION
     // ==============================================================
-    function sendTelegramNotification(order) {
+   function sendTelegramNotification(order) {
         const token = "7787471862:AAEKEpqzPF4ky5DpIrP3LHtd0iBilDxwsco";
         const chatId = "-5041607242";
         
+        // Clean up data
         const safeName = order.customer.name.replace(/[*_`\[\]]/g, '');
         const itemList = order.items.map(i => `- ${i.name} x${i.qty}`).join('%0A');
         
@@ -1040,24 +1041,16 @@ ${itemList}
 👇 *Action:*
 [Open Admin Dashboard](https://ayushranta.github.io/Menu-Rooftopcafe/)`;
 
-        // 1. Prepare the URL (Fixing the variable name issue)
+        // Prepare the URL
         const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
-        // 2. Prepare the Proxy (For laptops)
-        const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(telegramUrl);
-
-        // 3. Send Logic: Try Proxy first, then Direct
-        fetch(proxyUrl)
-            .then(response => {
-                if(response.ok) console.log("Telegram sent via Proxy");
-                else throw new Error("Proxy failed");
+        // Send using the method that works on your Phone
+        fetch(telegramUrl, { mode: 'no-cors' })
+            .then(() => {
+                console.log("Telegram notification sent (Mobile Mode)");
             })
             .catch(error => {
-                console.warn("Proxy failed, switching to Mobile Mode...", error);
-                
-                // Fallback: Direct connection (Works on phones)
-                fetch(telegramUrl, { mode: 'no-cors' })
-                    .catch(err => console.error("All methods failed:", err));
+                console.error("Notification failed:", error);
             });
     }
     // ==============================================================
@@ -1338,6 +1331,7 @@ ${itemList}
 </script>
 </body>
 </html>
+
 
 
 
